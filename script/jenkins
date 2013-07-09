@@ -1,7 +1,0 @@
-#!/bin/bash
-echo "using rvm version:`rvm current`"
-rvm --force gemset empty
-gem install bundler --no-rdoc --no-ri --pre
-bundle install
-bundle exec rake app:db:drop app:db:create app:db:migrate RAILS_ENV=test
-bundle exec rspec spec
