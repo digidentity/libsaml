@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<samlp:LogoutRequest xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                     xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Version="2.0" destination=""
+                     ID="_43faa9487db98daa757214c2d233d31a8ac043be" IssueInstant="2011-08-31T08:54:36+02:00">
+  <saml:Issuer>ServiceProvider</saml:Issuer>
+  <saml:NameID>s00000000:123456789</saml:NameID>
+</samlp:LogoutRequest>

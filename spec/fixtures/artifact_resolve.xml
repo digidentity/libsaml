@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<samlp:ArtifactResolve xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Version="2.0" destination="" ID="_13603a6565a69297e9809175b052d115965121c8" IssueInstant="2011-08-31T08:33:23+02:00">
+  <saml:Issuer>ServiceProvider</saml:Issuer>
+  <samlp:Artifact>AAQAAMh48/1oXIM+sDo7Dh2qMp1HM4IF5DaRNmDj6RdUmllwn9jJHyEgIi8=</samlp:Artifact>
+</samlp:ArtifactResolve>

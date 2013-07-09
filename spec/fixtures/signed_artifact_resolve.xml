@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <samlp:ArtifactResponse xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" ID="1" Version="2.0" IssueInstant="1970-01-01T00:00:00Z">
+      <saml:Issuer>https://idp.example.com</saml:Issuer>
+      <ds:Signature>
+        <ds:SignedInfo>
+          <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+          <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+          <ds:Reference URI="#1">
+            <ds:Transforms>
+              <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+              <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                <ec:InclusiveNamespaces PrefixList="ds saml samlp xs"/>
+              </ds:Transform>
+            </ds:Transforms>
+            <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+            <ds:DigestValue>SDHYltMMDmFeEdGVZDZXR1oGzA4+AFPS2k4qZq3OQpE=</ds:DigestValue>
+          </ds:Reference>
+        </ds:SignedInfo>
+        <ds:SignatureValue>fRfVNe5eQGqeBu5PVA9ikSWZ4CPOuRMWO8FCKzHA9H/mmo0T3+dfJe6BzY0a
+JEust5HoPxPTXvXQeVck3AxWrlaxr5ffeACw00k5b3CY+00fGvPcho7raOwP
+hNJ2Vu9mDxtUd0j/21fknbUGCn/1MsGfqH+K6x7JLRe880vaHCc=</ds:SignatureValue>
+        <ds:KeyInfo/>
+      </ds:Signature>
+      <samlp:Status>
+        <samlp:StatusCode/>
+      </samlp:Status>
+      <samlp:Response ID="1" Version="2.0" IssueInstant="1970-01-01T00:00:00Z">
+        <samlp:Status>
+          <samlp:StatusCode/>
+        </samlp:Status>
+      </samlp:Response>
+    </samlp:ArtifactResponse>
+  </soapenv:Body>
+</soapenv:Envelope>

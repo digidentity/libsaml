@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<samlp:LogoutResponse xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                      xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Version="2.0" destination=""
+                      InResponseTo="_43faa9487db98daa757214c2d233d31a8ac043be"
+                      ID="_882ff30b8fcaba5d2dfdfac3acc61591047ca111" IssueInstant="2011-08-31T08:57:47+02:00">
+  <saml:Issuer>Provider</saml:Issuer>
+  <samlp:Status>
+    <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+  </samlp:Status>
+</samlp:LogoutResponse>

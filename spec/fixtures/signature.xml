@@ -1,0 +1,23 @@
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+  <ds:SignedInfo>
+    <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc- c14n#"/>
+    <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa- sha256"/>
+    <ds:Reference URI="#_13603a6565a69297e9809175b052d115965121c8">
+      <ds:Transforms>
+        <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped- signature"/>
+        <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+          <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"
+                                  PrefixList="ds saml samlp xs"/>
+        </ds:Transform>
+      </ds:Transforms>
+      <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+      <ds:DigestValue>o/1HlfMnesm8k/oKRrYI3Dl4tEIe3uZxPXGOB9UAGok=</ds:DigestValue>
+    </ds:Reference>
+  </ds:SignedInfo>
+  <ds:SignatureValue>VT0rMuEHaYirudqLFsjWMm3YEgygC43eRk0GYKCkWwjqGRj7iMPn93dtif9ARHDq
+    D0CrSgLP37FrRqfOFyQzQOKnIos44c/A2dHbqEUpqd0o7wup9jopfKWO+s5pi5zu
+    c5RG6HJFfPcq1HuM8khzkzILAmqZYYtu5P7rO6mrdy+udernQJZgtsTJfajzjoYg
+    ep+nfqkGe6lSt0nvw9hYXIbKKXOE9mDs8ohMGvBr5EJpyXPF2Mi7kvYnS/bsXsAB
+    B+rYGAk1gHqDQb5653RVU+6QNuqt1g1JtOtlef7jPV11ef7woMMcWabTsC9CD+FF fAQOGYRUxLDUlPyZdO7/7Q==
+  </ds:SignatureValue>
+</ds:Signature>
