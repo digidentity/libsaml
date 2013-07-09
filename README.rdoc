@@ -25,12 +25,12 @@ config/ssl/trust-federate.cert
 
 Add the Identity Provider web container configuration file to config/metadata/service_provider.xml.
 This contains an encoded version of the public key, generate this in the ruby console by typing:
-irb
-require 'openssl'
-require 'base64'
-pem = File.open("config/ssl/trust-federate.cert").read
-cert = OpenSSL::X509::Certificate.new(pem)
-output = Base64.encode64(cert.to_der).gsub("\n", "")
+  irb
+  require 'openssl'
+  require 'base64'
+  pem = File.open("config/ssl/trust-federate.cert").read
+  cert = OpenSSL::X509::Certificate.new(pem)
+  output = Base64.encode64(cert.to_der).gsub("\n", "")
 
 Add the Service Provider configuration file to config/metadata/service_provider.xml:
   <?xml version="1.0" encoding="UTF-8"?>
