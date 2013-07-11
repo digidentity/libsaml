@@ -16,7 +16,7 @@
     <saml:Assertion Version="2.0" ID="_93af655219464fb403b34436cfb0c5cb1d9a5502" IssueInstant="1970-01-01T01:33:31+01:00">
       <saml:Issuer>Provider</saml:Issuer>
       <saml:Subject>
-        <saml:NameID>s00000000:123456789</saml:NameID>
+        <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">s00000000:123456789</saml:NameID>
         <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
           <saml:SubjectConfirmationData NotOnOrAfter="2011-08-31T08:51:05Z" Recipient="https://sp.example.com/assertion_consumer" InResponseTo="_13603a6565a69297e9809175b052d115965121c8" />
         </saml:SubjectConfirmation>
@@ -33,14 +33,14 @@
         <saml:SubjectLocality Address="127.0.0.1"/>
       </saml:AuthnStatement>
       <saml:AttributeStatement>
-        <saml:Attribute Name="urn:nl:eherkenning:1.0:ServiceID">
-          <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">urn:nl:eherkenning:DV:99999900000001:services:2</saml:AttributeValue>
+        <saml:Attribute Name="urn:ServiceID">
+          <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">1</saml:AttributeValue>
         </saml:Attribute>
-        <saml:Attribute Name="urn:nl:eherkenning:1.0:EntityConcernedID">
-          <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">3123456780000</saml:AttributeValue>
+        <saml:Attribute Name="urn:EntityConcernedID">
+          <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">1</saml:AttributeValue>
         </saml:Attribute>
-        <saml:Attribute Name="urn:nl:eherkenning:1.0:EntityConcernedSubID">
-          <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">3123456780012</saml:AttributeValue>
+        <saml:Attribute Name="urn:EntityConcernedSubID">
+          <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">1</saml:AttributeValue>
         </saml:Attribute>
       </saml:AttributeStatement>
     </saml:Assertion>

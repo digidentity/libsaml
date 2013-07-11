@@ -29,6 +29,7 @@ module Saml
     def initialize(*args)
       options          = args.extract_options!
       @subject         = Saml::Elements::Subject.new(:name_id        => options.delete(:name_id),
+                                                     :name_id_format => options.delete(:name_id_format),
                                                      :recipient      => options.delete(:recipient),
                                                      :in_response_to => options.delete(:in_response_to))
       @conditions      = Saml::Elements::Conditions.new(:audience => options.delete(:audience))

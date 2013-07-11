@@ -34,6 +34,10 @@ describe Saml::Response do
     it "should parse the Assertion" do
       response.assertion.should be_a(Saml::Assertion)
     end
+
+    it "should parse multiple assertions" do
+      response.assertions.first.should be_a(Saml::Assertion)
+    end
   end
 
   describe 'authn_failed?' do

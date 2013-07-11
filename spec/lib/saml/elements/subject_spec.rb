@@ -11,7 +11,7 @@ describe Saml::Elements::Subject do
 
       it "should check the presence of #{field}" do
         subject.send("#{field}=", nil)
-        subject.should_not be_valid
+        subject.should have(1).error_on(field)
       end
     end
   end
@@ -26,6 +26,10 @@ describe Saml::Elements::Subject do
 
     it "should parse name_id" do
       subject.name_id.should == "s00000000:123456789"
+    end
+
+    it "should parse name_id_format" do
+      subject.name_id_format.should == "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
     end
   end
 end
