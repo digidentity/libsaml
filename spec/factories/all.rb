@@ -120,6 +120,11 @@ FactoryGirl.define do
     entity_id "http://idp.example.com/metadata"
   end
 
+  factory :entities_descriptor, :class => Saml::Elements::EntitiesDescriptor do
+    entity_descriptors [ FactoryGirl.build(:entity_descriptor) ]
+    entities_descriptors [ "entities_descriptor" ]
+  end
+
   factory :key_descriptor, :class => Saml::Elements::KeyDescriptor do
     certificate File.read("spec/fixtures/certificate.cer")
   end
