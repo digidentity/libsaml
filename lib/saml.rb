@@ -93,6 +93,7 @@ module Saml
     require 'saml/elements/idp_sso_descriptor'
     require 'saml/elements/sp_sso_descriptor'
     require 'saml/elements/entity_descriptor'
+    require 'saml/elements/entities_descriptor'
   end
 
   require 'saml/assertion'
