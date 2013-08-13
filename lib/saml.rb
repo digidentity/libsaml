@@ -133,6 +133,8 @@ module Saml
     if %w(authn_request response logout_request logout_response artifact_resolve artifact_response).include?(type.to_s)
       klass = "Saml::#{type.to_s.camelize}".constantize
       klass.parse(message, single: true)
+    elsif klass = type.to_s.camelize.safe_constantize
+      klass.parse(message, single: true)
     else
       nil
     end
