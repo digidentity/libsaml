@@ -116,6 +116,9 @@ FactoryGirl.define do
     name_id "s00000000:12345678"
   end
 
+  factory :logout_response, :class => Saml::LogoutResponse, :parent => :status_response_type_dummy do
+  end
+
   factory :entity_descriptor, :class => Saml::Elements::EntityDescriptor do
     entity_id "http://idp.example.com/metadata"
   end

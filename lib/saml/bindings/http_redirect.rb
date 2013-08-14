@@ -25,7 +25,7 @@ module Saml
         private
 
         def parse_request_or_response(type, params)
-          message = decode_message(params["SAMLRequest"])
+          message = decode_message(params["SAMLRequest"] || params["SAMLResponse"])
 
           Saml.parse_message(message, type)
         end
@@ -56,6 +56,9 @@ module Saml
 
       private
 
+      def param_key
+        request_or_response.is_a?(Saml::ComplexTypes::StatusResponseType) ? "SAMLResponse" : "SAMLRequest"
+      end
 
       def parse_signature_params(query)
         params = {}
@@ -65,7 +68,7 @@ module Saml
         end
 
         relay_state = params["RelayState"] ? "&RelayState=#{params['RelayState']}" : ""
-        "SAMLRequest=#{params['SAMLRequest']}#{relay_state}&SigAlg=#{params['SigAlg']}"
+        "#{param_key}=#{params['SAMLRequest']}#{relay_state}&SigAlg=#{params['SigAlg']}"
       end
 
       def encoded_message
@@ -81,7 +84,7 @@ module Saml
       def params
         params = {}
 
-        params["SAMLRequest"] = encoded_message
+        params[param_key] = encoded_message
         params["RelayState"] = relay_state if relay_state
         params["SigAlg"] = signature_algorithm if signature_algorithm
 

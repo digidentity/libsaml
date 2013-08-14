@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Saml::Bindings::HTTPRedirect do
   let(:authn_request) { build(:authn_request, _id: "id", issuer: "https://sp.example.com", issue_instant: Time.at(0), destination: "http://example.com/sso") }
+  let(:logout_response) { build(:logout_response, _id: "id", issuer: "https://sp.example.com", issue_instant: Time.at(0), destination: "http://example.com/sso") }
+
   let(:url) do
     described_class.create_url(authn_request,
                                relay_state:         "https//example.com/relay",
@@ -15,8 +17,22 @@ describe Saml::Bindings::HTTPRedirect do
       url.should start_with("http://example.com/sso")
     end
 
-    it "adds the object param" do
-      params["SAMLRequest"].should == CGI.escape(described_class.new(authn_request).send(:encoded_message))
+    context "with a request message" do
+      it "adds the object param" do
+        params["SAMLRequest"].should == CGI.escape(described_class.new(authn_request).send(:encoded_message))
+      end
+    end
+
+    context "with a response message" do
+      let(:url) do
+        described_class.create_url(logout_response,
+                                   relay_state:         "https//example.com/relay",
+                                   signature_algorithm: "http://www.w3.org/2000/09/xmldsig#rsa-sha1")
+      end
+
+      it "adds the object param" do
+        params["SAMLResponse"].should == CGI.escape(described_class.new(logout_response).send(:encoded_message))
+      end
     end
 
     it "adds the relay state" do
