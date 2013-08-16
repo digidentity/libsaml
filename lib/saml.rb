@@ -52,11 +52,15 @@ module Saml
   end
 
   module ClassRefs
-    PASSWORD_PROTECTED         = 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'
-    MOBILE_TWO_FACTOR_CONTRACT = 'urn:oasis:names:tc:SAML:2.0:ac:classes:MobileTwoFactorContract'
-    MOBILE_SMARTCARD_PKI       = 'urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI'
+    UNSPECIFIED                    = 'urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified'
+    PASSWORD_PROTECTED             = 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'
+    MOBILE_TWO_FACTOR_UNREGISTERED = 'urn:oasis:names:tc:SAML:2.0:ac:classes:MobileTwoFactorUnregistered'
+    MOBILE_TWO_FACTOR_CONTRACT     = 'urn:oasis:names:tc:SAML:2.0:ac:classes:MobileTwoFactorContract'
+    MOBILE_SMARTCARD_PKI           = 'urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI'
 
-    ALL_CLASS_REFS     = [PASSWORD_PROTECTED,
+    ALL_CLASS_REFS     = [UNSPECIFIED,
+                          PASSWORD_PROTECTED,
+                          MOBILE_TWO_FACTOR_UNREGISTERED,
                           MOBILE_TWO_FACTOR_CONTRACT,
                           MOBILE_SMARTCARD_PKI]
     ORDERED_CLASS_REFS = ALL_CLASS_REFS
