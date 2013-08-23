@@ -88,6 +88,7 @@ module Saml
     require 'saml/elements/attribute'
     require 'saml/elements/attribute_statement'
     require 'saml/elements/entity_attributes'
+    require 'saml/elements/extensions'
     require 'saml/elements/name_id'
     require 'saml/elements/subject'
     require 'saml/elements/conditions'
