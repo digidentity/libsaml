@@ -17,7 +17,7 @@ describe Saml::Elements::EntityDescriptor do
   end
 
   describe "Optional fields" do
-    [:valid_until, :cache_duration, :name, :organization, :contact_persons, :sp_sso_descriptor, :idp_sso_descriptor].each do |field|
+    [:valid_until, :cache_duration, :name, :extensions, :organization, :contact_persons, :sp_sso_descriptor, :idp_sso_descriptor].each do |field|
       it "should have the #{field} field" do
         entity_descriptor.should respond_to(field)
       end
