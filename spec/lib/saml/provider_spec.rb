@@ -54,7 +54,7 @@ describe Saml::Provider do
     end
   end
 
-  describe "#signle_sign_on_service_url" do
+  describe "#single_sign_on_service_url" do
     it "returns the single_sign_on_service_url" do
       identity_provider.single_sign_on_service_url(Saml::ProtocolBinding::HTTP_REDIRECT).should == "https://idp.example.com/sso/request"
     end
