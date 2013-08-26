@@ -4,7 +4,6 @@ module Saml
       include Saml::Base
       include Saml::XMLHelpers
 
-
       register_namespace 'md', Saml::MD_NAMESPACE
 
       tag 'EntityDescriptor'
@@ -17,6 +16,8 @@ module Saml
       attribute :cache_duration, Integer, :tag => "cacheDuration"
 
       has_one :signature, Saml::Elements::Signature
+
+      has_one :extensions, Saml::Elements::Extensions
 
       has_one :organization, Saml::Elements::Organization
       has_many :contact_persons, Saml::Elements::ContactPerson
