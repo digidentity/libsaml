@@ -8,4 +8,12 @@ describe Saml::Elements::IDPSSODescriptor do
     end
 
   end
+
+  describe "Optional fields" do
+    [:want_authn_requests_signed].each do |field|
+      it "should have the #{field} field" do
+        subject.should respond_to(field)
+      end
+    end
+  end
 end
