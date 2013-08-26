@@ -26,12 +26,16 @@ module Saml
         HTTPI.post request
       end
 
-      def sign_xml(message, format = :xml)
+      def sign_xml(message, format = :xml, &block)
         message.add_signature
 
         document = Xmldsig::SignedDocument.new(message.send("to_#{format}"))
-        document.sign do |data, signature_algorithm|
-          message.provider.sign(signature_algorithm, data)
+        if block_given?
+          document.sign(&block)
+        else
+          document.sign do |data, signature_algorithm|
+            message.provider.sign(signature_algorithm, data)
+          end
         end
       end
 
