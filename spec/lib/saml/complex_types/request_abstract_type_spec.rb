@@ -17,7 +17,7 @@ describe Saml::ComplexTypes::RequestAbstractType do
   end
 
   describe "Optional fields" do
-    [:destination, :issuer, :signature].each do |field|
+    [:destination, :issuer, :signature, :extensions].each do |field|
       it "should have the #{field} field" do
         request_abstract_type.should respond_to(field)
       end
