@@ -19,7 +19,7 @@ module Saml
         attribute :destination, String, :tag => "Destination"
         element :issuer, String, :namespace => 'saml', :tag => "Issuer"
 
-        has_one :signature, Saml::Elements::Signature, :tag => "Signature"
+        has_one :signature, Saml::Elements::Signature
         has_one :extensions, Saml::Elements::Extensions
 
         validates :_id, :version, :issue_instant, :presence => true
