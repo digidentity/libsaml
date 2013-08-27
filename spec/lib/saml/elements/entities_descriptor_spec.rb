@@ -57,4 +57,12 @@ describe Saml::Elements::EntitiesDescriptor do
       end
     end
   end
+
+  describe "#add_signature" do
+    it "adds a signature element to the entities descriptor" do
+      entities_descriptor.add_signature
+      parsed_entities_descriptor = described_class.parse(entities_descriptor.to_xml, single: true)
+      parsed_entities_descriptor.signature.should be_a(Saml::Elements::Signature)
+    end
+  end
 end
