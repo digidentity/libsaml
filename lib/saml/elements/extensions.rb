@@ -5,6 +5,7 @@ module Saml
       include Saml::XMLHelpers
 
       tag "Extensions"
+      namespace "samlp"
 
       has_one :entity_attributes, Saml::Elements::EntityAttributes
     end
