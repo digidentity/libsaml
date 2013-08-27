@@ -2,6 +2,12 @@ module Saml
   module XMLHelpers
     extend ActiveSupport::Concern
 
+    def add_signature
+      self.signature = Saml::Elements::Signature.new(uri: "##{self._id}")
+      x509certificate = OpenSSL::X509::Certificate.new(provider.certificate) rescue nil
+      self.signature.key_info = Saml::Elements::KeyDescriptor::KeyInfo.new(x509certificate.to_pem) if x509certificate
+    end
+
     def to_xml(builder = nil, default_namespace = nil, instruct = true)
       write_xml            = builder.nil? ? true : false
       builder              ||= Nokogiri::XML::Builder.new

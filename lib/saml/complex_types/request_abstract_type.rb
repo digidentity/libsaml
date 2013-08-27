@@ -35,12 +35,6 @@ module Saml
         @version       ||= Saml::SAML_VERSION
       end
 
-      def add_signature
-        self.signature = Saml::Elements::Signature.new(uri: "##{self._id}")
-        x509certificate = OpenSSL::X509::Certificate.new(provider.certificate) rescue nil
-        self.signature.key_info = Saml::Elements::KeyDescriptor::KeyInfo.new(x509certificate.to_pem) if x509certificate
-      end
-
       # @return [Saml::Provider]
       def provider
         Saml.provider(issuer)

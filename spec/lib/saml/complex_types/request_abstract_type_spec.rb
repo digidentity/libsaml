@@ -59,7 +59,7 @@ describe Saml::ComplexTypes::RequestAbstractType do
   describe "#add_signature" do
     it "adds a signature element to the request" do
       request_abstract_type.add_signature
-      parsed_request_abstract_type = RequestAbstractTypeDummy.parse(request_abstract_type.to_xml, signle: true)
+      parsed_request_abstract_type = RequestAbstractTypeDummy.parse(request_abstract_type.to_xml, single: true)
       parsed_request_abstract_type.signature.should be_a(Saml::Elements::Signature)
     end
   end
