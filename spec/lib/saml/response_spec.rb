@@ -79,4 +79,15 @@ describe Saml::Response do
     end
   end
 
+  describe 'assertions' do
+    let(:response) do
+      response = Saml::Response.new(assertion: Saml::Assertion.new)
+      Saml::Response.parse(Saml::Response.parse(response.to_xml, single: true).to_xml)
+    end
+
+    it 'only adds 1 assertion' do
+      response.assertions.count.should == 1
+    end
+  end
+
 end
