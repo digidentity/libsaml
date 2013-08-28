@@ -20,7 +20,7 @@ module Saml
         element :issuer, String, :namespace => 'saml', :tag => "Issuer"
 
         has_one :signature, Saml::Elements::Signature
-        has_one :extensions, Saml::Elements::Extensions
+        has_one :extensions, Saml::Elements::SAMLPExtensions
 
         validates :_id, :version, :issue_instant, :presence => true
 
