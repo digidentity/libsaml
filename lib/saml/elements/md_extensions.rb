@@ -1,11 +1,11 @@
 module Saml
   module Elements
-    class Extensions
+    class MDExtensions
       include Saml::Base
       include Saml::XMLHelpers
 
       tag "Extensions"
-      namespace "samlp"
+      namespace "md"
 
       has_one :entity_attributes, Saml::Elements::EntityAttributes
     end

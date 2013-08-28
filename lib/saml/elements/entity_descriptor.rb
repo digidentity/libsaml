@@ -17,7 +17,7 @@ module Saml
 
       has_one :signature, Saml::Elements::Signature
 
-      has_one :extensions, Saml::Elements::Extensions
+      has_one :extensions, Saml::Elements::MDExtensions
 
       has_one :organization, Saml::Elements::Organization
       has_many :contact_persons, Saml::Elements::ContactPerson
