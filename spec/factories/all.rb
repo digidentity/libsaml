@@ -86,6 +86,10 @@ FactoryGirl.define do
 
   end
 
+  factory :attribute_consuming_service, :class => Saml::Elements::AttributeConsumingService do
+
+  end
+
   factory :attribute, :class => Saml::Elements::Attribute do
 
   end
