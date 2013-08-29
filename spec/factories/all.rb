@@ -11,6 +11,10 @@ class SsoDescriptorTypeDummy
   include Saml::ComplexTypes::SSODescriptorType
 end
 
+class AttributeTypeDummy
+  include Saml::ComplexTypes::AttributeType
+end
+
 FactoryGirl.define do
   factory :request_abstract_type_dummy, :class => RequestAbstractTypeDummy do
     _id "_#{Time.now.to_i}"
@@ -37,6 +41,9 @@ FactoryGirl.define do
 
   factory :sso_descriptor_type_dummy, :class => SsoDescriptorTypeDummy do
     protocol_support_enumeration Saml::ComplexTypes::SSODescriptorType::PROTOCOL_SUPPORT_ENUMERATION
+  end
+
+  factory :attribute_type_dummy, :class => AttributeTypeDummy do
   end
 
   factory :assertion, :class => Saml::Assertion do
