@@ -82,6 +82,9 @@ FactoryGirl.define do
     authn_context FactoryGirl.build(:authn_context)
   end
 
+  factory :requested_attribute, :class => Saml::Elements::RequestedAttribute do
+
+  end
 
   factory :attribute, :class => Saml::Elements::Attribute do
 

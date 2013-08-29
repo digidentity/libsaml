@@ -93,6 +93,7 @@ module Saml
     require 'saml/elements/samlp_extensions'
     require 'saml/elements/service_name'
     require 'saml/elements/service_description'
+    require 'saml/elements/requested_attribute'
     require 'saml/elements/name_id'
     require 'saml/elements/subject'
     require 'saml/elements/conditions'
