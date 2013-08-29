@@ -73,6 +73,7 @@ module Saml
     require 'saml/complex_types/endpoint_type'
     require 'saml/complex_types/indexed_endpoint_type'
     require 'saml/complex_types/sso_descriptor_type'
+    require 'saml/complex_types/attribute_type'
   end
 
   module Elements
@@ -90,6 +91,10 @@ module Saml
     require 'saml/elements/entity_attributes'
     require 'saml/elements/md_extensions'
     require 'saml/elements/samlp_extensions'
+    require 'saml/elements/service_name'
+    require 'saml/elements/service_description'
+    require 'saml/elements/requested_attribute'
+    require 'saml/elements/attribute_consuming_service'
     require 'saml/elements/name_id'
     require 'saml/elements/subject'
     require 'saml/elements/conditions'
