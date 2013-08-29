@@ -90,6 +90,7 @@ module Saml
     require 'saml/elements/entity_attributes'
     require 'saml/elements/md_extensions'
     require 'saml/elements/samlp_extensions'
+    require 'saml/elements/service_name'
     require 'saml/elements/name_id'
     require 'saml/elements/subject'
     require 'saml/elements/conditions'
