@@ -4,6 +4,7 @@ module Saml
       include Saml::ComplexTypes::AttributeType
       include Saml::Base
 
+      tag "RequestedAttribute"
       register_namespace "md", Saml::MD_NAMESPACE
       namespace "md"
 
