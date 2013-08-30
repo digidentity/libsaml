@@ -5,6 +5,8 @@ module Saml
       include Saml::Base
 
       included do
+        register_namespace "saml", Saml::SAML_NAMESPACE
+
         attribute :name, String, :tag => 'Name'
         attribute :format, String, tag: 'NameFormat'
         attribute :friendly_name, String, tag: 'FriendlyName'
