@@ -20,5 +20,10 @@
     <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://sp.example.com/sso/logout"/>
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" index="0" Location="https://sp.example.com/sso/receive_artifact"/>
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" index="1" Location="https://sp.example.com/sso/receive_artifact_default" isDefault="true"/>
+    <md:AttributeConsumingService index="0" isDefault="true">
+      <md:ServiceName>Service Name</md:ServiceName>
+      <md:ServiceDescription>Service Description</md:ServiceDescription>
+      <md:RequestedAttribute Name="urn:sample:AdditionalAttribute:BusinessName" isRequired="false"/>
+    </md:AttributeConsumingService>
   </md:SPSSODescriptor>
 </md:EntityDescriptor>
