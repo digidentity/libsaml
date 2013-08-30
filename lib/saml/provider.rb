@@ -3,11 +3,15 @@ module Saml
     extend ActiveSupport::Concern
 
     def assertion_consumer_service_url(index = nil)
-      find_indexed_service(descriptor.assertion_consumer_services, index)
+      find_indexed_service_url(descriptor.assertion_consumer_services, index)
     end
 
     def artifact_resolution_service_url(index = nil)
-      find_indexed_service(descriptor.artifact_resolution_services, index)
+      find_indexed_service_url(descriptor.artifact_resolution_services, index)
+    end
+
+    def attribute_consuming_service(index = nil)
+      find_indexed_service(descriptor.attribute_consuming_services, index)
     end
 
     def entity_descriptor
@@ -68,13 +72,17 @@ module Saml
       entity_descriptor.sp_sso_descriptor || entity_descriptor.idp_sso_descriptor
     end
 
+    def find_indexed_service_url(service_list, index)
+      service = find_indexed_service(service_list, index)
+      service.location if service
+    end
+
     def find_indexed_service(service_list, index)
-      service = if index
+      if index
         service_list.find { |service| service.index == index }
       else
         service_list.find { |service| service.is_default }
       end
-      service.location if service
     end
 
     def find_binding_service(service_list, binding)

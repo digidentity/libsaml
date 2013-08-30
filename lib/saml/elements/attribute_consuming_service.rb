@@ -4,6 +4,8 @@ module Saml
       include Saml::Base
 
       tag "AttributeConsumingService"
+      register_namespace "md", Saml::MD_NAMESPACE
+      namespace "md"
 
       attribute :index, Integer, :tag => "index"
       attribute :is_default, HappyMapper::Boolean, :tag => "isDefault"
