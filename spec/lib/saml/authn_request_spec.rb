@@ -25,10 +25,11 @@ describe Saml::AuthnRequest do
     end
 
     it "should check for boolean field if force authn is set" do
-      authn_request.force_authn = true
-      authn_request.should be_valid
-      authn_request.force_authn = false
-      authn_request.should be_valid
+      [true, false, "1", "0"].each do |boolean|
+        authn_request.force_authn = boolean
+        authn_request.should be_valid
+      end
+
       authn_request.force_authn = "not a boolean"
       authn_request.should_not be_valid
     end
