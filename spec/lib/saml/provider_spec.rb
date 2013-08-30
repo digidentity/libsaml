@@ -42,6 +42,16 @@ describe Saml::Provider do
     end
   end
 
+  describe "#attribute_consuming_service" do
+    it "returns the attribute_consuming_service" do
+      service_provider.attribute_consuming_service(0).should be_a(Saml::Elements::AttributeConsumingService)
+    end
+
+    it "returns the attribute_consuming_service for the default index" do
+      service_provider.attribute_consuming_service.should be_a(Saml::Elements::AttributeConsumingService)
+    end
+  end
+
   describe "#certificate" do
     it "returns the certificate for signing" do
       service_provider.certificate("signing").should be_a(OpenSSL::X509::Certificate)
