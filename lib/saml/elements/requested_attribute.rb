@@ -4,6 +4,9 @@ module Saml
       include Saml::ComplexTypes::AttributeType
       include Saml::Base
 
+      register_namespace "md", Saml::MD_NAMESPACE
+      namespace "md"
+
       attribute :is_required, HappyMapper::Boolean, :tag => "isRequired"
     end
   end
