@@ -14,6 +14,7 @@ module Saml
       attribute :want_assertions_signed, Boolean, :tag => "WantAssertionsSigned", :default => false
 
       has_many :assertion_consumer_services, AssertionConsumerService
+      has_many :attribute_consuming_services, Saml::Elements::AttributeConsumingService
 
       validates :assertion_consumer_services, :presence => true
 
