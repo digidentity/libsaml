@@ -4,6 +4,7 @@ module Saml
 
     tag 'AuthnRequest'
     attribute :force_authn, Boolean, :tag => "ForceAuthn"
+    attribute :is_passive, Boolean, :tag => "IsPassive"
     attribute :assertion_consumer_service_index, Integer, :tag => "AssertionConsumerServiceIndex"
     attribute :assertion_consumer_service_url, String, :tag => "AssertionConsumerServiceURL"
     attribute :attribute_consuming_service_index, Integer, :tag => "AttributeConsumingServiceIndex"

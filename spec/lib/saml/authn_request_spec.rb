@@ -12,7 +12,7 @@ describe Saml::AuthnRequest do
     Saml::AuthnRequest.tag_name.should == "AuthnRequest"
   end
 
-  [:force_authn, :assertion_consumer_service_index, :assertion_consumer_service_url, :protocol_binding, :provider_name, :requested_authn_context].each do |attribute|
+  [:force_authn, :assertion_consumer_service_index, :assertion_consumer_service_url, :protocol_binding, :provider_name, :requested_authn_context, :is_passive].each do |attribute|
     it "should accept the #{attribute} attribute" do
       authn_request.should respond_to(attribute)
     end
