@@ -15,6 +15,7 @@ module Saml
         attribute :_id, String, :tag => 'ID'
         attribute :version, String, :tag => "Version"
         attribute :issue_instant, Time, :tag => "IssueInstant", :on_save => lambda { |val| val.utc.xmlschema }
+        attribute :consent, String, :tag => "Consent"
 
         attribute :destination, String, :tag => "Destination"
         element :issuer, String, :namespace => 'saml', :tag => "Issuer"
