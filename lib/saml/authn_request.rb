@@ -9,6 +9,7 @@ module Saml
     attribute :attribute_consuming_service_index, Integer, :tag => "AttributeConsumingServiceIndex"
     attribute :protocol_binding, String, :tag => "ProtocolBinding"
     attribute :provider_name, String, :tag => "ProviderName"
+    attribute :consent, String, :tag => "Consent"
 
     has_one :requested_authn_context, Saml::Elements::RequestedAuthnContext
 
