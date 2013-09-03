@@ -56,6 +56,13 @@ describe Saml::Provider do
     it "returns an array with the indices of all attribute consuming services" do
       service_provider.attribute_consuming_service_indices.should eq [ 0 ]
     end
+
+    context "when there isn't an attribute consuming service" do
+      it "returns an empty array" do
+        service_provider.entity_descriptor.sp_sso_descriptor.attribute_consuming_services = nil
+        service_provider.attribute_consuming_service_indices.should eq []
+      end
+    end
   end
 
   describe "#certificate" do

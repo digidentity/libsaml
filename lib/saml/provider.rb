@@ -15,7 +15,11 @@ module Saml
     end
 
     def attribute_consuming_service_indices
-      descriptor.attribute_consuming_services.map(&:index)
+      if descriptor.attribute_consuming_services.present?
+        descriptor.attribute_consuming_services.map(&:index)
+      else
+        []
+      end
     end
 
     def entity_descriptor
