@@ -18,6 +18,7 @@ module Saml
     has_one   :signature, Saml::Elements::Signature
     has_one   :subject, Saml::Elements::Subject
     has_one   :conditions, Saml::Elements::Conditions
+    has_many  :statements, Saml::ComplexTypes::StatementAbstractType
     has_many  :authn_statement, Saml::Elements::AuthnStatement
     has_one   :attribute_statement, Saml::Elements::AttributeStatement
 

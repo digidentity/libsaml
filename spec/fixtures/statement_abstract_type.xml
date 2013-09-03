@@ -1,0 +1,7 @@
+<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+  <saml:Statement xmlns:xacml-saml="urn:oasis:xacml:2.0:saml:assertion:schema:os"
+                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                    xsi:type="xacml-saml:XACMLAuthzDecisionStatementType">
+    <xacml-saml:Authorization>allowed</xacml-saml:Authorization>
+  </saml:Statement>
+</saml:Assertion>

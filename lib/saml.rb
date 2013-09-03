@@ -74,6 +74,7 @@ module Saml
     require 'saml/complex_types/indexed_endpoint_type'
     require 'saml/complex_types/sso_descriptor_type'
     require 'saml/complex_types/attribute_type'
+    require 'saml/complex_types/statement_abstract_type'
   end
 
   module Elements

@@ -15,6 +15,20 @@ class AttributeTypeDummy
   include Saml::ComplexTypes::AttributeType
 end
 
+class StatementDummy
+  include HappyMapper
+
+  register_namespace 'xacml-saml', "urn:oasis:xacml:2.0:saml:assertion:schema:os"
+  register_namespace 'xsi', 'http://www.w3.org/2001/XMLSchema-instance'
+
+  tag 'Statement'
+  namespace 'saml'
+
+  attribute :type, String, tag: 'xsi:type'
+
+  element :authorization, String, tag: 'Authorization', namespace: :'xacml-saml'
+end
+
 FactoryGirl.define do
   factory :request_abstract_type_dummy, :class => RequestAbstractTypeDummy do
     _id "_#{Time.now.to_i}"
