@@ -53,8 +53,10 @@ describe Saml::Provider do
   end
 
   describe "#attribute_consuming_service_indices" do
-    it "returns an array with the indices of all attribute consuming services" do
-      service_provider.attribute_consuming_service_indices.should eq [ 0 ]
+    context "when there is an attribute consuming service" do
+      it "returns an array with the indices of all attribute consuming services" do
+        service_provider.attribute_consuming_service_indices.should eq [ 0 ]
+      end
     end
 
     context "when there isn't an attribute consuming service" do
