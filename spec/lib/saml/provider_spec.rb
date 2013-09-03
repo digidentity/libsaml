@@ -52,6 +52,21 @@ describe Saml::Provider do
     end
   end
 
+  describe "#assertion_consumer_service_indices" do
+    context "when there is an assertion consumer service" do
+      it "returns an array with the indices of all assertion consumer services" do
+        service_provider.assertion_consumer_service_indices.should eq [ 0, 1 ]
+      end
+    end
+
+    context "when there isn't an assertion consumer service" do
+      it "returns an empty array" do
+        service_provider.entity_descriptor.sp_sso_descriptor.assertion_consumer_services = nil
+        service_provider.assertion_consumer_service_indices.should eq []
+      end
+    end
+  end
+
   describe "#certificate" do
     it "returns the certificate for signing" do
       service_provider.certificate("signing").should be_a(OpenSSL::X509::Certificate)
