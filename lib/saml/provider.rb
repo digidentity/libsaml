@@ -14,6 +14,10 @@ module Saml
       find_indexed_service(descriptor.attribute_consuming_services, index)
     end
 
+    def attribute_consuming_service_indices
+      descriptor.attribute_consuming_services.map(&:index)
+    end
+
     def entity_descriptor
       @entity_descriptor
     end

@@ -52,6 +52,12 @@ describe Saml::Provider do
     end
   end
 
+  describe "#attribute_consuming_service_indices" do
+    it "returns an array with the indices of all attribute consuming services" do
+      service_provider.attribute_consuming_service_indices.should eq [ 0 ]
+    end
+  end
+
   describe "#certificate" do
     it "returns the certificate for signing" do
       service_provider.certificate("signing").should be_a(OpenSSL::X509::Certificate)
