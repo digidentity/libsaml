@@ -48,7 +48,9 @@ module Saml
 
         raise Saml::Errors::SignatureInvalid.new unless signature_valid
 
-        message.class.parse(document.signed_nodes.first.to_xml, single: true)
+        signed_node = document.signed_nodes.find { |node| node['ID'] == message._id }
+
+        message.class.parse(signed_node.to_xml, single: true)
       end
     end
   end

@@ -5,14 +5,14 @@ class ServiceProvider
 
   def initialize
     @entity_descriptor = Saml::Elements::EntityDescriptor.parse(File.read("spec/fixtures/metadata/service_provider.xml"))
-    @private_key = OpenSSL::PKey::RSA.new(File.read("spec/fixtures/key.pem"))
+    @private_key       = OpenSSL::PKey::RSA.new(File.read("spec/fixtures/key.pem"))
   end
 end
 
 describe Saml::Util do
   let(:service_provider) { ServiceProvider.new }
-  let(:message)          { FactoryGirl.build :authn_request, issuer: service_provider.entity_id }
-  let(:signed_message)   { "signed xml" }
+  let(:message) { FactoryGirl.build :authn_request, issuer: service_provider.entity_id }
+  let(:signed_message) { "signed xml" }
 
   describe ".sign_xml" do
     it "calls add_signature on the specified message" do
@@ -43,6 +43,28 @@ describe Saml::Util do
 
         described_class.sign_xml message
       end
+    end
+  end
+
+  describe ".verify_xml" do
+    let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
+                                                    Saml::Assertion.new.tap { |a| a.add_signature }]) }
+    let(:signed_xml) { Saml::Util.sign_xml(message) }
+
+    it "verifies all the signatures in the file" do
+      response = Saml::Response.parse(signed_xml)
+
+      response.provider.should_receive(:verify).exactly(3).times.and_return(true)
+      Saml::Util.verify_xml(response, signed_xml)
+    end
+
+    it "returns the signed message type" do
+      malicious_response = Saml::Response.new(issuer: 'hacked')
+      malicious_xml = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"
+      malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
+      response = Saml::Response.parse(malicious_xml, single: true)
+
+      Saml::Util.verify_xml(response, malicious_xml).should be_a(Saml::Response)
     end
   end
 end
