@@ -79,6 +79,7 @@ module Saml
 
   module Elements
     require 'saml/elements/signature'
+    require 'saml/elements/authenticating_authority'
     require 'saml/elements/subject_locality'
     require 'saml/elements/authn_context'
     require 'saml/elements/audience_restriction'
