@@ -7,6 +7,8 @@ module Saml
 
       register_namespace "saml", ::Saml::SAML_NAMESPACE
       namespace "saml"
+
+      content :value, String
     end
   end
 end
