@@ -8,6 +8,8 @@ module Saml
       namespace 'saml'
 
       attribute :format, String, :tag => "Format"
+      attribute :name_qualifier, String, :tag => "NameQualifier"
+
       content :value, String
     end
   end
