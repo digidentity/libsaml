@@ -4,7 +4,7 @@ describe Saml::Elements::AuthnContext do
   let(:authn_context) { FactoryGirl.build(:authn_context) }
 
   describe "Optional fields" do
-    [:authn_context_class_ref].each do |field|
+    [:authn_context_class_ref, :authenticating_authorities].each do |field|
       it "should have the #{field} field" do
         authn_context.should respond_to(field)
       end
