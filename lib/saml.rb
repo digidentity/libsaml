@@ -74,6 +74,7 @@ module Saml
     require 'saml/complex_types/indexed_endpoint_type'
     require 'saml/complex_types/sso_descriptor_type'
     require 'saml/complex_types/attribute_type'
+    require 'saml/complex_types/localized_name_type'
     require 'saml/complex_types/statement_abstract_type'
   end
 
@@ -103,6 +104,9 @@ module Saml
     require 'saml/elements/authn_statement'
     require 'saml/elements/requested_authn_context'
     require 'saml/elements/key_descriptor'
+    require 'saml/elements/organization_name'
+    require 'saml/elements/organization_display_name'
+    require 'saml/elements/organization_url'
     require 'saml/elements/organization'
     require 'saml/elements/contact_person'
     require 'saml/elements/idp_sso_descriptor'

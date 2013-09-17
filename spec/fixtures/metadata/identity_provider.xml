@@ -21,4 +21,9 @@
     <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://idp.example.com/sso/logout"/>
     <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://idp.example.com/sso/request"/>
   </md:IDPSSODescriptor>
+  <md:Organization>
+    <md:OrganizationName xml:lang="en">Organization</md:OrganizationName>
+    <md:OrganizationDisplayName xml:lang="en">Organization Display Name</md:OrganizationDisplayName>
+    <md:OrganizationURL xml:lang="en">https://idp.example.com</md:OrganizationURL>
+  </md:Organization>
 </md:EntityDescriptor>
