@@ -19,11 +19,11 @@ module Saml
 
       has_one :extensions, Saml::Elements::MDExtensions
 
-      has_one :organization, Saml::Elements::Organization
-      has_many :contact_persons, Saml::Elements::ContactPerson
-
       has_one :idp_sso_descriptor, Saml::Elements::IDPSSODescriptor
       has_one :sp_sso_descriptor, Saml::Elements::SPSSODescriptor
+
+      has_one :organization, Saml::Elements::Organization
+      has_many :contact_persons, Saml::Elements::ContactPerson
 
       validates :entity_id, :presence => true
 
