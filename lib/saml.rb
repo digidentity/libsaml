@@ -106,6 +106,7 @@ module Saml
     require 'saml/elements/key_descriptor'
     require 'saml/elements/organization_name'
     require 'saml/elements/organization_display_name'
+    require 'saml/elements/organization_url'
     require 'saml/elements/organization'
     require 'saml/elements/contact_person'
     require 'saml/elements/idp_sso_descriptor'
