@@ -15,6 +15,10 @@ class AttributeTypeDummy
   include Saml::ComplexTypes::AttributeType
 end
 
+class LocalizedNameTypeDummy
+  include Saml::ComplexTypes::LocalizedNameType
+end
+
 class StatementDummy
   include HappyMapper
 
@@ -58,6 +62,9 @@ FactoryGirl.define do
   end
 
   factory :attribute_type_dummy, :class => AttributeTypeDummy do
+  end
+
+  factory :localized_name_type_dummy, :class => LocalizedNameTypeDummy do
   end
 
   factory :assertion, :class => Saml::Assertion do

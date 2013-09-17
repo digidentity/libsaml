@@ -16,7 +16,7 @@ module Saml
         ALL = [TECHNICAL, SUPPORT, ADMINISTRATIVE, BILLING, OTHER]
       end
 
-      attribute :contact_type, String, :tag => "ContactType"
+      attribute :contact_type, String, :tag => "contactType"
 
       element :company, String, :tag => "Company"
       element :given_name, String, :tag => "GivenName"
