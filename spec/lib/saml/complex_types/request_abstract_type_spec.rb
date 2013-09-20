@@ -75,6 +75,13 @@ describe Saml::ComplexTypes::RequestAbstractType do
       request_abstract_type.issue_instant = Time.now - Saml::Config.max_issue_instant_offset.minutes
       request_abstract_type.should have(1).errors_on(:issue_instant)
     end
+
+    it "should not raise error when issue_instant is blank" do
+      request_abstract_type.issue_instant = nil
+      expect {
+        request_abstract_type.to_xml
+      }.not_to raise_error(NoMethodError)
+    end
   end
 
   describe "Version" do
