@@ -23,4 +23,15 @@ describe Saml::Elements::SPSSODescriptor do
       end
     end
   end
+
+  describe "#add_assertion_consumer_service" do
+    it 'adds a new assertion consumer service index' do
+      subject.add_assertion_consumer_service('binding', 'location', 1, true)
+      assertion_consumer_service = subject.assertion_consumer_services.first
+      assertion_consumer_service.binding.should == 'binding'
+      assertion_consumer_service.location.should == 'location'
+      assertion_consumer_service.index.should == 1
+      assertion_consumer_service.is_default.should == true
+    end
+  end
 end

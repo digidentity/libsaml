@@ -23,6 +23,13 @@ module Saml
         self.assertion_consumer_services ||= []
       end
 
+      def add_assertion_consumer_service(binding, location, index, default = false)
+        assertion_consumer_services << AssertionConsumerService.new(binding:    binding,
+                                                                    location:   location,
+                                                                    index:      index,
+                                                                    is_default: default)
+      end
+
     end
   end
 end
