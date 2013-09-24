@@ -5,6 +5,8 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
+gem "xmlenc", github: "digidentity/xmlenc", ref: "2e9d8adabca954e70afe7344da951d3af1d8a7ab"
+
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
 
