@@ -15,10 +15,4 @@ describe Saml::Elements::AttributeStatement do
       attribute_statement.attribute.first.should be_a(Saml::Elements::Attribute)
     end
   end
-  
-  describe "initialize" do
-    let(:attribute_statement) do
-      Saml::Elements::AttributeStatement.new
-    end
-  end
 end
