@@ -8,6 +8,7 @@ module Saml
       namespace 'saml'
 
       has_many :attribute, Saml::Elements::Attribute
+      has_many :encrypted_attributes, Saml::Elements::EncryptedAttribute
 
       def fetch_attribute(key)
         attribute = self.attribute.find do |attr|

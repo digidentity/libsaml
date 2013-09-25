@@ -14,5 +14,9 @@ describe Saml::Elements::AttributeStatement do
     it "should parse attribute" do
       attribute_statement.attribute.first.should be_a(Saml::Elements::Attribute)
     end
+
+    it "should parse encrypted attributes" do
+      attribute_statement.encrypted_attributes.first.should be_a Saml::Elements::EncryptedAttribute
+    end
   end
 end
