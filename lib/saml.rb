@@ -4,6 +4,7 @@ require 'saml/base'
 require 'saml/xml_helpers'
 require 'saml/encoding'
 require 'saml/util'
+require 'xmlenc'
 require 'xmldsig'
 require 'httpi'
 
@@ -113,6 +114,7 @@ module Saml
     require 'saml/elements/sp_sso_descriptor'
     require 'saml/elements/entity_descriptor'
     require 'saml/elements/entities_descriptor'
+    require 'saml/elements/encrypted_attribute'
   end
 
   require 'saml/assertion'
