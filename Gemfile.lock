@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/digidentity/xmlenc.git
-  revision: aca11e27f5be7f45ca982e064bf6c02d0b034d56
-  ref: aca11e27f5be7f45ca982e064bf6c02d0b034d56
+  revision: 95e8a47afcf9a91a32eb4b3c3826fa0273f1229c
   specs:
     xmlenc (0.0.1)
       activemodel (>= 3.0.0)
