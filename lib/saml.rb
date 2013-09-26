@@ -90,6 +90,7 @@ module Saml
     require 'saml/elements/status'
     require 'saml/elements/subject_confirmation_data'
     require 'saml/elements/subject_confirmation'
+    require 'saml/elements/encrypted_attribute'
     require 'saml/elements/attribute'
     require 'saml/elements/attribute_statement'
     require 'saml/elements/entity_attributes'
@@ -114,7 +115,6 @@ module Saml
     require 'saml/elements/sp_sso_descriptor'
     require 'saml/elements/entity_descriptor'
     require 'saml/elements/entities_descriptor'
-    require 'saml/elements/encrypted_attribute'
   end
 
   require 'saml/assertion'
