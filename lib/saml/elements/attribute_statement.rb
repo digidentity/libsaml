@@ -8,11 +8,7 @@ module Saml
       namespace 'saml'
 
       has_many :attribute, Saml::Elements::Attribute
-
-      def initialize(*args)
-        options     = args.extract_options!
-        super(*(args << options))
-      end
+      has_many :encrypted_attributes, Saml::Elements::EncryptedAttribute
 
       def fetch_attribute(key)
         attribute = self.attribute.find do |attr|
@@ -20,7 +16,6 @@ module Saml
         end
         attribute.attribute_value if attribute
       end
-
     end
   end
 end
