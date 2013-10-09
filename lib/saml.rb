@@ -90,6 +90,7 @@ module Saml
     require 'saml/elements/status'
     require 'saml/elements/subject_confirmation_data'
     require 'saml/elements/subject_confirmation'
+    require 'saml/elements/encrypted_assertion'
     require 'saml/elements/encrypted_attribute'
     require 'saml/elements/attribute'
     require 'saml/elements/attribute_statement'

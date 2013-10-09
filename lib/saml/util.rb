@@ -39,6 +39,10 @@ module Saml
         end
       end
 
+      def encrypt_assertion(assertion)
+        Saml::Elements.encrypted_assertion.new
+      end
+
       def verify_xml(message, raw_body)
         document = Xmldsig::SignedDocument.new(raw_body)
 
