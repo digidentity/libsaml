@@ -40,7 +40,7 @@ module Saml
                                                             :session_index           => options.delete(:session_index))
       super(*(args << options))
       @_id           ||= Saml.generate_id
-      @issue_instant ||= Time.now
+      @issue_instant = Time.now
       @issuer        ||= Saml::Config.entity_id
       @version       ||= Saml::SAML_VERSION
     end
