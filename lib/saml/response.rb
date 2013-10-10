@@ -4,7 +4,7 @@ module Saml
 
     tag "Response"
     has_many :assertions, Saml::Assertion, tag: "Assertion"
-    has_many :encrypted_assertions, Saml::EncryptedAssertion, tag: "EncryptedAssertion"
+    has_many :encrypted_assertions, Saml::Elements::EncryptedAssertion, tag: "EncryptedAssertion"
 
     def authn_failed?
       !success? && status.status_code.authn_failed?
