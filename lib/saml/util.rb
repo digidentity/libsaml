@@ -43,7 +43,7 @@ module Saml
         document = Xmldsig::SignedDocument.new(raw_body)
 
         signature_valid = document.validate do |signature, data, signature_algorithm|
-          message.provider.verify(signature_algorithm, signature, data)
+          message.provider.verify(signature_algorithm, signature, data, message.signature.key_info.try(:key_name))
         end
 
         raise Saml::Errors::SignatureInvalid.new unless signature_valid
