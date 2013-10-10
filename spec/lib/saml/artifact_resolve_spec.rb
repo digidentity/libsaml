@@ -23,6 +23,14 @@ describe Saml::ArtifactResolve do
     end
   end
 
+  describe "#initialize" do
+    it "should convert a base64 encoded artifact to an artifact" do
+      artifact_resolve = Saml::ArtifactResolve.new(artifact: Saml::Artifact.new.to_s)
+      artifact_resolve.artifact.should be_a(Saml::Artifact)
+    end
+
+  end
+
 
   describe "#parse" do
 
