@@ -29,4 +29,30 @@ describe Saml::ComplexTypes::SSODescriptorType do
       end
     end
   end
+
+  describe "#find_key_descriptor" do
+    let(:key_descriptor_1) { FactoryGirl.build :key_descriptor, use: "encryption" }
+
+    let(:key_descriptor_2) do
+      key_descriptor = FactoryGirl.build :key_descriptor, use: "signing"
+      key_descriptor.key_info.key_name = "key"
+      key_descriptor
+    end
+
+    before do
+      sso_descriptor.key_descriptors = [ key_descriptor_1, key_descriptor_2 ]
+    end
+
+    context "when a key name is specified" do
+      it "finds the key descriptor by the specified key name and use" do
+        sso_descriptor.find_key_descriptor("key", "signing").should be_a Saml::Elements::KeyDescriptor
+      end
+    end
+
+    context "when a key name isn't specified" do
+      it "finds the key descriptor by use" do
+        sso_descriptor.find_key_descriptor(nil, "encryption").should be_a Saml::Elements::KeyDescriptor
+      end
+    end
+  end
 end

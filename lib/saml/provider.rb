@@ -31,14 +31,7 @@ module Saml
     end
 
     def certificate(key_name, use = "signing")
-      key_descriptors = descriptor.key_descriptors.select { |key| key.use == use || key.use == "" }
-
-      key_descriptor = if key_name.present?
-        key_descriptors.find { |key| key.key_info.key_name == key_name }
-      else
-        key_descriptors.first
-      end
-
+      key_descriptor = descriptor.find_key_descriptor(key_name, use)
       key_descriptor.certificate if key_descriptor
     end
 
