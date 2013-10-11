@@ -21,12 +21,15 @@ module Saml
       element :signature_value, String, :tag => "SignatureValue", :state_when_nil => true
       has_one :key_info, KeyInfo
 
-
       def initialize(*args)
         super(*args)
         options       = args.extract_options!
         @signed_info  ||= SignedInfo.new(:uri => options.delete(:uri), :digest_value => options.delete(:digest_value))
         @key_info     ||= KeyInfo.new
+      end
+
+      def key_name
+        @key_info.try(:key_name)
       end
     end
   end
