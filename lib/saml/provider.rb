@@ -30,8 +30,8 @@ module Saml
       entity_descriptor.entity_id
     end
 
-    def certificate(use = "signing")
-      key_descriptor = descriptor.key_descriptors.find { |key| key.use == use || key.use == "" }
+    def certificate(key_name, use = "signing")
+      key_descriptor = descriptor.find_key_descriptor(key_name, use)
       key_descriptor.certificate if key_descriptor
     end
 
@@ -55,8 +55,8 @@ module Saml
       descriptor.is_a?(Saml::Elements::SPSSODescriptor) ? "service_provider" : "identity_provider"
     end
 
-    def verify(signature_algorithm, signature, data)
-      certificate.public_key.verify(digest_method(signature_algorithm).new, signature, data) rescue nil
+    def verify(signature_algorithm, signature, data, key_name = nil)
+      certificate(key_name).public_key.verify(digest_method(signature_algorithm).new, signature, data) rescue nil
     end
 
     def authn_requests_signed?
