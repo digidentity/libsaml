@@ -117,6 +117,10 @@ module Saml
     require 'saml/elements/entities_descriptor'
   end
 
+  module Rails
+    require 'saml/rails/controller_helper'
+  end
+
   require 'saml/assertion'
   require 'saml/authn_request'
   require 'saml/artifact'
