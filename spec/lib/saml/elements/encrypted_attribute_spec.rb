@@ -40,8 +40,8 @@ describe Saml::Elements::EncryptedAttribute do
       expect(subject.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
     end
 
-    it "should parse the encrypted key" do
-      expect(subject.encrypted_keys.first).to be_a Xmlenc::Builder::EncryptedKey
+    it "should have no encrypted key in the root" do
+      expect(subject.encrypted_keys).to match_array []
     end
   end
 end
