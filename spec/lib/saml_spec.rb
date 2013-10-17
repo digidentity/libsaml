@@ -1,7 +1,31 @@
 require 'spec_helper'
 
 describe Saml do
+  after :each do
+    Saml.current_provider = nil
+  end
+
+  describe '.current_provider=' do
+    it 'sets the current provider' do
+      Saml.current_provider=('provider')
+      expect(Thread.current['saml_current_provider']).to be == 'provider'
+    end
+  end
+
+  describe '.current_provider' do
+    it 'returns the current provider' do
+      Thread.current['saml_current_provider'] = 'current_provider'
+      expect(Saml.current_provider).to be == 'current_provider'
+    end
+  end
+
   describe '.provider' do
+    it 'returns the current provider if it matches the entity id' do
+      current_provider = double('provider', entity_id: 'entity_id')
+      Saml.current_provider=(current_provider)
+      expect(Saml.provider('entity_id')).to be == current_provider
+    end
+
     it 'returns the provider' do
       Saml::Config.provider_store.should_receive(:find_by_entity_id).and_return('provider')
       Saml.provider('entity_id').should == 'provider'

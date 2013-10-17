@@ -5,7 +5,7 @@ describe Saml::ProviderStores::File do
   describe "initialize" do
 
     it "creates a store of providers" do
-      file_store.providers.first.should be_a(Saml::ProviderStores::File::Provider)
+      file_store.providers.first.should be_a(Saml::BasicProvider)
     end
   end
 

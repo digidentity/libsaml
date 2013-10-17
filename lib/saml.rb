@@ -126,6 +126,7 @@ module Saml
   require 'saml/logout_request'
   require 'saml/logout_response'
   require 'saml/provider'
+  require 'saml/basic_provider'
 
   module ProviderStores
     require 'saml/provider_stores/file'
@@ -138,6 +139,14 @@ module Saml
     SOAP          = 'urn:oasis:names:tc:SAML:2.0:bindings:SOAP'
   end
 
+  def self.current_provider
+    Thread.current['saml_current_provider']
+  end
+
+  def self.current_provider=(provider)
+    Thread.current['saml_current_provider'] = provider
+  end
+
   def self.setup
     yield Saml::Config
   end
@@ -147,7 +156,11 @@ module Saml
   end
 
   def self.provider(entity_id)
-    Saml::Config.provider_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new)
+    if current_provider && current_provider.entity_id == entity_id
+      current_provider
+    else
+      Saml::Config.provider_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new)
+    end
   end
 
   def self.parse_message(message, type)
