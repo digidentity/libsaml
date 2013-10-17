@@ -33,7 +33,7 @@ module Saml
         super(*args)
         @_id           ||= Saml.generate_id
         @issue_instant ||= Time.now
-        @issuer        ||= Saml::Config.entity_id
+        @issuer        ||= Saml.current_provider.entity_id
         @version       ||= Saml::SAML_VERSION
       end
 
