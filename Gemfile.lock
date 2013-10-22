@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    libsaml (2.0.6)
+    libsaml (2.1.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       curb

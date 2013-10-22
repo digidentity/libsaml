@@ -49,9 +49,7 @@ Add the Service Provider configuration file to config/metadata/service_provider.
 
 Set up an intializer in config/initializers/saml_config.rb:
   Saml.setup do |config|
-    config.entity_id = "my:very:original:entityid"
-    config.provider_store = Saml::ProviderStore::File.new("config/metadata", "config/ssl/key.pem")
-    # config.provider_store = SamlProvider
+    config.register_store :file, Saml::ProviderStore::File.new("config/metadata", "config/ssl/key.pem"), default: true
   end
 
 By default this will use a SamlProvider model that uses the filestore, if you want a database driven model comment out the #provider_store function in the initializer and make a model that defines #find_by_entity_id:
@@ -66,6 +64,9 @@ By default this will use a SamlProvider model that uses the filestore, if you wa
 
 Now you can make a SAML controller in app/controllers/saml_controller.rb:
   class SamlController < ApplicationController
+    extend Saml::Rails::ControllerHelper
+    current_provider "entity_id"
+
     def request_authentication
       provider = Saml.provider("my:very:original:entityid")
       destination = provider.single_sign_on_service_url(Saml::ProtocolBindings::HTTP_POST)
