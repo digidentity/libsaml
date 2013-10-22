@@ -17,14 +17,26 @@ module Saml
   SAML_VERSION       = '2.0'
 
   module Errors
-    class SamlError < StandardError;
+    class SamlError < StandardError
     end
+    class SignatureInvalid < SamlError
+    end
+    class InvalidProvider < SamlError
+    end
+    class UnparseableMessage < SamlError
+    end
+    class InvalidStore < SamlError
+      def initialize(store = '')
+        @store = store
+      end
 
-    class SignatureInvalid < SamlError;
-    end
-    class InvalidProvider < SamlError;
-    end
-    class UnparseableMessage < SamlError;
+      def message
+        if @store.nil? || @store == ''
+          'Store cannot be blank'
+        else
+          "Store #{@store} not registered"
+        end
+      end
     end
   end
 
@@ -152,6 +164,17 @@ module Saml
     Thread.current['saml_current_provider'] = provider
   end
 
+  def self.current_store
+    store_name = Thread.current['saml_current_store']
+    Saml::Config.registered_stores[store_name] ||
+        Saml::Config.registered_stores[Saml::Config.default_store] ||
+        raise(Errors::InvalidStore.new(store_name))
+  end
+
+  def self.current_store=(store_name)
+    Thread.current['saml_current_store'] = store_name
+  end
+
   def self.setup
     yield Saml::Config
   end
@@ -164,7 +187,7 @@ module Saml
     if current_provider.entity_id == entity_id
       current_provider
     else
-      Saml::Config.provider_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new)
+      current_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new)
     end
   end
 

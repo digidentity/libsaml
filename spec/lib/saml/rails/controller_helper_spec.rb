@@ -15,14 +15,16 @@ describe Saml::Rails::ControllerHelper do
     def identity_provider
       Saml.provider('https://idp.example.com')
     end
+
+    def current_provider
+      Thread.current['provider']
+    end
   end
 
   describe 'current_provider' do
     context 'with string' do
       it 'sets the current provider before all actions' do
-        Saml.current_provider = nil
-        Controller.current_provider('https://idp.example.com')
-        expect(Saml.current_provider).to be == Saml.provider('https://idp.example.com')
+        expect(Controller.current_provider('https://idp.example.com')).to be == Saml.provider('https://idp.example.com')
       end
     end
 

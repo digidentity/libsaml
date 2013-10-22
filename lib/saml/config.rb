@@ -3,12 +3,6 @@ module Saml
     mattr_accessor :provider_type
     @@provider_type = "service_provider"
 
-    mattr_accessor :provider_store
-    @@provider_store = Saml::ProviderStores::File.new
-
-    mattr_accessor :entity_id
-    @@entity_id = 'SamlEntity'
-
     mattr_accessor :max_issue_instant_offset
     @@max_issue_instant_offset = 2
 
@@ -20,5 +14,18 @@ module Saml
 
     mattr_accessor :ssl_certificate_file
     @@ssl_certificate_file = 'SSL_CERTIFICATE_FILE'
+
+    mattr_accessor :registered_stores
+    @@registered_stores = {}
+
+    mattr_accessor :default_store
+
+    def register_store(name, store, options = {})
+      registered_stores[name] = store
+      self.default_store = name if options[:default]
+    end
+
+    module_function :register_store
+
   end
 end

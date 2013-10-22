@@ -63,7 +63,7 @@ describe Saml::Bindings::HTTPArtifact do
   end
 
   describe ".resolve" do
-    let(:identity_provider) { Saml.provider(Saml::Config.entity_id) }
+    let(:identity_provider) { Saml.provider(Saml.current_provider.entity_id) }
     let(:request) { stub(params: {"SAMLart" => CGI.escape(Saml::Artifact.new.to_s)}) }
 
     context "with valid response" do
