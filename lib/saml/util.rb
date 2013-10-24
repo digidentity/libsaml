@@ -7,7 +7,7 @@ module Saml
 
         params = {}
         query.split(/[&;]/).each do |pairs|
-          key, value = pairs.split('=',2)
+          key, value  = pairs.split('=', 2)
           params[key] = value
         end
 
@@ -39,8 +39,16 @@ module Saml
         end
       end
 
-      def encrypt_assertion(assertion)
-        Saml::Elements.encrypted_assertion.new
+      def encrypt_assertion(assertion, certificate)
+        encrypted_data = Xmlenc::Builder::EncryptedData.new
+        encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes128-cbc')
+
+        encrypted_key = encrypted_data.encrypt(assertion)
+        encrypted_key.set_encryption_method(algorithm:               'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
+                                            digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1')
+        encrypted_key.encrypt(certificate.public_key)
+
+        Saml::Elements::EncryptedAssertion.new(encrypted_data: encrypted_data, encrypted_keys: encrypted_key)
       end
 
       def verify_xml(message, raw_body)

@@ -29,7 +29,8 @@ module Saml
 
       def initialize(*args)
         super(*args)
-        @contact_persons ||= []
+        array = []
+        @contact_persons ||= array
         @_id             ||= Saml.generate_id
       end
 

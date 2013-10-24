@@ -67,4 +67,10 @@ describe Saml::Util do
       Saml::Util.verify_xml(response, malicious_xml).should be_a(Saml::Response)
     end
   end
+
+  describe ".encrypt_assertion" do
+    it "returns an encrypted assertion object" do
+      Saml::Util.encrypt_assertion(Saml::Assertion.new.to_s, @entity_descriptor.public_key).should be_a Saml::Elements::EncryptedAssertion
+    end
+  end
 end
