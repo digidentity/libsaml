@@ -55,7 +55,7 @@ describe Saml::Bindings::HTTPArtifact do
     end
 
     it "adds an error if the signature is invalid" do
-      Saml::ProviderStores::File::Provider.any_instance.stub(:verify).and_return(false)
+      Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
       expect {
         message
       }.to raise_error(Saml::Errors::SignatureInvalid)
@@ -63,7 +63,7 @@ describe Saml::Bindings::HTTPArtifact do
   end
 
   describe ".resolve" do
-    let(:identity_provider) { Saml.provider(Saml::Config.entity_id) }
+    let(:identity_provider) { Saml.provider(Saml.current_provider.entity_id) }
     let(:request) { stub(params: {"SAMLart" => CGI.escape(Saml::Artifact.new.to_s)}) }
 
     context "with valid response" do
@@ -103,7 +103,7 @@ describe Saml::Bindings::HTTPArtifact do
       end
 
       it "adds an error if the signature is invalid" do
-        Saml::ProviderStores::File::Provider.any_instance.stub(:verify).and_return(false)
+        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
         expect {
           described_class.resolve(request, identity_provider.artifact_resolution_service_url)
         }.to raise_error(Saml::Errors::SignatureInvalid)

@@ -37,7 +37,7 @@ FactoryGirl.define do
   factory :request_abstract_type_dummy, :class => RequestAbstractTypeDummy do
     _id "_#{Time.now.to_i}"
     version "2.0"
-    issue_instant Time.now
+    issue_instant { Time.now }
     issuer "http://sp.example.com"
   end
 
@@ -52,7 +52,7 @@ FactoryGirl.define do
   factory :status_response_type_dummy, :class => StatusResponseTypeDummy do
     _id "_#{Time.now.to_i}"
     version "2.0"
-    issue_instant Time.now
+    issue_instant { Time.now }
     in_response_to "_#{Time.now.to_i}"
     status FactoryGirl.build(:status)
   end
@@ -70,7 +70,7 @@ FactoryGirl.define do
   factory :assertion, :class => Saml::Assertion do
     _id "_#{Time.now.to_i}"
     version "2.0"
-    issue_instant Time.now
+    issue_instant { Time.now }
     issuer "valid_issuer"
   end
 
@@ -103,7 +103,7 @@ FactoryGirl.define do
   end
 
   factory :authn_statement, :class => Saml::Elements::AuthnStatement do
-    authn_instant Time.now
+    authn_instant { Time.now }
     authn_context FactoryGirl.build(:authn_context)
   end
 

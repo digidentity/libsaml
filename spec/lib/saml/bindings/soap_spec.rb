@@ -54,7 +54,7 @@ describe Saml::Bindings::SOAP do
           @request = request
           stub(code: 200, body: response_xml)
         end
-        Saml::ProviderStores::File::Provider.any_instance.stub(:verify).and_return(false)
+        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
       end
 
       it "adds an error if the signature is invalid" do
@@ -81,7 +81,7 @@ describe Saml::Bindings::SOAP do
 
     context "with invalid signature" do
       it "adds an error if the signature is invalid" do
-        Saml::ProviderStores::File::Provider.any_instance.stub(:verify).and_return(false)
+        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
         expect {
           response
         }.to raise_error(Saml::Errors::SignatureInvalid)

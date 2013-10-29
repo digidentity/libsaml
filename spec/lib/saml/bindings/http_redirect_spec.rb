@@ -93,7 +93,7 @@ describe Saml::Bindings::HTTPRedirect do
       end
 
       it "raises SignatureInvalid if verification fails" do
-        Saml::ProviderStores::File::Provider.any_instance.stub(:verify).and_return(false)
+        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
         expect {
           described_class.receive_message(request, type: :authn_request).should be_nil
         }.to raise_error(Saml::Errors::SignatureInvalid)
@@ -102,8 +102,8 @@ describe Saml::Bindings::HTTPRedirect do
 
     context "without signature" do
       it "raises no SignatureInvalid when AuthnRequestsSigned == false" do
-        Saml::ProviderStores::File::Provider.any_instance.stub(:authn_requests_signed?).and_return(false)
-        Saml::ProviderStores::File::Provider.any_instance.stub(:verify).and_return(false)
+        Saml::BasicProvider.any_instance.stub(:authn_requests_signed?).and_return(false)
+        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
         described_class.receive_message(request, type: :authn_request).should be_a(Saml::AuthnRequest)
       end
     end

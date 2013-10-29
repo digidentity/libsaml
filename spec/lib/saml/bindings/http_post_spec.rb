@@ -47,7 +47,7 @@ describe Saml::Bindings::HTTPPost do
     end
 
     it "raises SignatureInvalid if it is invalid" do
-      Saml::ProviderStores::File::Provider.any_instance.stub(:verify).and_return(false)
+      Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
       expect {
         message
       }.to raise_error(Saml::Errors::SignatureInvalid)

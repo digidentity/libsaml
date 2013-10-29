@@ -17,14 +17,26 @@ module Saml
   SAML_VERSION       = '2.0'
 
   module Errors
-    class SamlError < StandardError;
+    class SamlError < StandardError
     end
+    class SignatureInvalid < SamlError
+    end
+    class InvalidProvider < SamlError
+    end
+    class UnparseableMessage < SamlError
+    end
+    class InvalidStore < SamlError
+      def initialize(store = '')
+        @store = store
+      end
 
-    class SignatureInvalid < SamlError;
-    end
-    class InvalidProvider < SamlError;
-    end
-    class UnparseableMessage < SamlError;
+      def message
+        if @store.nil? || @store == ''
+          'Store cannot be blank'
+        else
+          "Store #{@store} not registered"
+        end
+      end
     end
   end
 
@@ -118,6 +130,10 @@ module Saml
     require 'saml/elements/entities_descriptor'
   end
 
+  module Rails
+    require 'saml/rails/controller_helper'
+  end
+
   require 'saml/assertion'
   require 'saml/authn_request'
   require 'saml/artifact'
@@ -127,6 +143,8 @@ module Saml
   require 'saml/logout_request'
   require 'saml/logout_response'
   require 'saml/provider'
+  require 'saml/basic_provider'
+  require 'saml/null_provider'
 
   module ProviderStores
     require 'saml/provider_stores/file'
@@ -139,6 +157,25 @@ module Saml
     SOAP          = 'urn:oasis:names:tc:SAML:2.0:bindings:SOAP'
   end
 
+  def self.current_provider
+    Thread.current['saml_current_provider'] || NullProvider.new
+  end
+
+  def self.current_provider=(provider)
+    Thread.current['saml_current_provider'] = provider
+  end
+
+  def self.current_store
+    store_name = Thread.current['saml_current_store']
+    Saml::Config.registered_stores[store_name] ||
+        Saml::Config.registered_stores[Saml::Config.default_store] ||
+        raise(Errors::InvalidStore.new(store_name))
+  end
+
+  def self.current_store=(store_name)
+    Thread.current['saml_current_store'] = store_name
+  end
+
   def self.setup
     yield Saml::Config
   end
@@ -148,7 +185,11 @@ module Saml
   end
 
   def self.provider(entity_id)
-    Saml::Config.provider_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new)
+    if current_provider.entity_id == entity_id
+      current_provider
+    else
+      current_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new)
+    end
   end
 
   def self.parse_message(message, type)

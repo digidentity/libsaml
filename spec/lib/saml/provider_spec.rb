@@ -68,8 +68,16 @@ describe Saml::Provider do
   end
 
   describe "#certificate" do
-    it "returns the certificate for signing" do
-      service_provider.certificate("signing").should be_a(OpenSSL::X509::Certificate)
+    context "when a key name isn't specified" do
+      it "returns the first certificate for signing it finds" do
+        service_provider.certificate(nil, "signing").should be_a(OpenSSL::X509::Certificate)
+      end
+    end
+
+    context "when a key name is specified" do
+      it "returns the certificate which contains the specified key name" do
+        service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8").should be_a(OpenSSL::X509::Certificate)
+      end
     end
   end
 

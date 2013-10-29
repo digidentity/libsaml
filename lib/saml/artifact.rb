@@ -14,7 +14,7 @@ module Saml
       if artifact
         @artifact = artifact
       else
-        source_id       = ::Digest::SHA1.digest(Saml::Config.entity_id)
+        source_id       = ::Digest::SHA1.digest(Saml.current_provider.entity_id)
         message_handle  = ::SecureRandom.random_bytes(20)
         @type_code      = TYPE_CODE
         @endpoint_index = END_POINT_INDEX
