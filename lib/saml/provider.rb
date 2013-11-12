@@ -30,7 +30,7 @@ module Saml
       entity_descriptor.entity_id
     end
 
-    def certificate(key_name, use = "signing")
+    def certificate(key_name = nil, use = "signing")
       key_descriptor = descriptor.find_key_descriptor(key_name, use)
       key_descriptor.certificate if key_descriptor
     end
