@@ -49,7 +49,7 @@ Add the Service Provider configuration file to config/metadata/service_provider.
 
 Set up an intializer in config/initializers/saml_config.rb:
   Saml.setup do |config|
-    config.register_store :file, Saml::ProviderStore::File.new("config/metadata", "config/ssl/key.pem"), default: true
+    config.register_store :file, Saml::ProviderStores::File.new("config/metadata", "config/ssl/key.pem"), default: true
   end
 
 By default this will use a SamlProvider model that uses the filestore, if you want a database driven model comment out the #provider_store function in the initializer and make a model that defines #find_by_entity_id:

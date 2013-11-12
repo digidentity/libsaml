@@ -67,4 +67,16 @@ describe Saml::Util do
       Saml::Util.verify_xml(response, malicious_xml).should be_a(Saml::Response)
     end
   end
+
+  describe ".encrypt_assertion" do
+    let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new.to_s, service_provider.private_key) }
+    it "returns an encrypted assertion object" do
+      encrypted_assertion.should be_a Saml::Elements::EncryptedAssertion
+    end
+
+    it "is not valid when with no encrypted data" do
+      encrypted_assertion.encrypted_data = nil
+      encrypted_assertion.should be_invalid
+    end
+  end
 end

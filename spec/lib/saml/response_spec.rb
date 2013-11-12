@@ -38,6 +38,14 @@ describe Saml::Response do
     it "should parse multiple assertions" do
       response.assertions.first.should be_a(Saml::Assertion)
     end
+
+    it "should parse the encrypted assertion" do
+      response.encrypted_assertion.should be_a(Saml::Elements::EncryptedAssertion)
+    end
+
+    it "should parse multiple encrypted assertions" do
+      response.encrypted_assertions.first.should be_a(Saml::Elements::EncryptedAssertion)
+    end
   end
 
   describe 'authn_failed?' do
@@ -87,6 +95,21 @@ describe Saml::Response do
 
     it 'only adds 1 assertion' do
       response.assertions.count.should == 1
+    end
+  end
+
+  describe 'encrypted assertions' do
+    let(:response) do
+      response = Saml::Response.new(encrypted_assertion: Saml::Elements::EncryptedAssertion.new)
+    end
+
+    it 'should have one encrypted assertion' do
+      response.encrypted_assertions.count.should == 1
+    end
+
+    it 'adds an extra encrypted assertion' do
+      response.encrypted_assertions << Saml::Elements::EncryptedAssertion.new
+      response.encrypted_assertions.count.should == 2
     end
   end
 

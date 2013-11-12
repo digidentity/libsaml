@@ -74,6 +74,10 @@ FactoryGirl.define do
     issuer "valid_issuer"
   end
 
+  factory :encrypted_assertion, class: Saml::Elements::EncryptedAssertion do
+
+  end
+
   factory :conditions, :class => Saml::Elements::Conditions do
 
   end

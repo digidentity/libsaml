@@ -3,7 +3,8 @@ module Saml
     include Saml::ComplexTypes::StatusResponseType
 
     tag "Response"
-    has_many :assertions, Saml::Assertion, :tag => "Assertion"
+    has_many :assertions, Saml::Assertion
+    has_many :encrypted_assertions, Saml::Elements::EncryptedAssertion
 
     def authn_failed?
       !success? && status.status_code.authn_failed?
@@ -24,5 +25,13 @@ module Saml
     def assertion=(assertion)
       (self.assertions ||= []) << assertion
     end
+
+    def encrypted_assertion
+      encrypted_assertions.first
+    end
+
+    def encrypted_assertion=(encrypted_assertion)
+      (self.encrypted_assertions ||= []) << encrypted_assertion
+     end
   end
 end
