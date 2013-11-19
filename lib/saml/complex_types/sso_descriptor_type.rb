@@ -25,7 +25,7 @@ module Saml
 
         attribute :protocol_support_enumeration, String, :tag => "protocolSupportEnumeration"
         attribute :valid_until, Time, :tag => "validUntil"
-        attribute :cache_duration, Integer, :tag => "cacheDuration"
+        attribute :cache_duration, String, :tag => "cacheDuration"
         attribute :error_url, String, :tag => "errorURL"
 
         has_many :key_descriptors, Saml::Elements::KeyDescriptor
