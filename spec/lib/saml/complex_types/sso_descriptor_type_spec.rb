@@ -28,6 +28,20 @@ describe Saml::ComplexTypes::SSODescriptorType do
         sso_descriptor.should be_valid
       end
     end
+
+    describe "#cache_duration" do
+      let(:xml)     { File.read('spec/fixtures/provider_with_cache_duration.xml') }
+
+      context "casts the cache_duration to a String" do
+        it "sp_sso_descriptor" do
+          Saml::Elements::SPSSODescriptor.parse(xml, single: true).cache_duration.should be_a String
+        end
+
+        it "idp_sso_descriptor" do
+          Saml::Elements::IDPSSODescriptor.parse(xml, single: true).cache_duration.should be_a String
+        end
+      end
+    end
   end
 
   describe "#find_key_descriptor" do
