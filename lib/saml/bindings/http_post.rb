@@ -21,7 +21,9 @@ module Saml
           message             = Saml::Encoding.decode_64(request.params["SAMLRequest"] || request.params["SAMLResponse"])
           request_or_response = Saml.parse_message(message, type)
 
-          Saml::Util.verify_xml(request_or_response, message)
+          verified_request_or_response = Saml::Util.verify_xml(request_or_response, message)
+          verified_request_or_response.actual_destination = request.url
+          verified_request_or_response
         end
       end
     end

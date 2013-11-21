@@ -19,6 +19,7 @@ module Saml
 
           redirect_binding.verify_signature(query_string) if request_or_response.provider.authn_requests_signed?
 
+          request_or_response.actual_destination = http_request.url
           request_or_response
         end
 
