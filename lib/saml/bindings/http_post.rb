@@ -22,7 +22,7 @@ module Saml
           request_or_response = Saml.parse_message(message, type)
 
           verified_request_or_response = Saml::Util.verify_xml(request_or_response, message)
-          verified_request_or_response.actual_destination = request.url if type == :authn_request
+          verified_request_or_response.actual_destination = request.url
           verified_request_or_response
         end
       end

@@ -37,7 +37,7 @@ describe Saml::Bindings::HTTPPost do
     let(:form_attributes) { described_class.create_form_attributes(response, relay_state: "relay_state") }
 
     let(:request) do
-      stub(params: form_attributes[:variables])
+      stub(params: form_attributes[:variables], url: "https://sp.example.com/sso")
     end
 
     let(:message) { described_class.receive_message(request, :response) }
@@ -55,6 +55,10 @@ describe Saml::Bindings::HTTPPost do
 
     it "returns the parsed message" do
       message.should be_a(Saml::Response)
+    end
+
+    it "sets the actual destination on the message" do
+      message.actual_destination.should == request.url
     end
   end
 end
