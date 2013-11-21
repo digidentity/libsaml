@@ -39,6 +39,7 @@ FactoryGirl.define do
     version "2.0"
     issue_instant { Time.now }
     issuer "http://sp.example.com"
+    destination "http://test.url/sso"
   end
 
   factory :status_code, :class => Saml::Elements::StatusCode do
