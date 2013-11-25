@@ -54,6 +54,10 @@ describe Saml::ComplexTypes::RequestAbstractType do
     it "should set the from_xml to true" do
       request_abstract_type.from_xml?.should == true
     end
+
+    it "should parse the destination" do
+      request_abstract_type.destination.should == 'http://test.url/sso'
+    end
   end
 
   describe "#add_signature" do
@@ -94,6 +98,13 @@ describe Saml::ComplexTypes::RequestAbstractType do
   describe "default values" do
     it "should generate an ID" do
       Saml::AuthnRequest.new._id.should_not be_blank
+    end
+  end
+
+  describe "Destination" do
+    it "should not be valid if the actual destination does not contain the request destination" do
+      request_abstract_type.actual_destination = 'http://failed.url'
+      request_abstract_type.should have(1).errors_on(:destination)
     end
   end
 end
