@@ -4,10 +4,16 @@ describe Saml::Elements::KeyDescriptor do
   let(:key_descriptor) { FactoryGirl.build(:key_descriptor) }
 
   describe "certificate" do
+    let(:xml)     { File.read('spec/fixtures/metadata_with_whitespace.xml') }
+
     it "does not raise an error if the certificate is invalid" do
       expect {
         described_class.new(:certificate => "invalid")
       }.not_to raise_error
+    end
+
+    it "removes any whitespace character in the string" do
+      expect(described_class.parse(xml, single: true).certificate.to_s).to eql(key_descriptor.certificate.to_s)
     end
   end
 

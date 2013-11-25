@@ -19,7 +19,7 @@ module Saml
           def x509certificate=(cert)
             if cert.present?
               unless cert =~ /-----BEGIN CERTIFICATE-----/
-                cert = cert.gsub(/\n/, '')
+                cert = cert.gsub(/\s/, '')
                 cert = "-----BEGIN CERTIFICATE-----\n#{cert.gsub(/(.{1,64})/, "\\1\n")}-----END CERTIFICATE-----"
               end
               @x509certificate = OpenSSL::X509::Certificate.new(cert)
