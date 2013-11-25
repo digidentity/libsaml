@@ -14,6 +14,14 @@ describe Saml::Elements::EntitiesDescriptor do
         entities_descriptor.should be_valid
       end
     end
+
+    describe "#cache_duration" do
+      let(:xml)     { File.read('spec/fixtures/provider_with_cache_duration.xml') }
+
+      it "casts the cache_duration to a String" do
+        subject.parse(xml, single: true).cache_duration.should be_a String
+      end
+    end
   end
 
   describe "Required fields" do

@@ -12,7 +12,7 @@ module Saml
       attribute :_id, String, :tag => "ID"
       attribute :name, String, :tag => "Name"
       attribute :valid_until, Time, :tag => "validUntil"
-      attribute :cache_duration, Integer, :tag => "cacheDuration"
+      attribute :cache_duration, String, :tag => "cacheDuration"
 
       has_one :signature, Saml::Elements::Signature
 
