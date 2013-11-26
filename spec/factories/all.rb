@@ -169,7 +169,7 @@ FactoryGirl.define do
   end
 
   factory :key_descriptor, :class => Saml::Elements::KeyDescriptor do
-    certificate File.read("spec/fixtures/certificate.cer")
+    certificate File.read("spec/fixtures/certificate.pem")
   end
 
   factory :organization, :class => Saml::Elements::Organization do
