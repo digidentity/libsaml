@@ -9,6 +9,21 @@ describe Saml::Elements::KeyDescriptor do
         described_class.new(:certificate => "invalid")
       }.not_to raise_error
     end
+
+    describe "Base64 encoding format" do
+      let(:pem_certificate)         { File.read('spec/fixtures/certificate.pem') }
+      let(:der_certificate)         { File.read('spec/fixtures/certificate.der') }
+      let(:key_descriptor_with_pem) { FactoryGirl.build(:key_descriptor, certificate: pem_certificate) }
+      let(:key_descriptor_with_der) { FactoryGirl.build(:key_descriptor, certificate: der_certificate) }
+
+      it "supports a encoded certificate (such as: .pem)" do
+        expect(key_descriptor_with_pem.certificate.to_text).to eql key_descriptor.certificate.to_text
+      end
+
+      it "supports a binary (decoded) certificate (such as: .der)" do
+        expect(key_descriptor_with_der.certificate.to_text).to eql key_descriptor.certificate.to_text
+      end
+    end
   end
 
   describe "Required fields" do
