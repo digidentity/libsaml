@@ -4,7 +4,7 @@ describe Saml::Rails::ControllerHelper do
   class Controller
     extend Saml::Rails::ControllerHelper
 
-    def self.before_action(&block)
+    def self.before_filter(&block)
       new.run_callback(&block)
     end
 

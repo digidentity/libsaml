@@ -3,13 +3,13 @@ module Saml
     module ControllerHelper
       def current_provider(entity_id_or_method = nil, &block)
         if block_given?
-          before_action &block
+          before_filter &block
         else
           case entity_id_or_method
             when Symbol
-              before_action { Saml.current_provider = send(entity_id_or_method) }
+              before_filter { Saml.current_provider = send(entity_id_or_method) }
             else
-              before_action { Saml.current_provider = Saml.provider("#{entity_id_or_method}") }
+              before_filter { Saml.current_provider = Saml.provider("#{entity_id_or_method}") }
           end
         end
       end
@@ -17,9 +17,9 @@ module Saml
       def current_store(store_or_symbol = nil)
         case store_or_symbol
           when Symbol
-            before_action { Saml.current_store = store_or_symbol }
+            before_filter { Saml.current_store = store_or_symbol }
           else
-            before_action do
+            before_filter do
               Saml::Config.register_store klass.name.underscore, klass_or_symbol
               Saml.current_store = klass.name.underscore
             end
