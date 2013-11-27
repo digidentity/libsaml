@@ -72,6 +72,29 @@ describe Saml::Util do
       @request.headers["Content-Type"].should == "text/xml"
     end
 
+    describe "additional headers" do
+      context "when specified" do
+        it "adds the header" do
+          described_class.post location, message, { "header" => "foo" }
+          @request.headers["header"].should == "foo"
+        end
+      end
+
+      context "empty string" do
+        it "adds the header" do
+          described_class.post location, message, { "header" => "" }
+          @request.headers["header"].should == ""
+        end
+      end
+
+      context "when nil" do
+        it "adds the header" do
+          described_class.post location, message, { "header" => nil }
+          @request.headers["header"].should be_nil
+        end
+      end
+    end
+
     it "has a certificate" do
       post_request
       @request.auth.ssl.cert_file.should == Saml::Config::ssl_certificate_file

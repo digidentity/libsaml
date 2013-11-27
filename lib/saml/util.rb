@@ -14,10 +14,11 @@ module Saml
         params
       end
 
-      def post(location, message)
+      def post(location, message, additional_headers = {})
         request = HTTPI::Request.new
 
         request.url                     = location
+        request.headers.merge! additional_headers
         request.headers['Content-Type'] = 'text/xml'
         request.body                    = message
         request.auth.ssl.cert_file      = Saml::Config.ssl_certificate_file
