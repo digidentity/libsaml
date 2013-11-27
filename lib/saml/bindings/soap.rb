@@ -2,6 +2,9 @@ module Saml
   module Bindings
     class SOAP
       class << self
+
+        SOAP_ACTION = 'http://www.oasis-open.org/committees/security'
+
         def create_response_xml(response)
           Saml::Util.sign_xml(response, :soap)
         end
@@ -9,7 +12,7 @@ module Saml
         def post_message(message, response_type)
           signed_message = Saml::Util.sign_xml(message, :soap)
 
-          http_response = Saml::Util.post(message.destination, signed_message)
+          http_response = Saml::Util.post(message.destination, signed_message, { 'SOAPAction' => SOAP_ACTION } )
 
           if http_response.code == 200
             response = Saml.parse_message(http_response.body, response_type)

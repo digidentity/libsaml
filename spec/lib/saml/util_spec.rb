@@ -46,6 +46,71 @@ describe Saml::Util do
     end
   end
 
+  describe ".post" do
+    let(:location) { "http://example.com" }
+    let(:post_request) { described_class.post location, message }
+
+    before :each do
+      HTTPI.stub(:post) do |request|
+        @request = request
+        stub(code: 200, body: message.to_xml)
+      end
+    end
+
+    it "has an url" do
+      post_request
+      @request.url.to_s.should == location
+    end
+
+    it "has a body" do
+      post_request
+      @request.body.should == message
+    end
+
+    it "has a 'Content-Type' header" do
+      post_request
+      @request.headers["Content-Type"].should == "text/xml"
+    end
+
+    describe "additional headers" do
+      context "when specified" do
+        it "adds the header" do
+          described_class.post location, message, { "header" => "foo" }
+          @request.headers["header"].should == "foo"
+        end
+      end
+
+      context "empty string" do
+        it "adds the header" do
+          described_class.post location, message, { "header" => "" }
+          @request.headers["header"].should == ""
+        end
+      end
+
+      context "when nil" do
+        it "adds the header" do
+          described_class.post location, message, { "header" => nil }
+          @request.headers["header"].should be_nil
+        end
+      end
+    end
+
+    it "has a certificate" do
+      post_request
+      @request.auth.ssl.cert_file.should == Saml::Config::ssl_certificate_file
+    end
+
+    it "has a private key" do
+      post_request
+      @request.auth.ssl.cert_key_file.should == Saml::Config::ssl_private_key_file
+    end
+
+    it "posts the request" do
+      HTTPI.should_receive(:post)
+      post_request
+    end
+  end
+
   describe ".verify_xml" do
     let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
                                                     Saml::Assertion.new.tap { |a| a.add_signature }]) }
