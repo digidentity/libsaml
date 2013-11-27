@@ -43,6 +43,10 @@ describe Saml::Bindings::SOAP do
         @request.url.to_s.should == logout_request.destination
       end
 
+      it "adds the SOAPAction header" do
+        @request.headers["SOAPAction"].should == "http://www.oasis-open.org/committees/security"
+      end
+
       it "returns the logout_response" do
         @logout_response.should be_a(Saml::LogoutResponse)
       end
