@@ -9,9 +9,6 @@ module Saml
     mattr_accessor :ssl_private_key_file
     @@ssl_private_key_file = nil
 
-    mattr_accessor :ssl_certificate
-    @@ssl_certificate = 'SSL_CERTIFICATE'
-
     mattr_accessor :ssl_certificate_file
     @@ssl_certificate_file = nil
 
