@@ -57,6 +57,11 @@ describe Saml::Util do
       end
     end
 
+    it "posts the request" do
+      HTTPI.should_receive(:post)
+      post_request
+    end
+
     it "has an url" do
       post_request
       @request.url.to_s.should == location
@@ -95,19 +100,39 @@ describe Saml::Util do
       end
     end
 
-    it "has a certificate" do
-      post_request
-      @request.auth.ssl.cert_file.should == Saml::Config::ssl_certificate_file
-    end
+    describe "SSL client authentication" do
+      context "SSL certificate AND private key are specified" do
+        it "has SSL client authentication" do
+          Saml::Config.ssl_certificate_file = "SSL_CERTIFICATE_FILE"
+          Saml::Config.ssl_private_key_file = "SSL_PRIVATE_KEY_FILE"
 
-    it "has a private key" do
-      post_request
-      @request.auth.ssl.cert_key_file.should == Saml::Config::ssl_private_key_file
-    end
+          post_request
+          @request.auth.ssl.cert_file.should == "SSL_CERTIFICATE_FILE"
+          @request.auth.ssl.cert_key_file.should == "SSL_PRIVATE_KEY_FILE"
+        end
+      end
 
-    it "posts the request" do
-      HTTPI.should_receive(:post)
-      post_request
+      context "SSL certificate AND private key are NOT specified" do
+        it "doesn't have SSL client authentication" do
+          Saml::Config.ssl_certificate_file = nil
+          Saml::Config.ssl_private_key_file = nil
+
+          post_request
+          @request.auth.ssl.cert_file.should be_nil
+          @request.auth.ssl.cert_key_file.should be_nil
+        end
+      end
+
+      context "SSL certificate OR private key is NOT specified" do
+        it "doesn't have SSL client authentication" do
+          Saml::Config.ssl_certificate_file = nil
+          Saml::Config.ssl_private_key_file = "SSL_PRIVATE_KEY_FILE"
+
+          post_request
+          @request.auth.ssl.cert_file.should be_nil
+          @request.auth.ssl.cert_key_file.should be_nil
+        end
+      end
     end
   end
 
