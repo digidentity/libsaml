@@ -21,8 +21,11 @@ module Saml
         request.headers.merge! additional_headers
         request.headers['Content-Type'] = 'text/xml'
         request.body                    = message
-        request.auth.ssl.cert_file      = Saml::Config.ssl_certificate_file
-        request.auth.ssl.cert_key_file  = Saml::Config.ssl_private_key_file
+
+        if Saml::Config.ssl_certificate_file.present? && Saml::Config.ssl_private_key_file.present?
+          request.auth.ssl.cert_file      = Saml::Config.ssl_certificate_file
+          request.auth.ssl.cert_key_file  = Saml::Config.ssl_private_key_file
+        end
 
         HTTPI.post request
       end

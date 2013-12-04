@@ -7,13 +7,10 @@ module Saml
     @@max_issue_instant_offset = 2
 
     mattr_accessor :ssl_private_key_file
-    @@ssl_private_key_file = 'SSL_PRIVATE_KEY_FILE'
-
-    mattr_accessor :ssl_certificate
-    @@ssl_certificate = 'SSL_CERTIFICATE'
+    @@ssl_private_key_file = nil
 
     mattr_accessor :ssl_certificate_file
-    @@ssl_certificate_file = 'SSL_CERTIFICATE_FILE'
+    @@ssl_certificate_file = nil
 
     mattr_accessor :registered_stores
     @@registered_stores = {}
