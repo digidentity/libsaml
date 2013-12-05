@@ -18,7 +18,7 @@ describe Saml::Bindings::SOAP do
   describe ".post_message" do
     context "with valid response" do
       before :each do
-        HTTPI.should_receive(:post) do |request|
+        Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
           stub(code: 200, body: response_xml)
         end
@@ -40,11 +40,10 @@ describe Saml::Bindings::SOAP do
       end
 
       it "sends the logout_request to the request destination" do
-        @request.url.to_s.should == logout_request.destination
-      end
-
-      it "adds the SOAPAction header" do
-        @request.headers["SOAPAction"].should == "http://www.oasis-open.org/committees/security"
+        uri = URI.parse(logout_request.destination)
+        Net::HTTP.should_receive(:new).with(uri.host, uri.port).and_return double.as_null_object
+        described_class.post_message(logout_request, :logout_response)
+        @request.path.should == "/logout"
       end
 
       it "returns the logout_response" do
@@ -54,7 +53,7 @@ describe Saml::Bindings::SOAP do
 
     context "with invalid signature" do
       before :each do
-        HTTPI.should_receive(:post) do |request|
+        Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
           stub(code: 200, body: response_xml)
         end

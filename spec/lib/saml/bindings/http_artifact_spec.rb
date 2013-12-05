@@ -68,7 +68,7 @@ describe Saml::Bindings::HTTPArtifact do
 
     context "with valid response" do
       before :each do
-        HTTPI.should_receive(:post) do |request|
+        Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
           stub(code: 200, body: response_xml)
         end
@@ -86,7 +86,10 @@ describe Saml::Bindings::HTTPArtifact do
       end
 
       it "sends the artifact_resolve to the identity provider" do
-        @request.url.to_s.should == identity_provider.artifact_resolution_service_url
+        uri = URI.parse(identity_provider.artifact_resolution_service_url)
+        Net::HTTP.should_receive(:new).with(uri.host, uri.port).and_return double.as_null_object
+        described_class.resolve(request, identity_provider.artifact_resolution_service_url)
+        @request.path.should == "/sso/resolve_artifact"
       end
 
       it "returns the response" do
@@ -96,7 +99,7 @@ describe Saml::Bindings::HTTPArtifact do
 
     context "with invalid response" do
       before :each do
-        HTTPI.should_receive(:post) do |request|
+        Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
           stub(code: 200, body: response_xml)
         end
