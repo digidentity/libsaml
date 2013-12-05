@@ -20,7 +20,7 @@ describe Saml::Bindings::SOAP do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: 200, body: response_xml)
+          stub(code: "200", body: response_xml)
         end
         @logout_response = described_class.post_message(logout_request, :logout_response)
       end
@@ -55,7 +55,7 @@ describe Saml::Bindings::SOAP do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: 200, body: response_xml)
+          stub(code: "200", body: response_xml)
         end
         Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
       end

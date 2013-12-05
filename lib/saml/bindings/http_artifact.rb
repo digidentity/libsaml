@@ -31,7 +31,7 @@ module Saml
 
           response = Saml::Util.post(location, Saml::Util.sign_xml(artifact_resolve, :soap))
 
-          if response.code == 200
+          if response.code == "200"
             artifact_response          = Saml::ArtifactResponse.parse(response.body, single: true)
             verified_artifact_response = Saml::Util.verify_xml(artifact_response, response.body)
 

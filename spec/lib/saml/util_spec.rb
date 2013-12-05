@@ -54,7 +54,7 @@ describe Saml::Util do
     before :each do
       Net::HTTP.any_instance.stub(:request) do |request|
         @request = request
-        stub(code: 200, body: message.to_xml)
+        stub(code: "200", body: message.to_xml)
       end
     end
 

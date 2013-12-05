@@ -70,7 +70,7 @@ describe Saml::Bindings::HTTPArtifact do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: 200, body: response_xml)
+          stub(code: "200", body: response_xml)
         end
         @artifact_response = described_class.resolve(request, identity_provider.artifact_resolution_service_url)
       end
@@ -101,7 +101,7 @@ describe Saml::Bindings::HTTPArtifact do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: 200, body: response_xml)
+          stub(code: "200", body: response_xml)
         end
       end
 
