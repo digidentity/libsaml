@@ -1,4 +1,6 @@
 {<img src="https://travis-ci.org/digidentity/libsaml.png?branch=master" alt="Build Status" />}[https://travis-ci.org/digidentity/libsaml]
+{<img src="https://gemnasium.com/digidentity/libsaml.png" alt="Dependency Status" />}[https://gemnasium.com/digidentity/libsaml]
+{<img src="https://codeclimate.com/github/digidentity/libsaml.png" />}[https://codeclimate.com/github/digidentity/libsaml]
 = libsaml
 Libsaml is a Ruby gem to easily create SAML 2.0 messages. This gem was written because other SAML gems were missing functionality such as XML signing.
 
