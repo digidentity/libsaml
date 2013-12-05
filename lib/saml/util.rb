@@ -19,6 +19,7 @@ module Saml
 
         http             = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl     = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
         if Saml::Config.ssl_certificate_file.present? && Saml::Config.ssl_private_key_file.present?
           cert  = File.read(Saml::Config.ssl_certificate_file)
@@ -26,9 +27,6 @@ module Saml
 
           http.cert        = OpenSSL::X509::Certificate.new(cert)
           http.key         = OpenSSL::PKey::RSA.new(key)
-          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        else
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
 
         headers = { 'Content-Type' => 'text/xml' }

@@ -98,6 +98,11 @@ describe Saml::Util do
         post_request
       end
 
+      it "sets the verify mode to 'VERIFY_PEER'" do
+        net_http.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
+        post_request
+      end
+
       it "doesn't use the certificate" do
         net_http.should_not_receive(:cert=)
         post_request
@@ -105,11 +110,6 @@ describe Saml::Util do
 
       it "doesn't use the private key" do
         net_http.should_not_receive(:key=)
-        post_request
-      end
-
-      it "sets the verify mode to 'VERIFY_NONE'" do
-        net_http.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
         post_request
       end
     end
@@ -139,11 +139,6 @@ describe Saml::Util do
       it "sets the private key" do
         OpenSSL::PKey::RSA.stub(:new).and_return("key")
         net_http.should_receive(:key=).with("key")
-        post_request
-      end
-
-      it "sets the verify mode to 'VERIFY_PEER'" do
-        net_http.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
         post_request
       end
     end
