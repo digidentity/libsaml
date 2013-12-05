@@ -6,7 +6,8 @@ require 'saml/encoding'
 require 'saml/util'
 require 'xmlenc'
 require 'xmldsig'
-require 'httpi'
+require "net/https"
+require "uri"
 
 module Saml
   MD_NAMESPACE       = 'urn:oasis:names:tc:SAML:2.0:metadata'

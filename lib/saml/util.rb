@@ -15,19 +15,27 @@ module Saml
       end
 
       def post(location, message, additional_headers = {})
-        request = HTTPI::Request.new
+        uri = URI.parse(location)
 
-        request.url                     = location
-        request.headers.merge! additional_headers
-        request.headers['Content-Type'] = 'text/xml'
-        request.body                    = message
+        http             = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl     = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
         if Saml::Config.ssl_certificate_file.present? && Saml::Config.ssl_private_key_file.present?
-          request.auth.ssl.cert_file      = Saml::Config.ssl_certificate_file
-          request.auth.ssl.cert_key_file  = Saml::Config.ssl_private_key_file
+          cert  = File.read(Saml::Config.ssl_certificate_file)
+          key   = File.read(Saml::Config.ssl_private_key_file)
+
+          http.cert        = OpenSSL::X509::Certificate.new(cert)
+          http.key         = OpenSSL::PKey::RSA.new(key)
         end
 
-        HTTPI.post request
+        headers = { 'Content-Type' => 'text/xml' }
+        headers.merge! additional_headers
+
+        request = Net::HTTP::Post.new(uri.request_uri, headers)
+        request.body = message
+
+        http.request(request)
       end
 
       def sign_xml(message, format = :xml, &block)

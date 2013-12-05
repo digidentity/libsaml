@@ -47,24 +47,25 @@ describe Saml::Util do
   end
 
   describe ".post" do
-    let(:location) { "http://example.com" }
+    let(:location) { "http://example.com/foo/bar" }
     let(:post_request) { described_class.post location, message }
+    let(:net_http) { double.as_null_object }
 
     before :each do
-      HTTPI.stub(:post) do |request|
+      Net::HTTP.any_instance.stub(:request) do |request|
         @request = request
-        stub(code: 200, body: message.to_xml)
+        stub(code: "200", body: message.to_xml)
       end
     end
 
     it "posts the request" do
-      HTTPI.should_receive(:post)
+      Net::HTTP.any_instance.should_receive(:request)
       post_request
     end
 
-    it "has an url" do
+    it "knows its path" do
       post_request
-      @request.url.to_s.should == location
+      @request.path.should == "/foo/bar"
     end
 
     it "has a body" do
@@ -72,66 +73,73 @@ describe Saml::Util do
       @request.body.should == message
     end
 
-    it "has a 'Content-Type' header" do
+    it "has default headers" do
+      default_headers = { 'Content-Type' => 'text/xml' }
+
+      Net::HTTP::Post.should_receive(:new).with("/foo/bar", default_headers).and_return(net_http)
       post_request
-      @request.headers["Content-Type"].should == "text/xml"
     end
 
-    describe "additional headers" do
-      context "when specified" do
-        it "adds the header" do
-          described_class.post location, message, { "header" => "foo" }
-          @request.headers["header"].should == "foo"
-        end
+    it "can have additional headers" do
+      default_headers     = { 'Content-Type' => 'text/xml' }
+      additional_headers  = { "header" => "foo" }
+
+      Net::HTTP::Post.should_receive(:new).with("/foo/bar", {"Content-Type"=>"text/xml", "header"=>"foo"}).and_return(net_http)
+      described_class.post location, message, additional_headers
+    end
+
+    context "default settings" do
+      before do
+        Net::HTTP.stub(:new).and_return(net_http)
       end
 
-      context "empty string" do
-        it "adds the header" do
-          described_class.post location, message, { "header" => "" }
-          @request.headers["header"].should == ""
-        end
+      it "uses SSL" do
+        net_http.should_receive(:use_ssl=).with(true)
+        post_request
       end
 
-      context "when nil" do
-        it "adds the header" do
-          described_class.post location, message, { "header" => nil }
-          @request.headers["header"].should be_nil
-        end
+      it "sets the verify mode to 'VERIFY_PEER'" do
+        net_http.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
+        post_request
+      end
+
+      it "doesn't use the certificate" do
+        net_http.should_not_receive(:cert=)
+        post_request
+      end
+
+      it "doesn't use the private key" do
+        net_http.should_not_receive(:key=)
+        post_request
       end
     end
 
-    describe "SSL client authentication" do
-      context "SSL certificate AND private key are specified" do
-        it "has SSL client authentication" do
-          Saml::Config.ssl_certificate_file = "SSL_CERTIFICATE_FILE"
-          Saml::Config.ssl_private_key_file = "SSL_PRIVATE_KEY_FILE"
+    context "with certificate and private key" do
+      let(:certificate_file)  { File.join('spec', 'fixtures', 'certificate.pem') }
+      let(:key_file)          { File.join('spec', 'fixtures', 'key.pem') }
 
-          post_request
-          @request.auth.ssl.cert_file.should == "SSL_CERTIFICATE_FILE"
-          @request.auth.ssl.cert_key_file.should == "SSL_PRIVATE_KEY_FILE"
-        end
+      before :each do
+        Saml::Config.ssl_certificate_file = certificate_file
+        Saml::Config.ssl_private_key_file = key_file
+
+        Net::HTTP.stub(:new).and_return(net_http)
       end
 
-      context "SSL certificate AND private key are NOT specified" do
-        it "doesn't have SSL client authentication" do
-          Saml::Config.ssl_certificate_file = nil
-          Saml::Config.ssl_private_key_file = nil
-
-          post_request
-          @request.auth.ssl.cert_file.should be_nil
-          @request.auth.ssl.cert_key_file.should be_nil
-        end
+      after :each do
+        Saml::Config.ssl_certificate_file = nil
+        Saml::Config.ssl_private_key_file = nil
       end
 
-      context "SSL certificate OR private key is NOT specified" do
-        it "doesn't have SSL client authentication" do
-          Saml::Config.ssl_certificate_file = nil
-          Saml::Config.ssl_private_key_file = "SSL_PRIVATE_KEY_FILE"
+      it "sets the certificate" do
+        OpenSSL::X509::Certificate.stub(:new).and_return("cert")
+        net_http.should_receive(:cert=).with("cert")
+        post_request
+      end
 
-          post_request
-          @request.auth.ssl.cert_file.should be_nil
-          @request.auth.ssl.cert_key_file.should be_nil
-        end
+      it "sets the private key" do
+        OpenSSL::PKey::RSA.stub(:new).and_return("key")
+        net_http.should_receive(:key=).with("key")
+        post_request
       end
     end
   end

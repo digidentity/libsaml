@@ -14,7 +14,7 @@ module Saml
 
           http_response = Saml::Util.post(message.destination, signed_message, { 'SOAPAction' => SOAP_ACTION } )
 
-          if http_response.code == 200
+          if http_response.code == "200"
             response = Saml.parse_message(http_response.body, response_type)
             Saml::Util.verify_xml(response, http_response.body)
           else
