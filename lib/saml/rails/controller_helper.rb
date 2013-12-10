@@ -14,16 +14,8 @@ module Saml
         end
       end
 
-      def current_store(store_or_symbol = nil)
-        case store_or_symbol
-          when Symbol
-            before_filter { Saml.current_store = store_or_symbol }
-          else
-            before_filter do
-              Saml::Config.register_store klass.name.underscore, klass_or_symbol
-              Saml.current_store = klass.name.underscore
-            end
-        end
+      def current_store(store)
+        before_filter { Saml.current_store = store }
       end
     end
   end

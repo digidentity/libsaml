@@ -46,4 +46,12 @@ describe Saml::Rails::ControllerHelper do
       end
     end
   end
+  
+  describe '#current_store' do
+    it 'sets the current store' do
+      Saml.current_store = nil
+      Controller.current_store(:file)
+      expect(Saml.current_store).to be == Saml::Config.registered_stores[:file]
+    end
+  end
 end
