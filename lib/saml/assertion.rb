@@ -57,6 +57,10 @@ module Saml
       attribute_statement.fetch_attribute(key)
     end
 
+    def provider
+      @provider ||= Saml.provider(issuer)
+    end
+
     private
 
     def check_issue_instant

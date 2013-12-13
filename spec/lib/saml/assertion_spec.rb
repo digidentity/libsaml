@@ -69,6 +69,13 @@ describe Saml::Assertion do
 
   end
 
+  describe "provider" do
+    it "returns the provider based on the issuer" do
+      assertion = Saml::Assertion.new(issuer: "https://sp.example.com")
+      assertion.provider.should == Saml.provider("https://sp.example.com")
+    end
+  end
+
   describe ".initialize" do
     it "should set the subject name id if name_id specified" do
       assertion = Saml::Assertion.new(:name_id => "subject")
