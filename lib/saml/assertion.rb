@@ -45,6 +45,11 @@ module Saml
       @version       ||= Saml::SAML_VERSION
     end
 
+    # @return [Saml::Provider]
+    def provider
+      Saml.provider(issuer)
+    end
+
     def add_attribute(key, value)
       self.attribute_statement ||= Saml::Elements::AttributeStatement.new
       self.attribute_statement.attribute ||= []
