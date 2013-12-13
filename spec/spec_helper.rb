@@ -1,4 +1,7 @@
 require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 SimpleCov.start 'rails' do
   add_filter "/admin/backdoors_controller.rb"
   add_filter "/errors_controller"

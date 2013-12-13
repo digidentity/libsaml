@@ -22,4 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency "xmldsig", '~> 0.2.1'
   s.add_dependency "xmlenc", '~> 0.1.1'
   s.add_dependency "curb"
+
+  s.add_development_dependency "coveralls", "~> 0.7"
 end

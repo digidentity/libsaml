@@ -1,4 +1,5 @@
 {<img src="https://travis-ci.org/digidentity/libsaml.png?branch=master" alt="Build Status" />}[https://travis-ci.org/digidentity/libsaml]
+{<img src="https://coveralls.io/repos/digidentity/libsaml/badge.png" alt="Coverage Status" />}[https://coveralls.io/r/digidentity/libsaml]
 {<img src="https://gemnasium.com/digidentity/libsaml.png" alt="Dependency Status" />}[https://gemnasium.com/digidentity/libsaml]
 {<img src="https://codeclimate.com/github/digidentity/libsaml.png" />}[https://codeclimate.com/github/digidentity/libsaml]
 = libsaml
