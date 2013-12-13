@@ -47,7 +47,7 @@ module Saml
 
     # @return [Saml::Provider]
     def provider
-      Saml.provider(issuer)
+      @provider ||= Saml.provider(issuer)
     end
 
     def add_attribute(key, value)
@@ -60,10 +60,6 @@ module Saml
       return unless self.attribute_statement
       return unless self.attribute_statement.attribute
       attribute_statement.fetch_attribute(key)
-    end
-
-    def provider
-      @provider ||= Saml.provider(issuer)
     end
 
     private

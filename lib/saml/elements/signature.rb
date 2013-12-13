@@ -6,7 +6,7 @@ require 'saml/elements/signature/reference'
 require 'saml/elements/signature/signature_method'
 require 'saml/elements/signature/canonicalization_method'
 require 'saml/elements/signature/signed_info'
-require 'saml/elements/signature/key_info'
+require 'saml/elements/key_info'
 
 module Saml
   module Elements

@@ -1,4 +1,4 @@
-require 'saml/elements/key_descriptor/key_info'
+require 'saml/elements/key_info'
 
 module Saml
   module Elements
