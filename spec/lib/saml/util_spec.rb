@@ -11,37 +11,76 @@ end
 
 describe Saml::Util do
   let(:service_provider) { ServiceProvider.new }
-  let(:message) { FactoryGirl.build :authn_request, issuer: service_provider.entity_id }
   let(:signed_message) { "signed xml" }
+  let(:message) { FactoryGirl.build :authn_request, issuer: service_provider.entity_id }
 
-  describe ".sign_xml" do
-    it "calls add_signature on the specified message" do
-      message.should_receive(:add_signature)
-      described_class.sign_xml message
-    end
+  describe "authn_request" do
+    describe ".sign_xml" do
+      it "calls add_signature on the specified message" do
+        message.should_receive(:add_signature)
+        described_class.sign_xml message
+      end
 
-    it "creates a new signed document" do
-      Xmldsig::SignedDocument.should_receive(:new).with(any_args).and_return stub.as_null_object
-      described_class.sign_xml message
-    end
+      it "creates a new signed document" do
+        Xmldsig::SignedDocument.should_receive(:new).with(any_args).and_return stub.as_null_object
+        described_class.sign_xml message
+      end
 
-    context "when a block is given" do
-      it "sign is called on the signed document, not on the provider" do
-        message.provider.should_not_receive(:sign)
-        Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_return signed_message
+      context "when a block is given" do
+        it "sign is called on the signed document, not on the provider" do
+          message.provider.should_not_receive(:sign)
+          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_return signed_message
 
-        described_class.sign_xml(message) do |data, signature_algorithm|
-          service_provider.sign signature_algorithm, data
+          described_class.sign_xml(message) do |data, signature_algorithm|
+            service_provider.sign signature_algorithm, data
+          end
+        end
+      end
+
+      context "without specifiying a block" do
+        it "sign is called on the provider of the specified message" do
+          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_yield(stub, stub)
+          message.provider.should_receive(:sign).and_return signed_message
+
+          described_class.sign_xml message
         end
       end
     end
+  end
 
-    context "without specifiying a block" do
-      it "sign is called on the provider of the specified message" do
-        Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_yield(stub, stub)
-        message.provider.should_receive(:sign).and_return signed_message
+  describe "assertion" do
+    let(:assertion) { FactoryGirl.build :assertion, issuer: service_provider.entity_id }
+    let(:signed_assertion) { "signed xml" }
 
-        described_class.sign_xml message
+    describe ".sign_xml" do
+      it "calls add_signature on the specified assertion" do
+        assertion.should_receive(:add_signature)
+        described_class.sign_xml assertion
+      end
+
+      it "creates a new signed document" do
+        Xmldsig::SignedDocument.should_receive(:new).with(any_args).and_return stub.as_null_object
+        described_class.sign_xml assertion
+      end
+
+      context "when a block is given" do
+        it "sign is called on the signed document, not on the provider" do
+          assertion.provider.should_not_receive(:sign)
+          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_return signed_assertion
+
+          described_class.sign_xml(assertion) do |data, signature_algorithm|
+            service_provider.sign signature_algorithm, data
+          end
+        end
+      end
+
+      context "without specifiying a block" do
+        it "sign is called on the provider of the specified assertion" do
+          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_yield(stub, stub)
+          assertion.provider.should_receive(:sign).and_return signed_assertion
+
+          described_class.sign_xml assertion
+        end
       end
     end
   end
@@ -145,25 +184,49 @@ describe Saml::Util do
   end
 
   describe ".verify_xml" do
-    let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
-                                                    Saml::Assertion.new.tap { |a| a.add_signature }]) }
-    let(:signed_xml) { Saml::Util.sign_xml(message) }
+    describe "response" do
+      let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
+                                                      Saml::Assertion.new.tap { |a| a.add_signature }]) }
+      let(:signed_xml) { Saml::Util.sign_xml(message) }
 
-    it "verifies all the signatures in the file" do
-      response = Saml::Response.parse(signed_xml)
+      it "verifies all the signatures in the file" do
+        response = Saml::Response.parse(signed_xml)
 
-      response.provider.should_receive(:verify).exactly(3).times.and_return(true)
-      Saml::Util.verify_xml(response, signed_xml)
+        response.provider.should_receive(:verify).exactly(3).times.and_return(true)
+        Saml::Util.verify_xml(response, signed_xml)
+      end
+
+      it "returns the signed message type" do
+        malicious_response = Saml::Response.new(issuer: 'hacked')
+        malicious_xml = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"
+        malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
+        response = Saml::Response.parse(malicious_xml, single: true)
+
+        Saml::Util.verify_xml(response, malicious_xml).should be_a(Saml::Response)
+      end
     end
 
-    it "returns the signed message type" do
-      malicious_response = Saml::Response.new(issuer: 'hacked')
-      malicious_xml = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"
-      malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
-      response = Saml::Response.parse(malicious_xml, single: true)
+    describe "assertion" do
+      let(:message) { Saml::Assertion.new }
+      let(:signed_xml) { Saml::Util.sign_xml(message) }
 
-      Saml::Util.verify_xml(response, malicious_xml).should be_a(Saml::Response)
+      it "verifies all the signatures in the file" do
+        assertion = Saml::Assertion.parse(signed_xml)
+
+        assertion.provider.should_receive(:verify).exactly(1).times.and_return(true)
+        Saml::Util.verify_xml(assertion, signed_xml)
+      end
+
+      it "returns the signed message type" do
+        malicious_assertion = Saml::Assertion.new(issuer: 'hacked')
+        malicious_xml = "<hack>#{signed_xml}#{malicious_assertion.to_xml}</hack>"
+        malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
+        assertion = Saml::Assertion.parse(malicious_xml, single: true)
+
+        Saml::Util.verify_xml(assertion, malicious_xml).should be_a(Saml::Assertion)
+      end
     end
+
   end
 
   describe ".encrypt_assertion" do
