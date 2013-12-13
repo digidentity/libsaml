@@ -84,7 +84,7 @@ describe Saml::Bindings::HTTPRedirect do
     end
 
     let(:request) do
-      stub(params: parsed_params, url: url)
+      double(:request, params: parsed_params, url: url)
     end
 
     context "with signature" do

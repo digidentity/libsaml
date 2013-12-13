@@ -43,7 +43,7 @@ describe Saml::Bindings::HTTPArtifact do
       StringIO.new(Saml::Util.sign_xml(artifact_resolve)) # Passenger uses StringIO for body
     end
 
-    let(:request) { stub(body: body) }
+    let(:request) { double(:request, body: body) }
     let(:message) { described_class.receive_message(request) }
 
     it "returns an artifact resolve" do
@@ -64,13 +64,13 @@ describe Saml::Bindings::HTTPArtifact do
 
   describe ".resolve" do
     let(:identity_provider) { Saml.provider(Saml.current_provider.entity_id) }
-    let(:request) { stub(params: {"SAMLart" => CGI.escape(Saml::Artifact.new.to_s)}) }
+    let(:request) { double(:request, params: {"SAMLart" => CGI.escape(Saml::Artifact.new.to_s)}) }
 
     context "with valid response" do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: "200", body: response_xml)
+          double(:response, code: "200", body: response_xml)
         end
         @artifact_response = described_class.resolve(request, identity_provider.artifact_resolution_service_url)
       end
@@ -101,7 +101,7 @@ describe Saml::Bindings::HTTPArtifact do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: "200", body: response_xml)
+          double(:response, code: "200", body: response_xml)
         end
       end
 

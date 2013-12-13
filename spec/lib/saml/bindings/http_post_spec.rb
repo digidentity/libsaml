@@ -37,7 +37,7 @@ describe Saml::Bindings::HTTPPost do
     let(:form_attributes) { described_class.create_form_attributes(response, relay_state: "relay_state") }
 
     let(:request) do
-      stub(params: form_attributes[:variables], url: "https://sp.example.com/sso")
+      double(:request, params: form_attributes[:variables], url: "https://sp.example.com/sso")
     end
 
     let(:message) { described_class.receive_message(request, :response) }

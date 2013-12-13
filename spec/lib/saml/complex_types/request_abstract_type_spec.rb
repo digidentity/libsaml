@@ -84,7 +84,7 @@ describe Saml::ComplexTypes::RequestAbstractType do
       request_abstract_type.issue_instant = nil
       expect {
         request_abstract_type.to_xml
-      }.not_to raise_error(NoMethodError)
+      }.not_to raise_error
     end
   end
 

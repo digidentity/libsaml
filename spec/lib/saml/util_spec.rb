@@ -22,7 +22,7 @@ describe Saml::Util do
       end
 
       it "creates a new signed document" do
-        Xmldsig::SignedDocument.should_receive(:new).with(any_args).and_return stub.as_null_object
+        Xmldsig::SignedDocument.should_receive(:new).with(any_args).and_return double.as_null_object
         described_class.sign_xml message
       end
 
@@ -39,7 +39,7 @@ describe Saml::Util do
 
       context "without specifiying a block" do
         it "sign is called on the provider of the specified message" do
-          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_yield(stub, stub)
+          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_yield(double, double)
           message.provider.should_receive(:sign).and_return signed_message
 
           described_class.sign_xml message
@@ -59,7 +59,7 @@ describe Saml::Util do
       end
 
       it "creates a new signed document" do
-        Xmldsig::SignedDocument.should_receive(:new).with(any_args).and_return stub.as_null_object
+        Xmldsig::SignedDocument.should_receive(:new).with(any_args).and_return double.as_null_object
         described_class.sign_xml assertion
       end
 
@@ -76,7 +76,7 @@ describe Saml::Util do
 
       context "without specifiying a block" do
         it "sign is called on the provider of the specified assertion" do
-          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_yield(stub, stub)
+          Xmldsig::SignedDocument.any_instance.should_receive(:sign).and_yield(double, double)
           assertion.provider.should_receive(:sign).and_return signed_assertion
 
           described_class.sign_xml assertion
@@ -93,7 +93,7 @@ describe Saml::Util do
     before :each do
       Net::HTTP.any_instance.stub(:request) do |request|
         @request = request
-        stub(code: "200", body: message.to_xml)
+        double(:response, code: "200", body: message.to_xml)
       end
     end
 

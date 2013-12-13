@@ -20,7 +20,7 @@ describe Saml::Bindings::SOAP do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: "200", body: response_xml)
+          double(:response, code: "200", body: response_xml)
         end
         @logout_response = described_class.post_message(logout_request, :logout_response)
       end
@@ -55,7 +55,7 @@ describe Saml::Bindings::SOAP do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
           @request = request
-          stub(code: "200", body: response_xml)
+          double(:request, code: "200", body: response_xml)
         end
         Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
       end
@@ -69,7 +69,7 @@ describe Saml::Bindings::SOAP do
   end
 
   describe ".receive_message" do
-    let(:request) { stub(body: StringIO.new(Saml::Util.sign_xml(logout_request, :soap))) } # Passenger uses StringIO for body
+    let(:request) { double(:request, body: StringIO.new(Saml::Util.sign_xml(logout_request, :soap))) } # Passenger uses StringIO for body
     let(:response) { described_class.receive_message(request, :logout_request) }
 
     context "with valid signature" do
