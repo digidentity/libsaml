@@ -184,25 +184,49 @@ describe Saml::Util do
   end
 
   describe ".verify_xml" do
-    let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
-                                                    Saml::Assertion.new.tap { |a| a.add_signature }]) }
-    let(:signed_xml) { Saml::Util.sign_xml(message) }
+    describe "response" do
+      let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
+                                                      Saml::Assertion.new.tap { |a| a.add_signature }]) }
+      let(:signed_xml) { Saml::Util.sign_xml(message) }
 
-    it "verifies all the signatures in the file" do
-      response = Saml::Response.parse(signed_xml)
+      it "verifies all the signatures in the file" do
+        response = Saml::Response.parse(signed_xml)
 
-      response.provider.should_receive(:verify).exactly(3).times.and_return(true)
-      Saml::Util.verify_xml(response, signed_xml)
+        response.provider.should_receive(:verify).exactly(3).times.and_return(true)
+        Saml::Util.verify_xml(response, signed_xml)
+      end
+
+      it "returns the signed message type" do
+        malicious_response = Saml::Response.new(issuer: 'hacked')
+        malicious_xml = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"
+        malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
+        response = Saml::Response.parse(malicious_xml, single: true)
+
+        Saml::Util.verify_xml(response, malicious_xml).should be_a(Saml::Response)
+      end
     end
 
-    it "returns the signed message type" do
-      malicious_response = Saml::Response.new(issuer: 'hacked')
-      malicious_xml = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"
-      malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
-      response = Saml::Response.parse(malicious_xml, single: true)
+    describe "assertion" do
+      let(:message) { Saml::Assertion.new }
+      let(:signed_xml) { Saml::Util.sign_xml(message) }
 
-      Saml::Util.verify_xml(response, malicious_xml).should be_a(Saml::Response)
+      it "verifies all the signatures in the file" do
+        assertion = Saml::Assertion.parse(signed_xml)
+
+        assertion.provider.should_receive(:verify).exactly(1).times.and_return(true)
+        Saml::Util.verify_xml(assertion, signed_xml)
+      end
+
+      it "returns the signed message type" do
+        malicious_assertion = Saml::Assertion.new(issuer: 'hacked')
+        malicious_xml = "<hack>#{signed_xml}#{malicious_assertion.to_xml}</hack>"
+        malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
+        assertion = Saml::Assertion.parse(malicious_xml, single: true)
+
+        Saml::Util.verify_xml(assertion, malicious_xml).should be_a(Saml::Assertion)
+      end
     end
+
   end
 
   describe ".encrypt_assertion" do
