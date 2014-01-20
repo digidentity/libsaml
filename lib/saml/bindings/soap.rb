@@ -1,6 +1,9 @@
 module Saml
   module Bindings
     class SOAP
+      extend Saml::Notification
+      notify_on :create_response_xml, :post_message, :receive_message
+
       class << self
 
         SOAP_ACTION = 'http://www.oasis-open.org/committees/security'

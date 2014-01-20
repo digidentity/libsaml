@@ -11,6 +11,12 @@ describe Saml::Bindings::HTTPRedirect do
   end
   let(:params) { Saml::Util.parse_params(url) }
 
+  describe "notifications" do
+    it 'allows notifications' do
+      described_class.notify_on.should include(:create_url, :receive_message)
+    end
+  end
+
   describe ".create_url" do
 
     it "parses the url from the destination" do

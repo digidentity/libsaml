@@ -16,6 +16,12 @@ describe Saml::Bindings::HTTPArtifact do
   let(:response_xml) { described_class.create_response_xml(artifact_response) }
   let(:response) { described_class.create_response(artifact_response) }
 
+  describe "notifications" do
+    it 'allows notifications' do
+      described_class.notify_on.should include(:create_response, :create_response_xml, :create_url, :receive_message, :resolve)
+    end
+  end
+
   describe ".create_response_xml" do
 
     it "signs the response xml" do

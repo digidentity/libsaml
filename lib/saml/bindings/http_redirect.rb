@@ -1,6 +1,9 @@
 module Saml
   module Bindings
     class HTTPRedirect
+      extend Saml::Notification
+      notify_on :create_url, :receive_message
+
       class << self
         def create_url(request_or_response, options = {})
           options[:signature_algorithm] ||= 'http://www.w3.org/2000/09/xmldsig#rsa-sha1'

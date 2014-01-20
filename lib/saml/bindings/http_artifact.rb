@@ -1,6 +1,9 @@
 module Saml
   module Bindings
     class HTTPArtifact
+      extend Saml::Notification
+      notify_on :create_response, :create_response_xml,
+                :create_url, :receive_message, :resolve
 
       class << self
         # @param [Saml::ArtifactResponse] artifact_response

@@ -1,6 +1,9 @@
 module Saml
   module Bindings
     class HTTPPost
+      extend Saml::Notification
+      notify_on :create_form_attributes, :receive_message
+
       class << self
         def create_form_attributes(message, options = {})
           param = message.is_a?(Saml::ComplexTypes::StatusResponseType) ? "SAMLResponse" : "SAMLRequest"
