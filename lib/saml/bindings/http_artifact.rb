@@ -8,6 +8,10 @@ module Saml
           Saml::Util.sign_xml(artifact_response, :soap)
         end
 
+        def create_response(artifact_response)
+          {xml: create_response_xml(artifact_response), content_type: 'text/xml'}
+        end
+
         def create_url(location, artifact, options = {})
           uri   = URI.parse(location)
           query = [uri.query, "SAMLart=#{CGI.escape(artifact.to_s)}"]

@@ -14,11 +14,22 @@ describe Saml::Bindings::HTTPArtifact do
                                                                                          _id:           "1"),
                                                        issuer:        "https://idp.example.com",) }
   let(:response_xml) { described_class.create_response_xml(artifact_response) }
+  let(:response) { described_class.create_response(artifact_response) }
 
   describe ".create_response_xml" do
 
     it "signs the response xml" do
       Saml::ArtifactResponse.parse(response_xml, single: true).signature.signature_value.should_not be_empty
+    end
+  end
+
+  describe '.create_response' do
+    it 'returns the response xml' do
+      response[:xml].should == response_xml
+    end
+
+    it 'returns the content type' do
+      response[:content_type].should == "text/xml"
     end
   end
 
