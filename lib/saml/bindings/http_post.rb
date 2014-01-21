@@ -1,14 +1,13 @@
 module Saml
   module Bindings
     class HTTPPost
-      extend Saml::Notification
-      notify_on :create_form_attributes, :receive_message
+      include Saml::Notification
 
       class << self
         def create_form_attributes(message, options = {})
           param = message.is_a?(Saml::ComplexTypes::StatusResponseType) ? "SAMLResponse" : "SAMLRequest"
 
-          xml = Saml::Util.sign_xml(message)
+          xml = notify('create_message', Saml::Util.sign_xml(message))
 
           variables        = {}
           variables[param] = Saml::Encoding.encode_64(xml)
@@ -22,6 +21,7 @@ module Saml
 
         def receive_message(request, type)
           message             = Saml::Encoding.decode_64(request.params["SAMLRequest"] || request.params["SAMLResponse"])
+          notify('receive_message', message)
           request_or_response = Saml.parse_message(message, type)
 
           verified_request_or_response = Saml::Util.verify_xml(request_or_response, message)

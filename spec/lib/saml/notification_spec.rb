@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class NotificationDummy
-  extend Saml::Notification
+  include Saml::Notification
 
   notify_on :class_method, :instance_method
 
@@ -29,14 +29,14 @@ describe Saml::Notification do
     end
 
     it 'creates a notification when a wrapped instance method is called' do
-      ActiveSupport::Notifications.subscribed callback, 'instance_method.notification_dummy' do
+      ActiveSupport::Notifications.subscribed callback, 'instance_method.notification_dummy.saml' do
         NotificationDummy.new.instance_method('instance_method')
       end
       payload.should == 'instance_method'
     end
 
     it 'creates a notification when a wrapped class method is called' do
-      ActiveSupport::Notifications.subscribed callback, 'class_method.notification_dummy' do
+      ActiveSupport::Notifications.subscribed callback, 'class_method.notification_dummy.saml' do
         NotificationDummy.class_method('class_method')
       end
       payload.should == 'class_method'

@@ -1,8 +1,7 @@
 module Saml
   module Bindings
     class HTTPRedirect
-      extend Saml::Notification
-      notify_on :create_url, :receive_message
+      include Saml::Notification
 
       class << self
         def create_url(request_or_response, options = {})
@@ -29,7 +28,7 @@ module Saml
         private
 
         def parse_request_or_response(type, params)
-          message = decode_message(params["SAMLRequest"] || params["SAMLResponse"])
+          message = notify('receive_message', decode_message(params["SAMLRequest"] || params["SAMLResponse"]))
 
           Saml.parse_message(message, type)
         end
@@ -76,7 +75,7 @@ module Saml
       end
 
       def encoded_message
-        Saml::Encoding.encode_64(Saml::Encoding.encode_gzip(request_or_response.to_xml))
+        Saml::Encoding.encode_64(Saml::Encoding.encode_gzip(notify('create_message', request_or_response.to_xml)))
       end
 
       def encoded_params

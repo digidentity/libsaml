@@ -8,12 +8,6 @@ describe Saml::Bindings::HTTPPost do
                        _id:           "1")
   end
 
-  describe "notifications" do
-    it 'allows notifications' do
-      described_class.notify_on.should include(:create_form_attributes, :receive_message)
-    end
-  end
-
   describe ".create_form_attributes" do
     let(:form_attributes) { described_class.create_form_attributes(response, relay_state: "relay_state") }
 
@@ -37,6 +31,11 @@ describe Saml::Bindings::HTTPPost do
       form_attributes[:variables]["SAMLRequest"].should_not be_blank
     end
 
+    it 'creates a notification' do
+      expect {
+        form_attributes
+      }.to notify_with('create_message')
+    end
   end
 
   describe ".receive_message" do
@@ -65,6 +64,12 @@ describe Saml::Bindings::HTTPPost do
 
     it "sets the actual destination on the message" do
       message.actual_destination.should == request.url
+    end
+
+    it 'creates a notification' do
+      expect {
+        message
+      }.to notify_with('receive_message')
     end
   end
 end

@@ -16,16 +16,16 @@ describe Saml::Bindings::HTTPArtifact do
   let(:response_xml) { described_class.create_response_xml(artifact_response) }
   let(:response) { described_class.create_response(artifact_response) }
 
-  describe "notifications" do
-    it 'allows notifications' do
-      described_class.notify_on.should include(:create_response, :create_response_xml, :create_url, :receive_message, :resolve)
-    end
-  end
-
   describe ".create_response_xml" do
 
     it "signs the response xml" do
       Saml::ArtifactResponse.parse(response_xml, single: true).signature.signature_value.should_not be_empty
+    end
+
+    it 'creates a notification' do
+      expect {
+        response
+      }.to notify_with('create_response')
     end
   end
 
@@ -77,11 +77,30 @@ describe Saml::Bindings::HTTPArtifact do
         message
       }.to raise_error(Saml::Errors::SignatureInvalid)
     end
+
+    it 'creates a notification' do
+      expect {
+        message
+      }.to notify_with('receive_message')
+    end
   end
 
   describe ".resolve" do
     let(:identity_provider) { Saml.provider(Saml.current_provider.entity_id) }
     let(:request) { double(:request, params: {"SAMLart" => CGI.escape(Saml::Artifact.new.to_s)}) }
+
+    context 'notifications' do
+      it 'creates a notification' do
+        Net::HTTP.any_instance.should_receive(:request) do |request|
+          @request = request
+          double(:response, code: "200", body: response_xml)
+        end
+
+        expect {
+          described_class.resolve(request, identity_provider.artifact_resolution_service_url)
+        }.to notify_with('create_post', 'receive_response')
+      end
+    end
 
     context "with valid response" do
       before :each do

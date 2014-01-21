@@ -1,14 +1,12 @@
 module Saml
   module Bindings
     class HTTPArtifact
-      extend Saml::Notification
-      notify_on :create_response, :create_response_xml,
-                :create_url, :receive_message, :resolve
+      include Saml::Notification
 
       class << self
         # @param [Saml::ArtifactResponse] artifact_response
         def create_response_xml(artifact_response)
-          Saml::Util.sign_xml(artifact_response, :soap)
+          notify('create_response', Saml::Util.sign_xml(artifact_response, :soap))
         end
 
         def create_response(artifact_response)
@@ -26,7 +24,7 @@ module Saml
         end
 
         def receive_message(request)
-          raw_xml          = request.body.dup.read
+          raw_xml          = notify('receive_message', request.body.dup.read)
           artifact_resolve = Saml::ArtifactResolve.parse(raw_xml, single: true)
 
           Saml::Util.verify_xml(artifact_resolve, raw_xml)
@@ -36,9 +34,10 @@ module Saml
           artifact         = request.params["SAMLart"]
           artifact_resolve = Saml::ArtifactResolve.new(artifact: artifact, destination: location)
 
-          response = Saml::Util.post(location, Saml::Util.sign_xml(artifact_resolve, :soap))
+          response = Saml::Util.post(location, notify('create_post', Saml::Util.sign_xml(artifact_resolve, :soap)))
 
           if response.code == "200"
+            notify('receive_response', response.body)
             artifact_response          = Saml::ArtifactResponse.parse(response.body, single: true)
             verified_artifact_response = Saml::Util.verify_xml(artifact_response, response.body)
 

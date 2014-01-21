@@ -13,9 +13,26 @@ describe Saml::Bindings::SOAP do
     it "signs the response xml" do
       Saml::LogoutResponse.parse(response_xml, single: true).signature.signature_value.should_not be_empty
     end
+
+    it 'creates a notification' do
+      expect {
+        response_xml
+      }.to notify_with('create_response')
+    end
   end
 
   describe ".post_message" do
+
+    it 'creates a notification' do
+      expect {
+        Net::HTTP.any_instance.should_receive(:request) do |request|
+          @request = request
+          double(:response, code: "200", body: response_xml)
+        end
+        @logout_response = described_class.post_message(logout_request, :logout_response)
+      }.to notify_with('create_post', 'receive_response')
+    end
+
     context "with valid response" do
       before :each do
         Net::HTTP.any_instance.should_receive(:request) do |request|
@@ -89,6 +106,12 @@ describe Saml::Bindings::SOAP do
           response
         }.to raise_error(Saml::Errors::SignatureInvalid)
       end
+    end
+
+    it 'creates a notification' do
+      expect {
+        response
+      }.to notify_with('receive_message')
     end
   end
 

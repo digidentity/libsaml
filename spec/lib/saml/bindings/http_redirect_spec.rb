@@ -11,13 +11,13 @@ describe Saml::Bindings::HTTPRedirect do
   end
   let(:params) { Saml::Util.parse_params(url) }
 
-  describe "notifications" do
-    it 'allows notifications' do
-      described_class.notify_on.should include(:create_url, :receive_message)
-    end
-  end
-
   describe ".create_url" do
+
+    it 'creates a notification' do
+      expect {
+        url
+      }.to notify_with('create_message')
+    end
 
     it "parses the url from the destination" do
       url.should start_with("http://example.com/sso")
@@ -91,6 +91,12 @@ describe Saml::Bindings::HTTPRedirect do
 
     let(:request) do
       double(:request, params: parsed_params, url: url)
+    end
+
+    it 'creates a notification' do
+      expect {
+        described_class.receive_message(request, type: :authn_request).should be_a(Saml::AuthnRequest)
+      }.to notify_with('receive_message')
     end
 
     context "with signature" do
