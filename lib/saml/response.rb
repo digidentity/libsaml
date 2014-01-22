@@ -18,6 +18,14 @@ module Saml
       !success? && status.status_code.no_authn_context?
     end
 
+    def encrypt_assertions(certificate)
+      @encrypted_assertions = []
+      assertions.each do |assertion|
+        @encrypted_assertions << Saml::Util.encrypt_assertion(assertion.to_xml, certificate)
+      end
+      assertions.clear
+    end
+
     def assertion
       assertions.first
     end

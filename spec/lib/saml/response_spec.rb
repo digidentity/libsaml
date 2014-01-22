@@ -98,6 +98,19 @@ describe Saml::Response do
     end
   end
 
+  describe 'encrypt assertions' do
+    let(:response) do
+      response = Saml::Response.new(assertion: Saml::Assertion.new)
+      Saml::Response.parse(Saml::Response.parse(response.to_xml, single: true).to_xml)
+    end
+
+    it 'encrypts the assertion' do
+      response.encrypt_assertions(response.provider.certificate)
+      response.assertions.count.should == 0
+      response.encrypted_assertions.count.should == 1
+    end
+  end
+
   describe 'encrypted assertions' do
     let(:response) do
       response = Saml::Response.new(encrypted_assertion: Saml::Elements::EncryptedAssertion.new)
