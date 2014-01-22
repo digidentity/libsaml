@@ -21,7 +21,9 @@ module Saml
     def encrypt_assertions(certificate)
       @encrypted_assertions = []
       assertions.each do |assertion|
-        @encrypted_assertions << Saml::Util.encrypt_assertion(assertion.to_xml, certificate)
+        assertion_xml = assertion.is_a?(Assertion) ? assertion.to_xml : assertion.to_s
+
+        @encrypted_assertions << Saml::Util.encrypt_assertion(assertion_xml, certificate)
       end
       assertions.clear
     end
