@@ -1,7 +1,22 @@
 require 'spec_helper'
 
 describe Saml::Rails::ControllerHelper do
-  class Controller
+  ApplicationController = Struct.new(:controller) do
+    def self.before_filter(*args)
+    end
+
+    attr_accessor :headers
+
+    def initialize
+      @headers = Hash.new
+    end
+
+    def response
+      self
+    end
+  end
+
+  class Controller < ApplicationController
     extend Saml::Rails::ControllerHelper
 
     def self.before_filter(&block)
@@ -18,6 +33,20 @@ describe Saml::Rails::ControllerHelper do
 
     def current_provider
       Thread.current['provider']
+    end
+  end
+
+  describe '#set_response_headers' do
+    let(:controller)  { Controller.new }
+
+    before { controller.set_response_headers }
+
+    it 'includes the Cache-Control header' do
+      expect(controller.headers['Cache-Control']).to eql 'no-cache, no-store'
+    end
+
+    it 'includes the Pragma header' do
+      expect(controller.headers['Pragma']).to eql 'no-cache'
     end
   end
 
@@ -46,7 +75,7 @@ describe Saml::Rails::ControllerHelper do
       end
     end
   end
-  
+
   describe '#current_store' do
     it 'sets the current store' do
       Saml.current_store = nil
