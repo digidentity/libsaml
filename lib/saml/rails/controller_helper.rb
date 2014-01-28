@@ -1,8 +1,8 @@
 module Saml
   module Rails
     module ControllerHelper
-      def self.extended(base)
-        base.class_eval { include Saml::Rails::ControllerHelper }
+      def self.included(base)
+        base.extend self
         base.before_filter :set_response_headers
       end
 

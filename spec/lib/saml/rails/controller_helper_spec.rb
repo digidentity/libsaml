@@ -17,7 +17,7 @@ describe Saml::Rails::ControllerHelper do
   end
 
   class Controller < ApplicationController
-    extend Saml::Rails::ControllerHelper
+    include Saml::Rails::ControllerHelper
 
     def self.before_filter(&block)
       new.run_callback(&block)
