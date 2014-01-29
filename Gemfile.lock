@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    libsaml (2.1.9)
+    libsaml (2.2.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       curb
@@ -125,9 +125,9 @@ GEM
     thor (0.17.0)
     tilt (1.3.6)
     tins (0.13.1)
-    xmldsig (0.2.2)
+    xmldsig (0.2.4)
       nokogiri
-    xmlenc (0.1.1)
+    xmlenc (0.1.3)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       nokogiri (~> 1.6)
