@@ -6,11 +6,11 @@ source "http://rubygems.org"
 gemspec
 
 # jquery-rails is used by the dummy application
-gem "jquery-rails"
+gem 'jquery-rails', '>= 3.0.0'
 
 group :test, :development do
-  gem 'rspec-rails'
-  gem 'guard-rspec'
+  gem 'rspec-rails', '>= 2.14.0'
+  gem 'guard-rspec', '>= 3.0.0'
   gem 'simplecov'
   gem 'factory_girl_rails'
   gem 'sqlite3'
