@@ -13,7 +13,7 @@ Libsaml's features include:
 - XML signing and verification
 - Pluggable backend for providers (FileStore backend included)
 
-Copyright Digidentity BV, released under the MIT license. This gem was written by Benoist Claassen.
+Copyright [Digidentity BV](https://www.digidentity.eu/), released under the MIT license. This gem was written by [Benoist Claassen](https://github.com/benoist).
 
 ## Installation
 
