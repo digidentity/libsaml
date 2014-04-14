@@ -9,11 +9,15 @@ Libsaml is a Ruby gem to easily create SAML 2.0 messages. This gem was written b
 
 Libsaml's features include:
 
-- Bindings: HTTP-Post, HTTP-Redirect, HTTP-Artifact, SOAP
+- Multiple bindings:
+    - HTTP-Post
+    - HTTP-Redirect
+    - HTTP-Artifact
+    - SOAP
 - XML signing and verification
 - Pluggable backend for providers (FileStore backend included)
 
-Copyright [Digidentity BV](https://www.digidentity.eu/), released under the MIT license. This gem was written by [Benoist Claassen](https://github.com/benoist).
+Copyright [Digidentity B.V.](https://www.digidentity.eu/), released under the MIT license. This gem was written by [Benoist Claassen](https://github.com/benoist).
 
 ## Installation
 
@@ -49,27 +53,27 @@ output = Base64.encode64(cert.to_der).gsub("\n", "")
 Add the Service Provider configuration file to: `config/metadata/service_provider.xml`:
 
 ```xml
-  <?xml version="1.0" encoding="UTF-8"?>
-  <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"   ID="_052c51476c9560a429e1171e8c9528b96b69fb57" entityID="my:very:original:entityid">
-    <md:SPSSODescriptor>
-      <md:KeyDescriptor use="signing">
-        <ds:KeyInfo>
-          <ds:X509Data>
-            <ds:X509Certificate>SAME_KEY_AS_GENERATED_IN_THE_CONSOLE_BEFORE</ds:X509Certificate>
-          </ds:X509Data>
-        </ds:KeyInfo>
-      </md:KeyDescriptor>
-      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Post" index="0" Location="http://localhost:3000/saml/receive_response" isDefault="true"/>
-    </md:SPSSODescriptor>
-  </md:EntityDescriptor>
-```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<md:EntityDescriptor ID="_052c51476c9560a429e1171e8c9528b96b69fb57" entityID="my:very:original:entityid" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
+  <md:SPSSODescriptor>
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo>
+        <ds:X509Data>
+          <ds:X509Certificate>SAME_KEY_AS_GENERATED_IN_THE_CONSOLE_BEFORE</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Post" Location="http://localhost:3000/saml/receive_response" index="0" isDefault="true"/>
+  </md:SPSSODescriptor>
+</md:EntityDescriptor>
+```
 
 Set up an intializer in `config/initializers/saml_config.rb`:
 
 ```ruby
-  Saml.setup do |config|
-    config.register_store :file, Saml::ProviderStores::File.new("config/metadata", "config/ssl/key.pem"), default: true
-  end
+Saml.setup do |config|
+  config.register_store :file, Saml::ProviderStores::File.new("config/metadata", "config/ssl/key.pem"), default: true
+end
 ```
 
 By default this will use a SamlProvider model that uses the filestore, if you want a database driven model comment out the `#provider_store` function in the initializer and make a model that defines `#find_by_entity_id`:
@@ -79,7 +83,7 @@ class SamlProvider < ActiveRecord::Base
   include Saml::Provider
 
   def self.find_by_entity_id(entity_id)
-    where(entity_id: entity_id).first!
+    find_by entity_id: entity_id
   end
 end
 ```
@@ -88,24 +92,24 @@ end
 Now you can make a SAML controller in `app/controllers/saml_controller.rb`:
 
 ```ruby
-  class SamlController < ApplicationController
-    extend Saml::Rails::ControllerHelper
-    current_provider "entity_id"
+class SamlController < ApplicationController
+  extend Saml::Rails::ControllerHelper
+  current_provider "entity_id"
 
-    def request_authentication
-      provider = Saml.provider("my:very:original:entityid")
-      destination = provider.single_sign_on_service_url(Saml::ProtocolBindings::HTTP_POST)
+  def request_authentication
+    provider = Saml.provider("my:very:original:entityid")
+    destination = provider.single_sign_on_service_url(Saml::ProtocolBindings::HTTP_POST)
 
-      authn_request = Saml::AuthnRequest.new(:destination => destination)
+    authn_request = Saml::AuthnRequest.new(:destination => destination)
 
-      @saml_attributes = Saml::Bindings::HTTPPost.create_form_attributes(authn_request)
+    @saml_attributes = Saml::Bindings::HTTPPost.create_form_attributes(authn_request)
 
-      render text: @saml_attributes.to_yaml
-    end
-
-    def receive_response
-    end
+    render text: @saml_attributes.to_yaml
   end
+
+  def receive_response
+  end
+end
 ```
 
 Don't forget to define the routes in `config/routes.rb`:
