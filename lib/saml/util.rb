@@ -52,15 +52,25 @@ module Saml
       end
 
       def encrypt_assertion(assertion, certificate)
+        assertion = assertion.to_xml(nil, nil, false) if assertion.is_a?(Assertion) # create xml without instruct
+
         encrypted_data = Xmlenc::Builder::EncryptedData.new
         encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes128-cbc')
 
-        encrypted_key = encrypted_data.encrypt(assertion)
+        encrypted_key = encrypted_data.encrypt(assertion.to_s)
         encrypted_key.set_encryption_method(algorithm:               'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
                                             digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1')
         encrypted_key.encrypt(certificate.public_key)
 
         Saml::Elements::EncryptedAssertion.new(encrypted_data: encrypted_data, encrypted_keys: encrypted_key)
+      end
+
+      def decrypt_assertion(encrypted_assertion, private_key)
+        encrypted_assertion_xml = encrypted_assertion.is_a?(Saml::Elements::EncryptedAssertion) ?
+            encrypted_assertion.to_xml : encrypted_assertion.to_s
+        encrypted_document = Xmlenc::EncryptedDocument.new(encrypted_assertion_xml)
+
+        Saml::Assertion.parse(encrypted_document.decrypt(private_key), single: true)
       end
 
       def verify_xml(message, raw_body)

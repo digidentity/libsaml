@@ -51,8 +51,8 @@ describe Saml::Bindings::HTTPPost do
       message.should have(:no).errors_on(:signature)
     end
 
-    it "raises SignatureInvalid if it is invalid" do
-      Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
+    it "it verifies the xml" do
+      Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
       expect {
         message
       }.to raise_error(Saml::Errors::SignatureInvalid)

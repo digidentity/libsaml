@@ -230,7 +230,7 @@ describe Saml::Util do
   end
 
   describe ".encrypt_assertion" do
-    let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new.to_s, service_provider.private_key) }
+    let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new, service_provider.certificate) }
     it "returns an encrypted assertion object" do
       encrypted_assertion.should be_a Saml::Elements::EncryptedAssertion
     end
@@ -238,6 +238,15 @@ describe Saml::Util do
     it "is not valid when with no encrypted data" do
       encrypted_assertion.encrypted_data = nil
       encrypted_assertion.should be_invalid
+    end
+  end
+
+  describe ".decrypt_assertion" do
+    let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new, service_provider.certificate) }
+
+    it 'it returns decrypted assertion xml' do
+      assertion = Saml::Util.decrypt_assertion(encrypted_assertion, service_provider.private_key)
+      assertion.should be_a Saml::Assertion
     end
   end
 end

@@ -74,10 +74,10 @@ describe Saml::Bindings::SOAP do
           @request = request
           double(:request, code: "200", body: response_xml)
         end
-        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
       end
 
       it "adds an error if the signature is invalid" do
+        Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
         expect {
           described_class.post_message(logout_request, :logout_response)
         }.to raise_error(Saml::Errors::SignatureInvalid)
@@ -101,7 +101,7 @@ describe Saml::Bindings::SOAP do
 
     context "with invalid signature" do
       it "adds an error if the signature is invalid" do
-        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
+        Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
         expect {
           response
         }.to raise_error(Saml::Errors::SignatureInvalid)

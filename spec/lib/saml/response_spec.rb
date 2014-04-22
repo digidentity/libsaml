@@ -105,9 +105,26 @@ describe Saml::Response do
     end
 
     it 'encrypts the assertion' do
-      response.encrypt_assertions(response.provider.certificate)
-      response.assertions.count.should == 0
+      expect {
+        response.encrypt_assertions(response.provider.certificate)
+      }.to change(response.assertions, :count).by(-1)
       response.encrypted_assertions.count.should == 1
+    end
+  end
+
+  describe 'decrypt assertions' do
+    let(:response) do
+      response = Saml::Response.new(assertion: Saml::Assertion.new)
+      response.encrypt_assertions(response.provider.certificate)
+      response
+    end
+
+    it 'encrypts the assertion' do
+      expect {
+        expect {
+          response.decrypt_assertions(response.provider.private_key)
+        }.to change(response.assertions, :count).by(1)
+      }.to change(response.encrypted_assertions, :count).by(-1)
     end
   end
 

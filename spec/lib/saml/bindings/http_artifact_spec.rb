@@ -142,7 +142,7 @@ describe Saml::Bindings::HTTPArtifact do
       end
 
       it "adds an error if the signature is invalid" do
-        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
+        Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
         expect {
           described_class.resolve(request, identity_provider.artifact_resolution_service_url)
         }.to raise_error(Saml::Errors::SignatureInvalid)
