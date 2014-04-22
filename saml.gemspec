@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.summary     = "A gem to easily create SAML 2.0 messages."
   s.description = "Libsaml makes the creation of SAML 2.0 messages easy. The object structure is modeled after the SAML Core 2.0 specification from OASIS. Supported bindings are HTTP-Post, HTTP-Redirect, HTTP-Artifact and SOAP. Features include XML signing, XML verification and a pluggable backend for providers (FileStore backend included)."
 
-  s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "activesupport", ">= 3.2.15"
   s.add_dependency "activemodel", ">= 3.0.0"
