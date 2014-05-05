@@ -120,10 +120,10 @@ describe Saml::Util do
     end
 
     it "can have additional headers" do
-      default_headers     = { 'Content-Type' => 'text/xml' }
-      additional_headers  = { "header" => "foo" }
+      default_headers    = { 'Content-Type' => 'text/xml' }
+      additional_headers = { "header" => "foo" }
 
-      Net::HTTP::Post.should_receive(:new).with("/foo/bar", {"Content-Type"=>"text/xml", "header"=>"foo"}).and_return(net_http)
+      Net::HTTP::Post.should_receive(:new).with("/foo/bar", { "Content-Type" => "text/xml", "header" => "foo" }).and_return(net_http)
       described_class.post location, message, additional_headers
     end
 
@@ -134,7 +134,7 @@ describe Saml::Util do
 
       it "does not use SSL if sheme is http" do
         net_http.should_receive(:use_ssl=).with(false)
-        
+
         location = 'http://example.com/foo/bar'
         described_class.post location, message
       end
@@ -163,8 +163,8 @@ describe Saml::Util do
     end
 
     context "with certificate and private key" do
-      let(:certificate_file)  { File.join('spec', 'fixtures', 'certificate.pem') }
-      let(:key_file)          { File.join('spec', 'fixtures', 'key.pem') }
+      let(:certificate_file) { File.join('spec', 'fixtures', 'certificate.pem') }
+      let(:key_file) { File.join('spec', 'fixtures', 'key.pem') }
 
       before :each do
         Saml::Config.ssl_certificate_file = certificate_file
@@ -207,7 +207,7 @@ describe Saml::Util do
 
       it "returns the signed message type" do
         malicious_response = Saml::Response.new(issuer: 'hacked')
-        malicious_xml = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"
+        malicious_xml      = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"
         malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
         response = Saml::Response.parse(malicious_xml, single: true)
 
@@ -228,7 +228,7 @@ describe Saml::Util do
 
       it "returns the signed message type" do
         malicious_assertion = Saml::Assertion.new(issuer: 'hacked')
-        malicious_xml = "<hack>#{signed_xml}#{malicious_assertion.to_xml}</hack>"
+        malicious_xml       = "<hack>#{signed_xml}#{malicious_assertion.to_xml}</hack>"
         malicious_xml.gsub!("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", '')
         assertion = Saml::Assertion.parse(malicious_xml, single: true)
 
@@ -256,6 +256,69 @@ describe Saml::Util do
     it 'it returns decrypted assertion xml' do
       assertion = Saml::Util.decrypt_assertion(encrypted_assertion, service_provider.private_key)
       assertion.should be_a Saml::Assertion
+    end
+  end
+
+  describe '.download_metadata_xml' do
+    let(:location) { "http://example.com/foo/bar" }
+    let(:download_metadata) { described_class.download_metadata_xml location }
+    let(:response) { double(:response, code: "200", body: "metadata") }
+    let(:net_http) { double('Net::HTTP', request: response).as_null_object }
+
+    before :each do
+      Net::HTTP.any_instance.stub(:request) do |request|
+        @request = request
+        response
+      end
+    end
+
+    it "downloads the metadata" do
+      download_metadata.should == "metadata"
+    end
+
+    context "when metadata cannot be found" do
+      let(:response) { double(:response, code: "404", body: "not_found") }
+
+      it "raises an error" do
+        expect {
+          download_metadata
+        }.to raise_error(Saml::Errors::MetadataDownloadFailed)
+      end
+    end
+
+    context "when an http error occurs" do
+      let(:response) { raise Timeout::Error.new }
+
+      it "raises an error" do
+        expect {
+          download_metadata
+        }.to raise_error(Saml::Errors::MetadataDownloadFailed)
+      end
+    end
+
+    context "default settings" do
+      before do
+        Net::HTTP.stub(:new).and_return(net_http)
+      end
+
+      it "does not use SSL if sheme is http" do
+        net_http.should_receive(:use_ssl=).with(false)
+
+        location = 'http://example.com/foo/bar'
+        described_class.download_metadata_xml location
+      end
+
+      it "uses SSL if scheme is https" do
+        net_http.should_receive(:use_ssl=).with(true)
+
+        location = 'https://example.com/foo/bar'
+        described_class.download_metadata_xml location
+      end
+
+      it "sets the verify mode to 'VERIFY_PEER'" do
+        net_http.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
+        download_metadata
+      end
     end
   end
 end

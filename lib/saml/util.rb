@@ -22,17 +22,17 @@ module Saml
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
         if Saml::Config.ssl_certificate_file.present? && Saml::Config.ssl_private_key_file.present?
-          cert  = File.read(Saml::Config.ssl_certificate_file)
-          key   = File.read(Saml::Config.ssl_private_key_file)
+          cert = File.read(Saml::Config.ssl_certificate_file)
+          key  = File.read(Saml::Config.ssl_private_key_file)
 
-          http.cert        = OpenSSL::X509::Certificate.new(cert)
-          http.key         = OpenSSL::PKey::RSA.new(key)
+          http.cert = OpenSSL::X509::Certificate.new(cert)
+          http.key  = OpenSSL::PKey::RSA.new(key)
         end
 
         headers = { 'Content-Type' => 'text/xml' }
         headers.merge! additional_headers
 
-        request = Net::HTTP::Post.new(uri.request_uri, headers)
+        request      = Net::HTTP::Post.new(uri.request_uri, headers)
         request.body = message
 
         http.request(request)
@@ -68,7 +68,7 @@ module Saml
       def decrypt_assertion(encrypted_assertion, private_key)
         encrypted_assertion_xml = encrypted_assertion.is_a?(Saml::Elements::EncryptedAssertion) ?
             encrypted_assertion.to_xml : encrypted_assertion.to_s
-        encrypted_document = Xmlenc::EncryptedDocument.new(encrypted_assertion_xml)
+        encrypted_document      = Xmlenc::EncryptedDocument.new(encrypted_assertion_xml)
 
         Saml::Assertion.parse(encrypted_document.decrypt(private_key), single: true)
       end
@@ -85,6 +85,26 @@ module Saml
         signed_node = document.signed_nodes.find { |node| node['ID'] == message._id }
 
         message.class.parse(signed_node.to_xml, single: true)
+      end
+
+      def download_metadata_xml(location)
+        uri = URI.parse(location)
+
+        http             = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl     = uri.scheme == 'https'
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+        request = Net::HTTP::Get.new(uri.request_uri)
+
+        response = http.request(request)
+        if response.code == '200'
+          response.body
+        else
+          raise Saml::Errors::MetadataDownloadFailed.new("Cannot download metadata for: #{location}: #{response.body}")
+        end
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse,
+          Net::HTTPHeaderSyntaxError, Net::ProtocolError => error
+        raise Saml::Errors::MetadataDownloadFailed.new("Cannot download metadata for: #{location}: #{error.message}")
       end
     end
   end

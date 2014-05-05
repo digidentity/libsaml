@@ -27,6 +27,8 @@ module Saml
     end
     class UnparseableMessage < SamlError
     end
+    class MetadataDownloadFailed < SamlError
+    end
     class InvalidStore < SamlError
       def initialize(store = '')
         @store = store
@@ -150,6 +152,7 @@ module Saml
 
   module ProviderStores
     require 'saml/provider_stores/file'
+    require 'saml/provider_stores/url'
   end
 
   module ProtocolBinding
@@ -190,7 +193,7 @@ module Saml
     if current_provider.entity_id == entity_id
       current_provider
     else
-      current_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new)
+      current_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new("Cannot find provider with entity_id: #{entity_id}"))
     end
   end
 
