@@ -18,7 +18,7 @@ module Saml
         uri = URI.parse(location)
 
         http             = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl     = true
+        http.use_ssl     = uri.scheme == 'https'
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
         if Saml::Config.ssl_certificate_file.present? && Saml::Config.ssl_private_key_file.present?

@@ -132,9 +132,18 @@ describe Saml::Util do
         Net::HTTP.stub(:new).and_return(net_http)
       end
 
-      it "uses SSL" do
+      it "does not use SSL if sheme is http" do
+        net_http.should_receive(:use_ssl=).with(false)
+        
+        location = 'http://example.com/foo/bar'
+        described_class.post location, message
+      end
+
+      it "uses SSL if scheme is https" do
         net_http.should_receive(:use_ssl=).with(true)
-        post_request
+
+        location = 'https://example.com/foo/bar'
+        described_class.post location, message
       end
 
       it "sets the verify mode to 'VERIFY_PEER'" do
