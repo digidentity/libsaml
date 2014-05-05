@@ -1,3 +1,7 @@
+### 2.3.2
+* bug fix
+  * fixed alias method error
+
 ### 2.3.1
 * enhancements
   * started this changelog
