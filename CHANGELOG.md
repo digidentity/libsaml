@@ -1,4 +1,4 @@
-### 2.4.1 (unreleased)
+### 2.4.1
 * enhancements
   * use a hash for the file store
   * allow metadata to be added to the file store on the fly
