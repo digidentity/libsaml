@@ -1,3 +1,8 @@
+### 2.4.1 (unreleased)
+* enhancements
+  * use a hash for the file store
+  * allow metadata to be added to the file store on the fly
+
 ### 2.3.2
 * bug fix
   * fixed alias method error
