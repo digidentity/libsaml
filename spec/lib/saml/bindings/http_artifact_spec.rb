@@ -23,9 +23,7 @@ describe Saml::Bindings::HTTPArtifact do
     end
 
     it 'creates a notification' do
-      expect {
-        response
-      }.to notify_with('create_response')
+      expect { response }.to notify_with('create_response')
     end
   end
 
@@ -73,15 +71,11 @@ describe Saml::Bindings::HTTPArtifact do
 
     it "adds an error if the signature is invalid" do
       Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
-      expect {
-        message
-      }.to raise_error(Saml::Errors::SignatureInvalid)
+      expect { message }.to raise_error(Saml::Errors::SignatureInvalid)
     end
 
     it 'creates a notification' do
-      expect {
-        message
-      }.to notify_with('receive_message')
+      expect { message }.to notify_with('receive_message')
     end
   end
 
@@ -147,8 +141,6 @@ describe Saml::Bindings::HTTPArtifact do
           described_class.resolve(request, identity_provider.artifact_resolution_service_url)
         }.to raise_error(Saml::Errors::SignatureInvalid)
       end
-
-      it ''
     end
   end
 end

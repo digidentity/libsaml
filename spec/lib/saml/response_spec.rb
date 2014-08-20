@@ -53,11 +53,11 @@ describe Saml::Response do
       status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
                                                                                                   :sub_status_value => Saml::SubStatusCodes::AUTHN_FAILED))
       response.status = status
-      response.authn_failed?.should be_true
+      response.authn_failed?.should be true
     end
 
     it 'returns false if sub status is not AUTHN_FAILED' do
-      response.authn_failed?.should be_false
+      response.authn_failed?.should be false
     end
   end
 
@@ -66,11 +66,11 @@ describe Saml::Response do
       status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
                                                                                                   :sub_status_value => Saml::SubStatusCodes::NO_AUTHN_CONTEXT))
       response.status = status
-      response.no_authn_context?.should be_true
+      response.no_authn_context?.should be true
     end
 
     it 'returns false if sub status is not no_authn_context' do
-      response.no_authn_context?.should be_false
+      response.no_authn_context?.should be false
     end
   end
 
@@ -79,11 +79,11 @@ describe Saml::Response do
       status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
                                                                                                   :sub_status_value => Saml::SubStatusCodes::REQUEST_DENIED))
       response.status = status
-      response.request_denied?.should be_true
+      response.request_denied?.should be true
     end
 
     it 'returns false if sub status is not AUTHN_FAILED' do
-      response.request_denied?.should be_false
+      response.request_denied?.should be false
     end
   end
 

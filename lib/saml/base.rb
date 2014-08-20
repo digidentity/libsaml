@@ -39,6 +39,8 @@ module Saml
         object
       rescue Nokogiri::XML::SyntaxError => e
         raise Saml::Errors::UnparseableMessage.new(e.message)
+      rescue TypeError => e
+        raise Saml::Errors::UnparseableMessage.new(e.message)
       rescue NoMethodError => e
         raise Saml::Errors::UnparseableMessage.new(e.message)
       end

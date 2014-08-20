@@ -9,7 +9,7 @@ end
 describe BaseDummy do
   describe "parse override" do
     it "sets the from_xml flag" do
-      BaseDummy.parse("<tag></tag>", single: true).from_xml?.should be_true
+      BaseDummy.parse("<tag></tag>", single: true).from_xml?.should be true
     end
 
     it "raises an error if the message cannot be parsed" do
