@@ -15,9 +15,10 @@ end
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'saml'
 require 'rspec/core'
-require 'rspec/autorun'
-
+require 'rspec/collection_matchers'
 require 'factories/all'
+
+I18n.enforce_available_locales = false
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -32,6 +33,15 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
 
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+
+  config.mock_with :rspec do |c|
+    c.yield_receiver_to_any_instance_implementation_blocks = false
+    c.syntax = [:should, :expect]
+  end
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -45,6 +55,6 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-
   config.include FactoryGirl::Syntax::Methods
+  config.raise_errors_for_deprecations!
 end

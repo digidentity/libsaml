@@ -21,6 +21,10 @@ module Saml
       def failure_message
         "Notification(s) #{@event_names.join(' and ')} not created"
       end
+
+      def supports_block_expectations?
+        true
+      end
     end
 
     def notify_with(*event_names)
@@ -28,6 +32,7 @@ module Saml
     end
   end
 end
+
 RSpec.configure do |config|
   config.include Saml::Matchers
 end

@@ -32,9 +32,7 @@ describe Saml::Bindings::HTTPPost do
     end
 
     it 'creates a notification' do
-      expect {
-        form_attributes
-      }.to notify_with('create_message')
+      expect { form_attributes }.to notify_with('create_message')
     end
   end
 

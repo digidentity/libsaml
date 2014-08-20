@@ -19,11 +19,11 @@ describe Saml::LogoutResponse do
       status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
                                                                                                   :sub_status_value => Saml::SubStatusCodes::PARTIAL_LOGOUT))
       response.status = status
-      response.partial_logout?.should be_true
+      response.partial_logout?.should be true
     end
 
     it 'returns false if sub status is not PARTIAL_LOGOUT' do
-      response.partial_logout?.should be_false
+      response.partial_logout?.should be false
     end
   end
 end

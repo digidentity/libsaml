@@ -51,12 +51,12 @@ describe Saml::ComplexTypes::StatusResponseType do
     let(:status_response_type) { Saml::LogoutResponse.parse(status_response_type_xml) }
 
     it 'returns true if the status is SUCCESS' do
-      status_response_type.success?.should be_true
+      status_response_type.success?.should be true
     end
 
     it 'returns false if the status is not SUCCESS' do
       status_response_type.status = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::REQUESTER))
-      status_response_type.success?.should be_false
+      status_response_type.success?.should be false
     end
   end
 end
