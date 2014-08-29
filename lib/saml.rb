@@ -200,12 +200,6 @@ module Saml
   end
 
   def self.parse_message(message, type)
-    begin
-      Hash.from_xml(message)
-    rescue RuntimeError => e
-      raise Errors::HackAttack.new "based on error: #{e}"
-    end
-
     if %w(authn_request response logout_request logout_response artifact_resolve artifact_response).include?(type.to_s)
       klass = "Saml::#{type.to_s.camelize}".constantize
       klass.parse(message, single: true)

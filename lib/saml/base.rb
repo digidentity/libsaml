@@ -30,6 +30,10 @@ module Saml
 
     module HappyMapperClassMethods
       def parse(xml, options = {})
+        unless xml.is_a?(Nokogiri::XML::Element) || xml.is_a?(Nokogiri::XML::Document)
+          ActiveSupport::XmlMini_REXML.parse(xml)
+        end
+
         object = super
         if object.is_a?(Array)
           object.map { |x| x.from_xml = true }

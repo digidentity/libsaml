@@ -84,30 +84,6 @@ describe Saml do
   describe ".parse_message" do
     let(:message) { "<message></message>" }
 
-    context "with a billion laughs" do
-      xml = <<-XML
-        <?xml version="1.0"?>
-        <!DOCTYPE lolz [
-        <!ENTITY lol "lol">
-        <!ELEMENT lolz (#PCDATA)>
-        <!ENTITY lol1 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
-        <!ENTITY lol2 "&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;">
-        <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
-        <!ENTITY lol4 "&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;">
-        <!ENTITY lol5 "&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;">
-        <!ENTITY lol6 "&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;">
-        <!ENTITY lol7 "&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;">
-        <!ENTITY lol8 "&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;">
-        <!ENTITY lol9 "&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;">
-        ]>
-        <lolz test="&lol4;">&lol4;</lolz>
-      XML
-
-      it "raises an Saml::Errors::HackAttack for entity expansion has grown too large" do
-        expect{ Saml.parse_message(xml, '') }.to raise_error Saml::Errors::HackAttack, "based on error: entity expansion has grown too large"
-      end
-    end
-
     context "with default types" do
       [:authn_request, :response, :logout_request, :logout_response, :artifact_resolve, :artifact_response].each do |type|
         it "parses messages with type '#{type}'" do
