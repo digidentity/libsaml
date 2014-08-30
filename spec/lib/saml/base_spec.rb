@@ -22,7 +22,7 @@ describe BaseDummy do
 <!ENTITY lol8 "&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;">
 <!ENTITY lol9 "&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;">
 ]>
-<samlp:AuthnRequest xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" IssueInstant="2013-08-25T14:31:07Z" AssertionConsumerServiceURL="test:&lol9;"></samlp:AuthnRequest>
+<samlp:AuthnRequest xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" IssueInstant="2013-08-25T14:31:07Z" AssertionConsumerServiceURL="test:&lol4;"></samlp:AuthnRequest>
       XML
 
       it "raises an Saml::Errors::HackAttack for entity expansion has grown too large" do

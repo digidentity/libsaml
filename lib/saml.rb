@@ -19,8 +19,6 @@ module Saml
   SAML_VERSION       = '2.0'
 
   module Errors
-    class HackAttack < RuntimeError
-    end
     class SamlError < StandardError
     end
     class SignatureInvalid < SamlError
