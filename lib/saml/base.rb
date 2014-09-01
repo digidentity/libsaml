@@ -41,7 +41,7 @@ module Saml
           object.from_xml = true
         end
         object
-      rescue Nokogiri::XML::SyntaxError => e
+      rescue Nokogiri::XML::SyntaxError, REXML::ParseException => e
         raise Saml::Errors::UnparseableMessage.new(e.message)
       rescue TypeError => e
         raise Saml::Errors::UnparseableMessage.new(e.message)

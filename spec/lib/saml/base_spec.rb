@@ -37,7 +37,7 @@ describe BaseDummy do
     it "raises an error if the message cannot be parsed" do
       expect {
         BaseDummy.parse("invalid")
-      }.to raise_error(REXML::ParseException)
+      }.to raise_error(Saml::Errors::UnparseableMessage)
     end
 
     it "raises an error if the message is nil" do
