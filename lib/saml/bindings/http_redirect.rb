@@ -34,7 +34,7 @@ module Saml
         end
 
         def decode_message(message)
-          Saml::Encoding.decode_gzip(Saml::Encoding.decode_64(message)).gsub("\n", "")
+          Saml::Encoding.decode_gzip(Saml::Encoding.decode_64(message))
         end
       end
 
