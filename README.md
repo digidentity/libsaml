@@ -125,7 +125,7 @@ class SamlController < ApplicationController
       else
         # handle unrecognized response
       end
-      reset_session
+      reset_session # It's good practice to reset sessions after authenticating to mitigate session fixation attacks
     else
       # handle failure
     end
@@ -138,6 +138,7 @@ Don't forget to define the routes in `config/routes.rb`:
 ```ruby
   get "/saml/request_authentication" => "saml#request_authentication"
   get "/saml/receive_response" => "saml#receive_response"
+  post "/saml/receive_response" => "saml#receive_response"
 ```
 
 ## Contributing
