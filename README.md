@@ -141,6 +141,90 @@ Don't forget to define the routes in `config/routes.rb`:
   post "/saml/receive_response" => "saml#receive_response"
 ```
 
+## Using libsaml as an IDP
+
+Writing a solid identity provider really requires a deeper knowledge of the SAML protocol, so it's recommended to read more on the SAML 2.0 Wiki http://en.wikipedia.org/wiki/SAML_2.0.
+When you understand what it says, read these parts of the specification:
+http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf
+http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf
+
+Below is an example of a very primitive IDP Saml Controller
+
+```ruby
+class SamlController < ActionController::Base
+  extend Saml::Rails::ControllerHelper
+  current_provider "entity_id"
+
+  def receive_authn_request
+    authn_request = if request.get?
+      Saml::Bindings::HTTPRedirect.receive_message(request, type: :authn_request)
+    elsif request.post?
+      Saml::Bindings::HTTPPost.receive_message(request, type: :authn_request)
+    else
+      return head :not_allowed
+    end
+    request_id = authn_request._id
+
+    session[:saml_request] = {
+      request_id:    request_id,
+      relay_state:   params['RelayState'],
+      authn_request: authn_request.to_xml
+    }
+
+    if authn_request.invalid?
+      redirect_to send_response_path(request_id: request_id)
+    else
+      redirect_to sign_in_path(return_to: send_response_path(request_id: request_id))
+    end
+  end
+
+  def send_response
+    return head :not_found if session[:saml_request][:request_id] != params[:request_id]
+
+    authn_request = Saml::AuthnRequest.parse(session[:saml_request][:authn_request], single: true)
+
+    response = if authn_request.invalid?
+      build_failure(Saml::TopLevelCodes::REQUESTER, Saml::SubStatusCodes::REQUEST_DENIED)
+    elsif account_signed_in?
+      build_success_response
+    else
+      build_failure(Saml::TopLevelCodes::RESPONDER, Saml::SubStatusCodes::NO_AUTHN_CONTEXT)
+    end
+
+    if authn_request.protocol_binding == Saml::ProtocolBinding::HTTP_POST
+      # render an auto submit form with hidden fields set in the attributes hash
+      @attribute = Saml::Bindings::HTTPPost.create_form_attributes(response, relay_state: session[:saml_request][:relay_state])
+    else
+      # handle unsported binding
+    end
+  end
+
+  private
+
+  def build_failure(status_value, sub_status_value)
+    Saml::Response.new(in_response_to: session[:saml_request][:request_id], status_value: status_value, sub_status_value: sub_status_value)
+  end
+
+  def build_success_response(authn_request)
+    assertion = Saml::Assertion.new(
+      name_id:                 current_account.username, # Return anything that you can link to an account
+      name_id_format:          'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent',
+      authn_context_class_ref: Saml::ClassRefs::PASSWORD_PROTECTED,
+      in_response_to:          authn_request._id,
+      recipient:               authn_request.assertion_url,
+      audience:                authn_request.issuer
+    }
+
+    # adding custom attributes
+    assertion.add_attribute('name', 'value')
+
+    Saml::Response.new(in_response_to: authn_request._id,
+                       assertion:      assertion,
+                       status_value:   Saml::TopLevelCodes::SUCCESS)
+  end
+end
+```
+
 ## Contributing
 
 - Fork the project
