@@ -102,12 +102,33 @@ class SamlController < ApplicationController
 
     authn_request = Saml::AuthnRequest.new(:destination => destination)
 
+    session[:authn_request_id] = auth_request._id
+
     @saml_attributes = Saml::Bindings::HTTPPost.create_form_attributes(authn_request)
 
     render text: @saml_attributes.to_yaml
   end
 
   def receive_response
+    if params["SAMLart"]
+      # provider should be of type Saml::Provider
+      @response = Saml::Bindings::HTTPArtifact.resolve(request, provider.artifact_resolution_service_url)
+    elsif params["SAMLResponse"]
+      @response = Saml::Bindings::HTTPost.receive_message(request, :response)
+    else
+       # handle invalid request
+    end
+
+    if @response && @response.success?
+      if session[:authn_request_id] == @response.in_response_to
+        @response.assertion.fetch_attribute('any_attribute')
+      else
+        # handle unrecognized response
+      end
+      reset_session
+    else
+      # handle failure
+    end
   end
 end
 ```
