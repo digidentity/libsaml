@@ -9,12 +9,12 @@ gemspec
 gem 'jquery-rails', '>= 3.0.0'
 
 group :test, :development do
-  gem 'rspec-rails', '>= 2.14.0'
-  gem 'guard-rspec', '>= 3.0.0'
+  gem 'rspec-rails', '~> 3.1'
+  gem 'guard-rspec', '~> 4.0'
   gem 'simplecov'
   gem 'factory_girl_rails'
   gem 'sqlite3'
-  gem "rspec-collection_matchers", "~> 1.0.0"
+  gem "rspec-collection_matchers", "~> 1.0"
 end
 
 # Declare any dependencies that are still in development here instead of in
