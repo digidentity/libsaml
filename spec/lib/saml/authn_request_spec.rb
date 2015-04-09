@@ -78,6 +78,15 @@ describe Saml::AuthnRequest do
       authn_request.requested_authn_context.should be_a(Saml::Elements::RequestedAuthnContext)
     end
 
+    context "with two requested_authn_context_class_refs" do
+      let(:authn_request_xml) { File.read(File.join('spec', 'fixtures', 'authn_request_with_two_authn_contexts.xml'))}
+
+      it "should create an array of two AuthnContextClassRefs" do
+        authn_request.requested_authn_context.authn_context_class_refs.should ==
+            %w(urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport urn:oasis:names:tc:SAML:2.0:ac:classes:MobileTwoFactorUnregistered)
+      end
+    end
+
   end
 
   describe ".to_xml" do

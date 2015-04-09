@@ -1,7 +1,7 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard 'rspec', :version => 2 do
+guard 'rspec', :version => 2, :cmd => 'bundle exec rspec' do
   watch('spec/factories.rb') { "spec" }
   watch(%r{^spec/fixtures/(.+)\.xml})     { |m| "spec/lib/saml/#{m[1]}_spec.rb" }
   watch(%r{^spec/.+_spec\.rb$})
