@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<samlp:AuthnRequest xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" AssertionConsumerServiceIndex="1" Version="2.0"
+                    ID="_c392374de287c092408062878fbc23edf9bb3508" ProviderName="Provider" ForceAuthn="false"
+                    IssueInstant="2011-08-31T08:30:56+02:00"
+                    Destination="http://test.url/sso">
+  <saml:Issuer>https://sp.example.com</saml:Issuer>
+  <samlp:RequestedAuthnContext Comparison="minimum">
+    <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+    <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:MobileTwoFactorUnregistered</saml:AuthnContextClassRef>
+  </samlp:RequestedAuthnContext>
+</samlp:AuthnRequest>
