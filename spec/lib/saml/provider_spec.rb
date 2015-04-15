@@ -52,6 +52,16 @@ describe Saml::Provider do
     end
   end
 
+  describe "#assertion_consumer_service" do
+    it "returns the assertion_consumer_service" do
+      service_provider.assertion_consumer_service(0).should be_a(Saml::Elements::SPSSODescriptor::AssertionConsumerService)
+    end
+
+    it "returns the assertion_consumer_service for the default index" do
+      service_provider.assertion_consumer_service.should be_a Saml::Elements::SPSSODescriptor::AssertionConsumerService
+    end
+  end
+
   describe "#assertion_consumer_service_indices" do
     context "when there is an assertion consumer service" do
       it "returns an array with the indices of all assertion consumer services" do
