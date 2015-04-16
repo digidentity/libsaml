@@ -30,7 +30,7 @@ describe Saml::ComplexTypes::SSODescriptorType do
     end
 
     describe "#cache_duration" do
-      let(:xml)     { File.read('spec/fixtures/provider_with_cache_duration.xml') }
+      let(:xml) { File.read('spec/fixtures/provider_with_cache_duration.xml') }
 
       context "casts the cache_duration to a String" do
         it "sp_sso_descriptor" do
@@ -48,13 +48,15 @@ describe Saml::ComplexTypes::SSODescriptorType do
     let(:key_descriptor_1) { FactoryGirl.build :key_descriptor, use: "encryption" }
 
     let(:key_descriptor_2) do
-      key_descriptor = FactoryGirl.build :key_descriptor, use: "signing"
+      key_descriptor                   = FactoryGirl.build :key_descriptor, use: "signing"
       key_descriptor.key_info.key_name = "key"
       key_descriptor
     end
 
+    let(:key_descriptor_3) { FactoryGirl.build :key_descriptor }
+
     before do
-      sso_descriptor.key_descriptors = [ key_descriptor_1, key_descriptor_2 ]
+      sso_descriptor.key_descriptors = [key_descriptor_1, key_descriptor_2]
     end
 
     context "when a key name is specified" do
@@ -66,6 +68,16 @@ describe Saml::ComplexTypes::SSODescriptorType do
     context "when a key name isn't specified" do
       it "finds the key descriptor by use" do
         sso_descriptor.find_key_descriptor(nil, "encryption").should be_a Saml::Elements::KeyDescriptor
+      end
+
+      context "when use is not specified" do
+        before do
+          sso_descriptor.key_descriptors = [key_descriptor_1, key_descriptor_3]
+        end
+
+        it "finds the default key descriptor" do
+          sso_descriptor.find_key_descriptor(nil, "signing").should be_a Saml::Elements::KeyDescriptor
+        end
       end
     end
   end

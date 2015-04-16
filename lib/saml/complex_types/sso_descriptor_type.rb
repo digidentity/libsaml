@@ -57,7 +57,7 @@ module Saml
       private
 
       def find_key_descriptors_by_use(use)
-        key_descriptors.select { |key| key.use == use || key.use == "" }
+        key_descriptors.select { |key| key.use == use || key.use.blank? }
       end
     end
   end
