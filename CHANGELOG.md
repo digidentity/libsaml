@@ -1,3 +1,7 @@
+### 2.5.1
+* enhancements
+  * allow metadata keydescriptor use to be omitted and be used as default
+
 ### 2.4.1
 * enhancements
   * use a hash for the file store
