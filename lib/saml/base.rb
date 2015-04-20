@@ -3,13 +3,16 @@ require 'happymapper'
 module Saml
   module Base
     extend ActiveSupport::Concern
-
+    
     included do
       include ::HappyMapper
       include ::ActiveModel::Validations
 
       extend HappyMapperClassMethods
       include HappyMapperInstanceMethods
+      
+      register_namespace 'saml2p', 'urn:oasis:names:tc:SAML:2.0:protocol'
+      register_namespace 'saml2',  'urn:oasis:names:tc:SAML:2.0:assertion'
     end
 
     module HappyMapperInstanceMethods
