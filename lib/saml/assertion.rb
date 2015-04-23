@@ -6,14 +6,14 @@ module Saml
     register_namespace 'samlp', Saml::SAMLP_NAMESPACE
     register_namespace 'saml', Saml::SAML_NAMESPACE
 
-    tag "Assertion"
+    tag 'Assertion'
     namespace 'saml'
 
     attribute :_id, String, :tag => 'ID'
-    attribute :version, String, :tag => "Version"
-    attribute :issue_instant, Time, :tag => "IssueInstant", :on_save => lambda { |val| val.utc.xmlschema }
+    attribute :version, String, :tag => 'Version'
+    attribute :issue_instant, Time, :tag => 'IssueInstant', :on_save => lambda { |val| val.utc.xmlschema }
 
-    element :issuer, String, :namespace => 'saml', :tag => "Issuer"
+    element :issuer, String, :namespace => 'saml', :tag => 'Issuer'
 
     has_one   :signature, Saml::Elements::Signature
     has_one   :subject, Saml::Elements::Subject
@@ -25,7 +25,7 @@ module Saml
     validates :_id, :version, :issue_instant, :issuer, :presence => true
 
     validates :version, inclusion: %w(2.0)
-    validate :check_issue_instant, :if => "issue_instant.present?"
+    validate :check_issue_instant, :if => 'issue_instant.present?'
 
     def initialize(*args)
       options          = args.extract_options!
@@ -57,9 +57,7 @@ module Saml
     end
 
     def fetch_attribute(key)
-      return unless self.attribute_statement
-      return unless self.attribute_statement.attribute
-      attribute_statement.fetch_attribute(key)
+      fetch_attributes(key).first if fetch_attributes(key)
     end
 
     def fetch_attributes(key)
