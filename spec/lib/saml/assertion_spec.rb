@@ -131,4 +131,17 @@ describe Saml::Assertion do
       assertion.fetch_attribute('not_present').should == nil
     end
   end
+
+  describe 'fetch_attributes' do
+    it 'returns multiple attributes from the attribute statement' do
+      assertion.add_attribute('key', 'value')
+      assertion.add_attribute('key', 'value2')
+      assertion.add_attribute('key2', 'value3')
+      assertion.fetch_attributes('key').should == %w(value value2)
+    end
+
+    it 'returns nil if attribute is not present' do
+      assertion.fetch_attribute('not_present').should == nil
+    end
+  end
 end

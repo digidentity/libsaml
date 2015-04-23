@@ -62,6 +62,12 @@ module Saml
       attribute_statement.fetch_attribute(key)
     end
 
+    def fetch_attributes(key)
+      return unless self.attribute_statement
+      return unless self.attribute_statement.attribute
+      attribute_statement.fetch_attributes(key)
+    end
+
     private
 
     def check_issue_instant

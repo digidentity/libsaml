@@ -16,6 +16,13 @@ module Saml
         end
         attribute.attribute_value if attribute
       end
+
+      def fetch_attributes(key)
+        attributes = self.attribute.find_all do |attr|
+          attr.name == key
+        end
+        attributes.map(&:attribute_value) if attributes
+      end
     end
   end
 end
