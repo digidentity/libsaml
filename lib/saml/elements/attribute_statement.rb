@@ -3,7 +3,7 @@ module Saml
     class AttributeStatement
       include Saml::Base
 
-      tag "AttributeStatement"
+      tag 'AttributeStatement'
       register_namespace 'saml', Saml::SAML_NAMESPACE
       namespace 'saml'
 
@@ -11,10 +11,11 @@ module Saml
       has_many :encrypted_attributes, Saml::Elements::EncryptedAttribute
 
       def fetch_attribute(key)
-        attribute = self.attribute.find do |attr|
-          attr.name == key
-        end
-        attribute.attribute_value if attribute
+        fetch_attributes(key).first
+      end
+
+      def fetch_attributes(key)
+        attribute.find_all { |attr| attr.name == key }.map(&:attribute_value)
       end
     end
   end
