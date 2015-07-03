@@ -180,5 +180,9 @@ FactoryGirl.define do
     telephone_numbers ["0612345678"]
     email_addresses ["technical@example.com"]
   end
-end
 
+  factory :publication_info, :class => Saml::Elements::PublicationInfo do
+    publisher "http://idp.example.com/metadata"
+    creation_instant { Time.now }
+  end
+end

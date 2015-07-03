@@ -12,6 +12,7 @@ require "uri"
 
 module Saml
   MD_NAMESPACE       = 'urn:oasis:names:tc:SAML:2.0:metadata'
+  MD_RPI_NAMESPACE   = 'urn:oasis:names:tc:SAML:metadata:rpi'
   MD_ATTR_NAMESPACE  = 'urn:oasis:names:tc:SAML:metadata:attribute'
   SAML_NAMESPACE     = 'urn:oasis:names:tc:SAML:2.0:assertion'
   SAMLP_NAMESPACE    = 'urn:oasis:names:tc:SAML:2.0:protocol'
@@ -111,6 +112,7 @@ module Saml
     require 'saml/elements/attribute'
     require 'saml/elements/attribute_statement'
     require 'saml/elements/entity_attributes'
+    require 'saml/elements/publication_info'
     require 'saml/elements/md_extensions'
     require 'saml/elements/samlp_extensions'
     require 'saml/elements/service_name'
