@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    libsaml (2.6.1)
+    libsaml (2.6.2)
       activemodel (>= 3.0.0)
       activesupport (>= 3.2.15)
       curb
@@ -172,7 +172,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.6)
-    xmldsig (0.2.7)
+    xmldsig (0.2.8)
       nokogiri
     xmlenc (0.2.0)
       activemodel (>= 3.0.0)

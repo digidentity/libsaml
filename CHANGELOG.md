@@ -1,3 +1,7 @@
+### 2.6.2
+* enhancements
+    * added metadata publication info element
+
 ### 2.6.1
 * enhancements
     * added ```fetch_attributes``` method to fetch multiple attributes with the same name from an assertion 
