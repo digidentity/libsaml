@@ -8,6 +8,7 @@ module Saml
       namespace "md"
 
       has_one :entity_attributes, Saml::Elements::EntityAttributes
+      has_one :publication_info, Saml::Elements::PublicationInfo
     end
   end
 end

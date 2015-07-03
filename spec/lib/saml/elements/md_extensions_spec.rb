@@ -11,7 +11,7 @@ describe Saml::Elements::MDExtensions do
   end
 
   describe "Optional fields" do
-    [:entity_attributes].each do |field|
+    [:entity_attributes, :publication_info].each do |field|
       it "should have the #{field} field" do
         subject.should respond_to(field)
       end
