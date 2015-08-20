@@ -46,8 +46,13 @@ FactoryGirl.define do
     value Saml::TopLevelCodes::SUCCESS
   end
 
+  factory :status_detail, :class => Saml::Elements::StatusDetail do
+    status_value 'foo_status_value'
+  end
+
   factory :status, :class => Saml::Elements::Status do
     status_code FactoryGirl.build(:status_code)
+    status_detail FactoryGirl.build(:status_detail)
   end
 
   factory :status_response_type_dummy, :class => StatusResponseTypeDummy do
@@ -164,8 +169,8 @@ FactoryGirl.define do
   end
 
   factory :entities_descriptor, :class => Saml::Elements::EntitiesDescriptor do
-    entity_descriptors [ FactoryGirl.build(:entity_descriptor) ]
-    entities_descriptors [ "entities_descriptor" ]
+    entity_descriptors [FactoryGirl.build(:entity_descriptor)]
+    entities_descriptors ["entities_descriptor"]
   end
 
   factory :key_descriptor, :class => Saml::Elements::KeyDescriptor do

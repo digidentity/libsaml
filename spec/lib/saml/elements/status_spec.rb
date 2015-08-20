@@ -27,5 +27,9 @@ describe Saml::Elements::Status do
     it "should parse the StatusCode" do
       status.status_code.should be_a(Saml::Elements::StatusCode)
     end
+
+    it "should parse the StatusDetail" do
+      status.status_detail.should be_a(Saml::Elements::StatusDetail)
+    end
   end
 end

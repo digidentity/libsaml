@@ -6,5 +6,8 @@
   <saml:Issuer>Provider</saml:Issuer>
   <samlp:Status>
     <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+    <samlp:StatusDetail>
+      <samlp:StatusValue>foo_status_value</samlp:StatusValue>
+    </samlp:StatusDetail>
   </samlp:Status>
 </samlp:LogoutResponse>

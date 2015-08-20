@@ -201,8 +201,11 @@ class SamlController < ActionController::Base
 
   private
 
-  def build_failure(status_value, sub_status_value)
-    Saml::Response.new(in_response_to: session[:saml_request][:request_id], status_value: status_value, sub_status_value: sub_status_value)
+  def build_failure(status_value, sub_status_value, status_detail)
+    Saml::Response.new(in_response_to: session[:saml_request][:request_id],
+                                       status_value: status_value,
+                                       sub_status_value: sub_status_value,
+                                       status_detail: status_detail)
   end
 
   def build_success_response(authn_request)
