@@ -188,7 +188,7 @@ class SamlController < ActionController::Base
     elsif account_signed_in?
       build_success_response
     else
-      build_failure(Saml::TopLevelCodes::RESPONDER, Saml::SubStatusCodes::NO_AUTHN_CONTEXT)
+      build_failure(Saml::TopLevelCodes::RESPONDER, Saml::SubStatusCodes::NO_AUTHN_CONTEXT, 'cancelled')
     end
 
     if authn_request.protocol_binding == Saml::ProtocolBinding::HTTP_POST
@@ -202,10 +202,10 @@ class SamlController < ActionController::Base
   private
 
   def build_failure(status_value, sub_status_value, status_detail)
-    Saml::Response.new(in_response_to: session[:saml_request][:request_id],
-                                       status_value: status_value,
-                                       sub_status_value: sub_status_value,
-                                       status_detail: status_detail)
+    Saml::Response.new(in_response_to:   session[:saml_request][:request_id],
+                       status_value:     status_value,
+                       sub_status_value: sub_status_value,
+                       status_detail:    status_detail)
   end
 
   def build_success_response(authn_request)
@@ -215,8 +215,7 @@ class SamlController < ActionController::Base
       authn_context_class_ref: Saml::ClassRefs::PASSWORD_PROTECTED,
       in_response_to:          authn_request._id,
       recipient:               authn_request.assertion_url,
-      audience:                authn_request.issuer
-    }
+      audience:                authn_request.issuer)
 
     # adding custom attributes
     assertion.add_attribute('name', 'value')
