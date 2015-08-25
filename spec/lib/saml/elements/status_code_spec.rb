@@ -32,7 +32,7 @@ describe Saml::Elements::StatusCode do
 
   describe "substatus" do
     let(:status) { Saml::Elements::StatusCode.new(:value            => "urn:oasis:names:tc:SAML:2.0:status:Requester",
-                                             :sub_status_value => "urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext") }
+                                                  :sub_status_value => "urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext") }
     it "should allow a substatus" do
       status.sub_status_code.should_not be_blank
     end

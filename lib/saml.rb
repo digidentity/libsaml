@@ -104,6 +104,7 @@ module Saml
     require 'saml/elements/audience_restriction'
     require 'saml/elements/sub_status_code'
     require 'saml/elements/status_code'
+    require 'saml/elements/status_detail'
     require 'saml/elements/status'
     require 'saml/elements/subject_confirmation_data'
     require 'saml/elements/subject_confirmation'

@@ -1,3 +1,7 @@
+### 2.6.3
+* enhancements
+    * added ```status_detail``` element
+
 ### 2.6.2
 * enhancements
     * added metadata publication info element

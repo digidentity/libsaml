@@ -7,6 +7,7 @@ module Saml
       namespace 'samlp'
 
       has_one :status_code, Saml::Elements::StatusCode
+      has_one :status_detail, Saml::Elements::StatusDetail
 
       validates :status_code, :presence => true
 

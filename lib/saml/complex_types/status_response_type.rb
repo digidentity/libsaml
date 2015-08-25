@@ -16,8 +16,9 @@ module Saml
 
       def initialize(*args)
         options = args.extract_options!
-        @status = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => options.delete(:status_value),
-                                                                                            :sub_status_value => options.delete(:sub_status_value)))
+        @status = Saml::Elements::Status.new(:status_code   => Saml::Elements::StatusCode.new(:value            => options.delete(:status_value),
+                                                                                              :sub_status_value => options.delete(:sub_status_value)),
+                                             :status_detail => Saml::Elements::StatusDetail.new(:status_value => options.delete(:status_detail)))
         super(*(args << options))
       end
 
