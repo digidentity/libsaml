@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    libsaml (2.6.3)
+    libsaml (2.6.4)
       activemodel (>= 3.0.0)
       activesupport (>= 3.2.15)
       curb
@@ -185,6 +185,3 @@ DEPENDENCIES
   rspec-rails (~> 3.1)
   simplecov
   sqlite3
-
-BUNDLED WITH
-   1.10.3

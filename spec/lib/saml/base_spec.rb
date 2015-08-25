@@ -45,5 +45,12 @@ describe BaseDummy do
         BaseDummy.parse(nil)
       }.to raise_error(Saml::Errors::UnparseableMessage)
     end
+
+    it 'raises an error when a method does not exist' do
+      ActiveSupport::XmlMini_REXML.should_receive(:parse).and_raise(NoMethodError)
+      expect {
+        BaseDummy.parse('unknown')
+      }.to raise_error(Saml::Errors::UnparseableMessage)
+    end
   end
 end

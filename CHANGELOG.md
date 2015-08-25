@@ -1,3 +1,8 @@
+### 2.6.4
+* enhancements
+    * added ```attribute_authority_descriptor``` element, which extends the ```RoleDescriptorType``` complex type, to an ```entity_descriptor``` element
+    * added ```role_descriptor_type``` complex type
+
 ### 2.6.3
 * enhancements
     * added ```status_detail``` element
@@ -8,7 +13,7 @@
 
 ### 2.6.1
 * enhancements
-    * added ```fetch_attributes``` method to fetch multiple attributes with the same name from an assertion 
+    * added ```fetch_attributes``` method to fetch multiple attributes with the same name from an assertion
 
 ### 2.6.0
 * updated xmlenc dependency

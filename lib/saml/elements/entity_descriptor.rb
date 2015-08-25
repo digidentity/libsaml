@@ -21,6 +21,7 @@ module Saml
 
       has_one :idp_sso_descriptor, Saml::Elements::IDPSSODescriptor
       has_one :sp_sso_descriptor, Saml::Elements::SPSSODescriptor
+      has_one :attribute_authority_descriptor, Saml::Elements::AttributeAuthorityDescriptor
 
       has_one :organization, Saml::Elements::Organization
       has_many :contact_persons, Saml::Elements::ContactPerson
