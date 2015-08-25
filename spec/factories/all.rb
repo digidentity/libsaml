@@ -7,6 +7,10 @@ class StatusResponseTypeDummy
   include Saml::ComplexTypes::StatusResponseType
 end
 
+class RoleDescriptorTypeDummy
+  include Saml::ComplexTypes::RoleDescriptorType
+end
+
 class SsoDescriptorTypeDummy
   include Saml::ComplexTypes::SSODescriptorType
 end
@@ -58,8 +62,11 @@ FactoryGirl.define do
     status FactoryGirl.build(:status)
   end
 
+  factory :role_descriptor_type_dummy, :class => RoleDescriptorTypeDummy do
+  end
+
   factory :sso_descriptor_type_dummy, :class => SsoDescriptorTypeDummy do
-    protocol_support_enumeration Saml::ComplexTypes::SSODescriptorType::PROTOCOL_SUPPORT_ENUMERATION
+    protocol_support_enumeration Saml::ComplexTypes::RoleDescriptorType::PROTOCOL_SUPPORT_ENUMERATION
   end
 
   factory :attribute_type_dummy, :class => AttributeTypeDummy do

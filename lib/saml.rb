@@ -86,6 +86,7 @@ module Saml
   end
 
   module ComplexTypes
+    require 'saml/complex_types/role_descriptor_type'
     require 'saml/complex_types/request_abstract_type'
     require 'saml/complex_types/status_response_type'
     require 'saml/complex_types/endpoint_type'
