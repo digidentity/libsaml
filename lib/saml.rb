@@ -121,6 +121,7 @@ module Saml
     require 'saml/elements/requested_attribute'
     require 'saml/elements/attribute_consuming_service'
     require 'saml/elements/name_id'
+    require 'saml/elements/name_id_format'
     require 'saml/elements/subject'
     require 'saml/elements/conditions'
     require 'saml/elements/authn_statement'
@@ -133,6 +134,7 @@ module Saml
     require 'saml/elements/contact_person'
     require 'saml/elements/idp_sso_descriptor'
     require 'saml/elements/sp_sso_descriptor'
+    require 'saml/elements/attribute_authority_descriptor'
     require 'saml/elements/entity_descriptor'
     require 'saml/elements/entities_descriptor'
   end

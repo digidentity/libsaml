@@ -39,6 +39,10 @@ describe Saml::ComplexTypes::RoleDescriptorType do
         it 'idp_sso_descriptor' do
           Saml::Elements::IDPSSODescriptor.parse(xml, single: true).cache_duration.should be_a String
         end
+
+        it 'attribute_authority_descriptor' do
+          Saml::Elements::AttributeAuthorityDescriptor.parse(xml, single: true).cache_duration.should be_a String
+        end
       end
     end
   end
