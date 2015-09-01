@@ -41,7 +41,7 @@ module Saml
             artifact_response          = Saml::ArtifactResponse.parse(response.body, single: true)
             verified_artifact_response = Saml::Util.verify_xml(artifact_response, response.body)
 
-            verified_artifact_response.response if artifact_response.success?
+            verified_artifact_response.message if artifact_response.success?
           end
         end
       end

@@ -1,3 +1,7 @@
+### 2.6.5
+* enhancements
+    * added ```authn_request``` element on an ```ArtifactResponse``` so that both a ```Response``` as well as an ```AuthnRequest``` can be transferred.
+
 ### 2.6.4
 * enhancements
     * added ```attribute_authority_descriptor``` element, which extends the ```RoleDescriptorType``` complex type, to an ```entity_descriptor``` element
