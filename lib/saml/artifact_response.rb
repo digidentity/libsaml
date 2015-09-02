@@ -5,5 +5,10 @@ module Saml
     tag "ArtifactResponse"
 
     has_one :response, Saml::Response
+    has_one :authn_request, Saml::AuthnRequest
+
+    def message
+      authn_request || response
+    end
   end
 end
