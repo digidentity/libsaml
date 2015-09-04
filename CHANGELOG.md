@@ -1,3 +1,7 @@
+### 2.6.6
+* enhancements
+    * fixed a parsing bug where an unsigned ```ArtifactResponse``` received the signature of its inner signed message.
+
 ### 2.6.5
 * enhancements
     * added ```authn_request``` element on an ```ArtifactResponse``` so that both a ```Response``` as well as an ```AuthnRequest``` can be transferred.
