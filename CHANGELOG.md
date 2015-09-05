@@ -1,4 +1,4 @@
-### 2.6.6
+### 2.6.7
 * enhancements
     * fixed a parsing bug where an unsigned ```ArtifactResponse``` received the signature of its inner signed message.
 
