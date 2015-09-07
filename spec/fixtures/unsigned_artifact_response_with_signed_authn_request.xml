@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<samlp:ArtifactResponse xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                        xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Version="2.0" destination=""
+                        InResponseTo="_13603a6565a69297e9809175b052d115965121c8"
+                        ID="_9e67fc31f4584aa199dbd1d7aa4adedaf4da4d3c" IssueInstant="2011-08-31T08:51:05Z">
+  <saml:Issuer>Provider</saml:Issuer>
+  <samlp:Status>
+    <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+  </samlp:Status>
+  <samlp:AuthnRequest xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" ID="_c392374de287c092408062878fbc23edf9bb3508" Version="2.0" IssueInstant="2011-08-31T06:30:56Z" Destination="http://test.url/sso" ForceAuthn="false" AssertionConsumerServiceIndex="1" ProviderName="Provider">
+    <saml:Issuer>https://sp.example.com</saml:Issuer>
+    <ds:Signature>
+      <ds:SignedInfo>
+        <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+        <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+        <ds:Reference URI="#_c392374de287c092408062878fbc23edf9bb3508">
+          <ds:Transforms>
+            <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+            <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+              <ec:InclusiveNamespaces PrefixList="ds saml samlp xs"/>
+            </ds:Transform>
+          </ds:Transforms>
+          <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+          <ds:DigestValue>6DYBX3uLO6Ofk8IsB/a76VJuoZPv0x+vCsCpp8DII2o=</ds:DigestValue>
+        </ds:Reference>
+      </ds:SignedInfo>
+      <ds:SignatureValue>kkLjdNFCgOnIuxHyrwRBWBIRZJGyWqWcNFRo3seJdv8kux5VLsb0J6Ppl3Eh
+  1YdVOKVdyJznDMX5IMSk2FHamF+nj0f0T+1aAX1YsZcyo0T8NtteqRxpcMGT
+  GVymSkUxdDOJbhcz4We6u07vzRoyS6mAmCDSctbTUgspRdnTx4QqgXR2Mco/
+  /fzDhe0N6tnu4Ilb/ys62gAgnB3i7y/bGxjQeVtTB5Kbaoc2tDS6DsOKnObv
+  0hstCS4I2Yfh+w8wLCRhxBX2i3TTARI9PWsEVdJmIZ4Hp2vwOY7jq6HmLBv+
+  FOS6wOYvY/olTeFn0oZBlqCpWoUT0ng/9UpzqJ0K0Q==</ds:SignatureValue>
+      <ds:KeyInfo>
+        <ds:KeyName>22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8</ds:KeyName>
+      </ds:KeyInfo>
+    </ds:Signature>
+    <samlp:RequestedAuthnContext Comparison="minimum">
+      <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+    </samlp:RequestedAuthnContext>
+  </samlp:AuthnRequest>
+</samlp:ArtifactResponse>

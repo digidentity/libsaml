@@ -49,6 +49,18 @@ describe Saml::ArtifactResponse do
         artifact_response.message.should be_a(Saml::AuthnRequest)
       end
     end
+
+    context "when it contains a signed message but is not signed itself" do
+      let(:artifact_response_xml) { File.read(File.join('spec', 'fixtures', 'unsigned_artifact_response_with_signed_authn_request.xml')) }
+
+      it "the ArtifactResponse should not have a signature" do
+        artifact_response.signature.should be_nil
+      end
+
+      it "the AuthnRequest should have a signature" do
+        artifact_response.message.signature.should be_a(Saml::Elements::Signature)
+      end
+    end
   end
 
   describe ".to_xml" do
@@ -61,6 +73,18 @@ describe Saml::ArtifactResponse do
 
       it "should generate a parseable XML document" do
         new_artifact_response.should be_a(Saml::ArtifactResponse)
+      end
+    end
+
+    context "when it contains a signed message but is not signed itself" do
+      let(:artifact_response_xml) { File.read(File.join('spec', 'fixtures', 'unsigned_artifact_response_with_signed_authn_request.xml')) }
+
+      it "the ArtifactResponse should not have a signature" do
+        artifact_response.signature.should be_nil
+      end
+
+      it "the AuthnRequest should have a signature" do
+        artifact_response.message.signature.should be_a(Saml::Elements::Signature)
       end
     end
   end

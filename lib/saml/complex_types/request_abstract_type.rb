@@ -20,7 +20,7 @@ module Saml
         attribute :destination, String, tag: 'Destination'
         element :issuer, String, namespace: 'saml', tag: 'Issuer'
 
-        has_one :signature, Saml::Elements::Signature
+        has_one :signature, Saml::Elements::Signature, xpath: "./"
         has_one :extensions, Saml::Elements::SAMLPExtensions
 
         attr_accessor :actual_destination
