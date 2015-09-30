@@ -1,3 +1,7 @@
+### 2.6.8
+* enhancements
+    * added the option to set a custom endpoint index for an ```Artifact```.
+
 ### 2.6.7
 * enhancements
     * fixed a parsing bug where an unsigned ```ArtifactResponse``` received the signature of its inner signed message.

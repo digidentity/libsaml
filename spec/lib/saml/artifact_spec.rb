@@ -7,10 +7,6 @@ describe Saml::Artifact, "with hex encoded attributes" do
     artifact.type_code.should == "\000\004"
   end
 
-  it "should have an endpoint_index of 0x000" do
-    artifact.endpoint_index == "\000\000"
-  end
-
   it "should have a source_id of 20 bytes" do
     artifact.source_id.size == 20
   end
@@ -25,6 +21,50 @@ describe Saml::Artifact, "with hex encoded attributes" do
 
   it "should have a total length of 44 bytes" do
     Base64.decode64(artifact.to_s).size.should == 44
+  end
+
+  context "endpoint index" do
+    let(:artifact_string) { "AAQAANo5o+5ea0sNMlW/75VgGJCv2AcJbY2VGuPiI9goxi7s45u3fXoHeDE=" }
+
+    context "without any parameters" do
+      it "should have the default endpoint index of 0x0000" do
+        artifact.endpoint_index.should == "\000\000"
+      end
+    end
+
+    context "with an artifact as a parameter" do
+      let(:artifact) { Saml::Artifact.new(artifact_string) }
+
+      it "should have the default endpoint index of 0x0000" do
+        artifact.endpoint_index.should == "\000\000"
+      end
+    end
+
+    context "with an endpoint index as a parameter" do
+      context "when the endpoint index is a number" do
+        let(:artifact) { Saml::Artifact.new(nil, 1) }
+
+        it "packs the number and sets the endpoint index to 0x0001" do
+          artifact.endpoint_index.should == "\000\001"
+        end
+      end
+
+      context "when the endpoint index is not a number" do
+        let(:artifact) { Saml::Artifact.new(nil, "\000\001") }
+
+        it "sets the endpoint index to 0x0001" do
+          artifact.endpoint_index.should == "\000\001"
+        end
+      end
+    end
+
+    context "with an artifact and an endpoint index as parameters" do
+      let(:artifact) { Saml::Artifact.new(artifact_string, 1) }
+
+      it "should have the default endpoint index of 0x0000" do
+        artifact.endpoint_index.should == "\000\000"
+      end
+    end
   end
 
   describe "#parse" do
