@@ -1,0 +1,121 @@
+<samlp:AttributeQuery xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" xmlns:etoegang="urn:etoegang:1.9:core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" ID="_b3bec4fd8f7356c0d900b8e34d71146580202f4e" Version="2.0" IssueInstant="2015-10-21T08:32:38Z" Destination="https://simulator.eherkenning.nl/kr-simulator-1.9/KRQuery">
+  <saml:Issuer>urn:etoegang:HM:00000003273226310000:entities:1019</saml:Issuer>
+  <ds:Signature>
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+      <ds:Reference URI="#_b3bec4fd8f7356c0d900b8e34d71146580202f4e">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+          <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+            <ec:InclusiveNamespaces PrefixList="ds saml samlp xs" />
+          </ds:Transform>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>LOV818/J1YMryybh1ZV1khNawzOrZSsMDpxMzzBE6hQ=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>
+      nn3P3E2MnnpcNVq5uKv4UvhAcdJwIfeJxPkZ8rvB0m5qDeVRW4QW9t9KZNyS MzOT76UkuX0f0lxsGz+usxaj9M0Xh/B7a+MzGhWMVVFOXI+DdwSmnhpnfdCv ySV24GLkGw/kPHO335jq+A43AMkkCYH2xEMNUcOrOXo485clFmXZmNfy2tyQ MbBmAPs2f1wqJM8GpN25AVl7wsPI1KmS/O5yJ6HZXYuI5lkmZNvClZFJYt43 xP5v4eI2o5COLLKBAgoSYuDFvvtFeQTifhKU2jTmEhTOUxN61TxAfFVDpEr5 o5eO1aru8Hrm08z9x/HerghP4s+D3JVEYp4edMpaRQ==
+    </ds:SignatureValue>
+    <ds:KeyInfo>
+      <ds:KeyName>ddf78acdaf1f54e55a6df5098d5d8dfca877b0df</ds:KeyName>
+    </ds:KeyInfo>
+  </ds:Signature>
+  <samlp:Extensions>
+    <etoegang:evidence>
+      <saml:Assertion ID="_bffcb5e01466365dd821f4c7c68f37a001d144c3" Version="2.0" IssueInstant="2015-10-21T08:32:38Z">
+        <saml:Issuer>urn:etoegang:AD:00000003273226310000:entities:1019</saml:Issuer>
+        <ds:Signature>
+          <ds:SignedInfo>
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+            <ds:Reference URI="#_bffcb5e01466365dd821f4c7c68f37a001d144c3">
+              <ds:Transforms>
+                <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                  <ec:InclusiveNamespaces PrefixList="ds saml samlp xs" />
+                </ds:Transform>
+              </ds:Transforms>
+              <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+              <ds:DigestValue>YV+nlWpD/0yjn25S9AzfKGOP7pNU5ucv3+agMARjiZY=</ds:DigestValue>
+            </ds:Reference>
+          </ds:SignedInfo>
+          <ds:SignatureValue>
+            q8j2mjVaNAKRzrgfhDIuAktCDmCNpiF6701Ajh1q6RnEymexeWvL0hKsDfgX DpyP6ntTW0GwHuGD8Q8jPZkQf5ciJKf8VnMBRPtKetTiQyWTMejdD2AVei/o 3gvPG3rbD5r5xsIjYfmJe0AYN8FQH9onopYvzWgIqqqdUq595etwHuBxLnXL 4MVfQ6LA0ER4Iig225ZezMb2V+1ddEYISJ7XW51Kcmb3ZOYV9wsY2n7i+OjE vJ+McOzDIbcKFHX/IG/a/5wS6PVYzjSCU2zQxkL5layfYVf57RjqY8lxYN9G p590Jx9c/eRizBRLhERaH2Qbe7KIHYJRwzJe5xXi8g==
+          </ds:SignatureValue>
+          <ds:KeyInfo>
+            <ds:KeyName>ddf78acdaf1f54e55a6df5098d5d8dfca877b0df</ds:KeyName>
+          </ds:KeyInfo>
+        </ds:Signature>
+        <saml:Subject>
+          <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">5AA7690B61731415784CEBC54F0F506B2DF884AE6F29FB566C285B5821C315</saml:NameID>
+          <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            <saml:SubjectConfirmationData NotOnOrAfter="2015-10-21T08:34:38Z" Recipient="https://simulator.eherkenning.nl/simulator-1.9/hm/receive/Artifact/ad" InResponseTo="_43A8DE4FF2014413B2CCCDA2DD37063D" />
+          </saml:SubjectConfirmation>
+        </saml:Subject>
+        <saml:Conditions NotBefore="2015-10-21T08:30:38Z" NotOnOrAfter="2015-10-21T08:34:38Z">
+          <saml:AudienceRestriction>
+            <saml:Audience>urn:etoegang:AD:00000003273226310000:entities:1019</saml:Audience>
+          </saml:AudienceRestriction>
+        </saml:Conditions>
+        <saml:AuthnStatement AuthnInstant="2015-10-21T08:32:38Z">
+          <saml:AuthnContext>
+            <saml:AuthnContextClassRef>urn:etoegang:core:assurance-class:loa4</saml:AuthnContextClassRef>
+            <saml:AuthenticatingAuthority>00000003273226310000</saml:AuthenticatingAuthority>
+          </saml:AuthnContext>
+        </saml:AuthnStatement>
+        <saml:AttributeStatement>
+          <saml:Attribute Name="urn:etoegang:core:ServiceUUID">
+            <saml:AttributeValue xsi:type="xs:string">518eb97a-f230-4733-b2c0-79b41467800d</saml:AttributeValue>
+          </saml:Attribute>
+          <saml:Attribute Name="urn:etoegang:core:Representation">
+            <saml:AttributeValue xsi:type="xs:boolean">false</saml:AttributeValue>
+          </saml:Attribute>
+          <saml:Attribute Name="urn:etoegang:core:ActingSubjectID">
+            <saml:AttributeValue>
+              <saml:EncryptedID>
+                <xenc:EncryptedData Id="_fc3236074b71c650549449673c571016" Type="http://www.w3.org/2001/04/xmlenc#Element">
+                  <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+                  <ds:KeyInfo>
+                    <ds:RetrievalMethod Type="http://www.w3.org/2001/04/xmlenc#EncryptedKey" URI="#_dad32d5a59b5ba9dac25e363e0b01e30" />
+                  </ds:KeyInfo>
+                  <xenc:CipherData>
+                    <xenc:CipherValue>
+                      DCX/jBpzA4XXE+xR1oDeRLniq84f6HU0uNpXF37eEvbzP3ZSULMO0lqN+2v3 khepSKmep0YSvR+VYJyYzRExleNVUDThPHRNlwgv9oHtRjGSvomRY/IgN53v 9qgdVcAAVm2oNdo/WDIe8oH6DIXf1llrarMcwhqv54acY5USm5D0io3mG6wO dRlW8Qbf2cyDniXRTmhwYKEvbxm6w4NBtWn0TBeCbbNmmBIyyBP28RCSS6vf UXRzEX2HVgJQ+reaE0T4g8jwduGInqowVs5Ateh1l08aDXY53FyDrjb0hL/g wc1j382nJez4lyUGNPFd54s76DTBOZf86MBaok5WOwNAgamyQ/gxX8nX8swT XwJq/SfXyeoNdxJfkFpbvGLs
+                    </xenc:CipherValue>
+                  </xenc:CipherData>
+                </xenc:EncryptedData>
+                <xenc:EncryptedKey Id="#_dad32d5a59b5ba9dac25e363e0b01e30" Recipient="urn:etoegang:KR:99999999000000000010:entities:9019">
+                  <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+                    <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  </xenc:EncryptionMethod>
+                  <ds:KeyInfo>
+                    <ds:KeyName>a810a050-d8bf-4d9d-81c0-459aa83082a8</ds:KeyName>
+                  </ds:KeyInfo>
+                  <xenc:CipherData>
+                    <xenc:CipherValue>
+                      PNNbAUrtRotvwfxgoeG4Ke+tsv/gWifQXrna4vqe8IF9Jg+0vIvYqRnt0kZU XhkZE/UGnbQE139RQ1zwWn0lazS6NS8s7koEwx0WNjyjFbk9EmPTW1iceqfo CxYUGUjy0ijqqGAWh30i+kamleGpVFursVReK+HTJPFUJT22y3skSpUOPFJy sBCZxAPt3Heeh0nwxpzwX12oldCJKHdi0pf2iTZ4BA2qr4RcRK9Gwcwb+amS +hOMH7R0Xh7QmdoOTilBYpyybO6nkfzmEso3tlSP2qOoAriv23WpBucaDpJe rH0o4ZUwCPihtA3TBykAQ1FezVYauLDfbRB+z5Vt5g==
+                    </xenc:CipherValue>
+                  </xenc:CipherData>
+                  <xenc:ReferenceList>
+                    <xenc:DataReference URI="#_fc3236074b71c650549449673c571016" />
+                  </xenc:ReferenceList>
+                </xenc:EncryptedKey>
+              </saml:EncryptedID>
+            </saml:AttributeValue>
+          </saml:Attribute>
+        </saml:AttributeStatement>
+      </saml:Assertion>
+    </etoegang:evidence>
+    <etoegang:ServiceUUID>518eb97a-f230-4733-b2c0-79b41467800d</etoegang:ServiceUUID>
+    <etoegang:SchemeVersion>1.9</etoegang:SchemeVersion>
+    <etoegang:RequestType>DeclarationOfSectoralIdentity</etoegang:RequestType>
+  </samlp:Extensions>
+  <saml:Subject>
+    <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">5AA7690B61731415784CEBC54F0F506B2DF884AE6F29FB566C285B5821C315</saml:NameID>
+    <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+      <saml:SubjectConfirmationData NotOnOrAfter="2015-10-21T08:34:38Z" />
+    </saml:SubjectConfirmation>
+  </saml:Subject>
+</samlp:AttributeQuery>

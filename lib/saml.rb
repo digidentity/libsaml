@@ -97,6 +97,9 @@ module Saml
     require 'saml/complex_types/attribute_type'
     require 'saml/complex_types/localized_name_type'
     require 'saml/complex_types/statement_abstract_type'
+    require 'saml/complex_types/subject_query_abstract_type'
+    require 'saml/complex_types/attribute_query_type'
+    require 'saml/complex_types/evidence_type'
   end
 
   module Elements
@@ -113,6 +116,9 @@ module Saml
     require 'saml/elements/subject_confirmation'
     require 'saml/elements/encrypted_assertion'
     require 'saml/elements/encrypted_attribute'
+    require 'saml/elements/name_id'
+    require 'saml/elements/name_id_format'
+    require 'saml/elements/encrypted_id'
     require 'saml/elements/attribute_value'
     require 'saml/elements/attribute'
     require 'saml/elements/attribute_statement'
@@ -124,8 +130,6 @@ module Saml
     require 'saml/elements/service_description'
     require 'saml/elements/requested_attribute'
     require 'saml/elements/attribute_consuming_service'
-    require 'saml/elements/name_id'
-    require 'saml/elements/name_id_format'
     require 'saml/elements/subject'
     require 'saml/elements/conditions'
     require 'saml/elements/authn_statement'
@@ -141,6 +145,8 @@ module Saml
     require 'saml/elements/attribute_authority_descriptor'
     require 'saml/elements/entity_descriptor'
     require 'saml/elements/entities_descriptor'
+    require 'saml/elements/attribute_query'
+    require 'saml/elements/evidence'
   end
 
   module Rails

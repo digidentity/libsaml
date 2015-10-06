@@ -112,18 +112,18 @@ describe Saml::Util do
       @request.body.should == message
     end
 
-    it 'has default headers' do
-      default_headers = { 'Content-Type' => 'text/xml' }
+    it "has default headers" do
+      default_headers = { 'Content-Type' => 'text/xml', 'Cache-Control' => 'no-cache, no-store', 'Pragma' => 'no-cache' }
 
       Net::HTTP::Post.should_receive(:new).with('/foo/bar', default_headers).and_return(net_http)
       post_request
     end
 
-    it 'can have additional headers' do
-      default_headers    = { 'Content-Type' => 'text/xml' }
-      additional_headers = { 'header' => 'foo' }
+    it "can have additional headers" do
+      default_headers = { 'Content-Type' => 'text/xml', 'Cache-Control' => 'no-cache, no-store', 'Pragma' => 'no-cache' }
+      additional_headers = { "header" => "foo" }
 
-      Net::HTTP::Post.should_receive(:new).with('/foo/bar', { 'Content-Type' => 'text/xml', 'header' => 'foo' }).and_return(net_http)
+      Net::HTTP::Post.should_receive(:new).with("/foo/bar", default_headers.merge(additional_headers)).and_return(net_http)
       described_class.post location, message, additional_headers
     end
 
@@ -276,6 +276,28 @@ describe Saml::Util do
     it 'it returns decrypted assertion xml' do
       assertion = Saml::Util.decrypt_assertion(encrypted_assertion, service_provider.private_key)
       assertion.should be_a Saml::Assertion
+    end
+  end
+
+  describe ".encrypt_encrypted_id" do
+    let(:encrypted_id) { Saml::Util.encrypt_encrypted_id(Saml::Elements::EncryptedID.new, service_provider.certificate) }
+    it "returns an encrypted assertion object" do
+      encrypted_id.should be_a Saml::Elements::EncryptedID
+    end
+
+    it "is not valid when with no encrypted data" do
+      encrypted_id.encrypted_data = nil
+      encrypted_id.should be_invalid
+    end
+  end
+
+
+  describe ".decrypt_encrypted_id" do
+    let(:encrypted_id) { Saml::Util.encrypt_encrypted_id(Saml::Elements::EncryptedID.new, service_provider.certificate) }
+
+    it 'it returns decrypted encrypted_id xml' do
+      assertion = Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.private_key)
+      assertion.should be_a Saml::Elements::EncryptedID
     end
   end
 
