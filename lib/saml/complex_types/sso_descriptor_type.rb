@@ -25,6 +25,7 @@ module Saml
 
         has_many :artifact_resolution_services, ArtifactResolutionService
         has_many :single_logout_services, SingleLogoutService
+        has_many :name_id_formats, Saml::Elements::NameIdFormat
       end
 
       def initialize(*args)
