@@ -1,3 +1,7 @@
+### 2.6.9
+* enhancements
+    * added ```name_id_formats``` to the ```SSODescriptorType``` complex type.
+
 ### 2.6.8
 * enhancements
     * added the option to set a custom endpoint index for an ```Artifact```.
