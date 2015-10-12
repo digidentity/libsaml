@@ -35,8 +35,12 @@ module Saml
     end
 
     def certificate(key_name = nil, use = "signing")
-      key_descriptor = descriptor.find_key_descriptor(key_name, use)
+      key_descriptor = find_key_descriptor(key_name, use)
       key_descriptor.certificate if key_descriptor
+    end
+
+    def find_key_descriptor(key_name = nil, use = "signing")
+      descriptor.find_key_descriptor(key_name, use)
     end
 
     def private_key

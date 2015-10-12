@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 # Declare your gem's dependencies in saml.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -13,8 +13,7 @@ group :test, :development do
   gem 'guard-rspec', '~> 4.0'
   gem 'simplecov'
   gem 'factory_girl_rails'
-  gem 'sqlite3'
-  gem "rspec-collection_matchers", "~> 1.0"
+  gem 'rspec-collection_matchers', '~> 1.0'
 end
 
 # Declare any dependencies that are still in development here instead of in

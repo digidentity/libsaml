@@ -1,3 +1,8 @@
+### 2.7.0
+* updated xmlenc dependency
+* enhancements
+    * added the possibility to use a ```KeyDescriptor``` in the ```Util::EncryptAssertion``` method, so we can set the ```key_name``` in the encrypted assertion. 
+
 ### 2.6.9
 * enhancements
     * added ```name_id_formats``` to the ```SSODescriptorType``` complex type.
