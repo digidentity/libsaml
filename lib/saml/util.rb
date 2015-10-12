@@ -51,7 +51,18 @@ module Saml
         end
       end
 
-      def encrypt_assertion(assertion, certificate)
+      def encrypt_assertion(assertion, key_descriptor_or_certificate)
+        case key_descriptor_or_certificate
+        when OpenSSL::X509::Certificate
+          certificate = key_descriptor_or_certificate
+          key_name = nil
+        when Saml::Elements::KeyDescriptor
+          certificate = key_descriptor_or_certificate.certificate
+          key_name = key_descriptor_or_certificate.key_info.key_name
+        else
+          raise ArgumentError.new("Expecting Certificate or KeyDescriptor got: #{key_descriptor_or_certificate.class}")
+        end
+
         assertion = assertion.to_xml(nil, nil, false) if assertion.is_a?(Assertion) # create xml without instruct
 
         encrypted_data = Xmlenc::Builder::EncryptedData.new
@@ -60,6 +71,7 @@ module Saml
         encrypted_key = encrypted_data.encrypt(assertion.to_s)
         encrypted_key.set_encryption_method(algorithm:               'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
                                             digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1')
+        encrypted_key.set_key_name(key_name)
         encrypted_key.encrypt(certificate.public_key)
 
         Saml::Elements::EncryptedAssertion.new(encrypted_data: encrypted_data, encrypted_keys: encrypted_key)
