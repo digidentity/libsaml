@@ -111,6 +111,7 @@ module Saml
     require 'saml/elements/subject_confirmation'
     require 'saml/elements/encrypted_assertion'
     require 'saml/elements/encrypted_attribute'
+    require 'saml/elements/attribute_value'
     require 'saml/elements/attribute'
     require 'saml/elements/attribute_statement'
     require 'saml/elements/entity_attributes'

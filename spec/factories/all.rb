@@ -132,6 +132,9 @@ FactoryGirl.define do
 
   end
 
+  factory :attribute_value, :class => Saml::Elements::AttributeValue do
+  end
+
   factory :attribute_statement, :class => Saml::Elements::AttributeStatement do
     attribute FactoryGirl.build(:attribute)
   end
