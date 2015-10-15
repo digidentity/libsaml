@@ -27,7 +27,7 @@ class StatementDummy
   include HappyMapper
 
   register_namespace 'xacml-saml', "urn:oasis:xacml:2.0:saml:assertion:schema:os"
-  register_namespace 'xsi', 'http://www.w3.org/2001/XMLSchema-instance'
+  register_namespace 'xsi', Saml::XSI_NAMESPACE
 
   tag 'Statement'
   namespace 'saml'

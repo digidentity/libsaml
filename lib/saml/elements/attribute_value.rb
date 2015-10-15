@@ -4,8 +4,8 @@ module Saml
       include Saml::Base
 
       register_namespace 'saml', Saml::SAML_NAMESPACE
-      register_namespace 'xs',  'http://www.w3.org/2001/XMLSchema'
-      register_namespace 'xsi', 'http://www.w3.org/2001/XMLSchema-instance'
+      register_namespace 'xs',   Saml::XS_NAMESPACE
+      register_namespace 'xsi',  Saml::XSI_NAMESPACE
 
       namespace 'saml'
       tag 'AttributeValue'
