@@ -116,7 +116,7 @@ describe Saml::Assertion do
     it 'adds the attribute to the attribute statement' do
       assertion.add_attribute('key', 'value')
       assertion.attribute_statement.attribute.first.name.should == 'key'
-      assertion.attribute_statement.attribute.first.attribute_value.should == 'value'
+      assertion.attribute_statement.attribute.first.attribute_values.first.content.should == 'value'
     end
   end
 
