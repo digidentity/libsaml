@@ -1,4 +1,4 @@
-### 2.7.1
+### 2.8.0
 * enhancements
 	* added ```AttributeValue``` element
     * added the possibility to have many ```AttributeValue``` elements on elements which include the ```AttributeType``` complex type
