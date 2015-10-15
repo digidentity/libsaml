@@ -52,6 +52,10 @@ describe Saml::ComplexTypes::AttributeType do
     it 'returns the value of the first attribute value' do
       expect(attribute_type.attribute_value).to eq 'foo'
     end
+
+    it 'shows a deprecation warning' do
+      expect { attribute_type.attribute_value }.to output("[DEPRECATED] please use #attribute_values\n").to_stderr
+    end
   end
 
   describe '#attribute_value=' do
