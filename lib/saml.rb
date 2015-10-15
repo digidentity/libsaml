@@ -16,6 +16,8 @@ module Saml
   MD_ATTR_NAMESPACE  = 'urn:oasis:names:tc:SAML:metadata:attribute'
   SAML_NAMESPACE     = 'urn:oasis:names:tc:SAML:2.0:assertion'
   SAMLP_NAMESPACE    = 'urn:oasis:names:tc:SAML:2.0:protocol'
+  XS_NAMESPACE       = 'http://www.w3.org/2001/XMLSchema'
+  XSI_NAMESPACE      = 'http://www.w3.org/2001/XMLSchema-instance'
   XML_DSIG_NAMESPACE = 'http://www.w3.org/2000/09/xmldsig#'
   SAML_VERSION       = '2.0'
 
@@ -111,6 +113,7 @@ module Saml
     require 'saml/elements/subject_confirmation'
     require 'saml/elements/encrypted_assertion'
     require 'saml/elements/encrypted_attribute'
+    require 'saml/elements/attribute_value'
     require 'saml/elements/attribute'
     require 'saml/elements/attribute_statement'
     require 'saml/elements/entity_attributes'

@@ -1,7 +1,13 @@
+### 2.7.1
+* enhancements
+	* added ```AttributeValue``` element
+    * added the possibility to have many ```AttributeValue``` elements on elements which include the ```AttributeType``` complex type
+    * the ```#attribute_value``` on the ```AttributeType``` complex type is now deprecated
+
 ### 2.7.0
 * updated xmlenc dependency
 * enhancements
-    * added the possibility to use a ```KeyDescriptor``` in the ```Util::EncryptAssertion``` method, so we can set the ```key_name``` in the encrypted assertion. 
+    * added the possibility to use a ```KeyDescriptor``` in the ```Util::EncryptAssertion``` method, so we can set the ```key_name``` in the encrypted assertion.
 
 ### 2.6.9
 * enhancements

@@ -10,15 +10,31 @@ module Saml
         attribute :name, String, :tag => 'Name'
         attribute :format, String, tag: 'NameFormat'
         attribute :friendly_name, String, tag: 'FriendlyName'
-        element :attribute_value, String, :namespace => 'saml', :tag => "AttributeValue"
+
+        has_many :attribute_values, Saml::Elements::AttributeValue
 
         validates :name, :presence => true
       end
 
       def initialize(*args)
         options = args.extract_options!
+        @attribute_values ||= []
         super(*(args << options))
       end
+
+      def attribute_value
+        warn '[DEPRECATED] please use #attribute_values'
+        attribute_values.first.try(:content)
+      end
+
+      def attribute_value=(value)
+        self.attribute_values << if value.is_a? String
+          Saml::Elements::AttributeValue.new(content: value)
+        else
+          value
+        end
+      end
+
     end
   end
 end

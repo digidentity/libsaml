@@ -15,7 +15,7 @@ module Saml
       end
 
       def fetch_attributes(key)
-        attribute.find_all { |attr| attr.name == key }.map(&:attribute_value)
+        attribute.find_all { |attr| attr.name == key }.flat_map(&:attribute_values).map(&:content)
       end
     end
   end
