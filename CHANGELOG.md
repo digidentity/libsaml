@@ -1,8 +1,12 @@
+### 2.8.1
+* enhancements
+    * changed the ```#attribute_value=``` method on ```ComplexTypes::AttributeValue``` so it will replace the existing attribute values, instead of appending to it
+
 ### 2.8.0
 * enhancements
-	* added ```AttributeValue``` element
-    * added the possibility to have many ```AttributeValue``` elements on elements which include the ```AttributeType``` complex type
-    * the ```#attribute_value``` on the ```AttributeType``` complex type is now deprecated
+    * added ```AttributeValue``` element
+    * added the possibility to have many ```AttributeValue``` elements on elements which include the ```ComplexTypes::AttributeType```
+    * the ```#attribute_value``` method on ```ComplexTypes::AttributeType``` is now deprecated
 
 ### 2.7.0
 * updated xmlenc dependency
