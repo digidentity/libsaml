@@ -47,7 +47,8 @@ describe Saml::ComplexTypes::AttributeType do
   describe '#attribute_value (DEPRECATED)' do
     let(:attribute_value_1) { FactoryGirl.build(:attribute_value, content: 'foo') }
     let(:attribute_value_2) { FactoryGirl.build(:attribute_value, content: 'bar') }
-    let(:attribute_type)    { FactoryGirl.build(:attribute_type_dummy, attribute_values: [attribute_value_1, attribute_value_2]) }
+
+    before { attribute_type.attribute_values = [attribute_value_1, attribute_value_2] }
 
     it 'returns the value of the first attribute value' do
       expect(attribute_type.attribute_value).to eq 'foo'
@@ -59,15 +60,19 @@ describe Saml::ComplexTypes::AttributeType do
   end
 
   describe '#attribute_value=' do
+    let(:attribute_value) { FactoryGirl.build(:attribute_value, content: 'foobar') }
+
+    before { attribute_type.attribute_values = [attribute_value] }
+
     context 'when the attribute value is passed as a String' do
-      it 'creates a new AttributeValue element and sets the content' do
+      it 'replaces the attribute values with a new AttributeValue element with the given content' do
         attribute_type.attribute_value = 'foo'
         expect(attribute_type.attribute_values.first.content).to eq 'foo'
       end
     end
 
-    context 'when the attribute value is passed as an AttributeValue element' do
-      it 'adds the attribute value to the attribute values' do
+    context 'when the attribute value is NOT passed as a String' do
+      it 'replaces the attribute values with the given argument' do
         attribute_type.attribute_value = Saml::Elements::AttributeValue.new content: 'bar'
         expect(attribute_type.attribute_values.first.content).to eq 'bar'
       end
