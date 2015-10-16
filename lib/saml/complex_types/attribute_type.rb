@@ -28,11 +28,12 @@ module Saml
       end
 
       def attribute_value=(value)
-        self.attribute_values << if value.is_a? String
+        attribute_value = if value.is_a? String
           Saml::Elements::AttributeValue.new(content: value)
         else
           value
         end
+        self.attribute_values = [attribute_value]
       end
 
     end
