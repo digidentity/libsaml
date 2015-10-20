@@ -26,9 +26,7 @@ module Saml
       body    = self.to_xml(builder)
 
       builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8")
-      builder.Envelope(:'xmlns:soapenv' => "http://schemas.xmlsoap.org/soap/envelope/",
-                       :'xmlns:xsd'     => Saml::XS_NAMESPACE,
-                       :'xmlns:xsi'     => Saml::XSI_NAMESPACE) do |xml|
+      builder.Envelope(:'xmlns:soapenv' => "http://schemas.xmlsoap.org/soap/envelope/") do |xml|
         builder.parent.namespace = builder.parent.namespace_definitions.find { |n| n.prefix == 'soapenv' }
         builder.Body do
           builder.parent.add_child body.doc.root

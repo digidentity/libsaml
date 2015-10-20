@@ -1,3 +1,7 @@
+### 2.8.2
+* enhancements
+    * removed the ```http://www.w3.org/2001/XMLSchema``` and ```http://www.w3.org/2001/XMLSchema-instance``` namespaces from the ```to_soap``` method.
+
 ### 2.8.1
 * enhancements
     * changed the ```#attribute_value=``` method on ```ComplexTypes::AttributeValue``` so it will replace the existing attribute values, instead of appending to it
