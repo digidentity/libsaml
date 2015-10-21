@@ -23,6 +23,14 @@ class LocalizedNameTypeDummy
   include Saml::ComplexTypes::LocalizedNameType
 end
 
+class SubjectQueryAbstractTypeDummy
+  include Saml::ComplexTypes::SubjectQueryAbstractType
+end
+
+class AttributeQueryTypeDummy
+  include Saml::ComplexTypes::AttributeQueryType
+end
+
 class StatementDummy
   include HappyMapper
 
@@ -199,5 +207,18 @@ FactoryGirl.define do
   factory :publication_info, :class => Saml::Elements::PublicationInfo do
     publisher "http://idp.example.com/metadata"
     creation_instant { Time.now }
+  end
+
+  factory :subject_query_abstract_type_dummy, :class => SubjectQueryAbstractTypeDummy do
+    _id "_#{Time.now.to_i}"
+    version "2.0"
+    issue_instant { Time.now }
+    subject FactoryGirl.build(:subject)
+  end
+
+  factory :attribute_query_type_dummy, :class => AttributeQueryTypeDummy do
+    _id "_#{Time.now.to_i}"
+    version "2.0"
+    issue_instant { Time.now }
   end
 end
