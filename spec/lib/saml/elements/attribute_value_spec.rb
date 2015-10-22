@@ -5,7 +5,7 @@ describe Saml::Elements::AttributeValue do
   subject { FactoryGirl.build(:attribute_value) }
 
   describe 'optional fields' do
-    [:type].each do |field|
+    [:encrypted_id, :type, :content].each do |field|
       it "should respond to the '#{field}' field" do
         expect(subject).to respond_to(field)
       end
@@ -23,6 +23,17 @@ describe Saml::Elements::AttributeValue do
     it 'should know its type' do
       expect(attribute_value.type).to eq 'xs:string'
     end
-  end
 
+    context 'with an EncryptedID element' do
+      let(:attribute_xml) { File.read(File.join('spec','fixtures','attribute_value.xml')) }
+
+      it 'should create an AttributeValue' do
+        expect(attribute_value).to be_a Saml::Elements::AttributeValue
+      end
+
+      it 'has an EncryptedID element' do
+        expect(attribute_value.encrypted_id).to be_a Saml::Elements::EncryptedID
+      end
+    end
+  end
 end
