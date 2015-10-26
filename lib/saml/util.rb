@@ -89,26 +89,21 @@ module Saml
         Saml::Assertion.parse(encrypted_document.decrypt(private_key), single: true)
       end
 
-      def encrypt_encrypted_id(encrypted_id, certificate)
-        encrypted_id = encrypted_id.to_xml(nil, nil, false) if encrypted_id.is_a?(Saml::Elements::EncryptedID) # create xml without instruct
+      def encrypt_name_id(name_id, key_descriptor, key_options = {})
+        encrypted_id = Saml::Elements::EncryptedID.new(name_id: name_id)
+        encrypt_encrypted_id(encrypted_id, key_descriptor, key_options)
+      end
 
-        encrypted_data = Xmlenc::Builder::EncryptedData.new
-        encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes128-cbc')
-
-        encrypted_key = encrypted_data.encrypt(encrypted_id.to_s)
-        encrypted_key.set_encryption_method(algorithm:               'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
-                                            digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1')
-        encrypted_key.encrypt(certificate.public_key)
-
-        Saml::Elements::EncryptedID.new(encrypted_data: encrypted_data, encrypted_keys: encrypted_key)
+      def encrypt_encrypted_id(encrypted_id, key_descriptor, key_options = {})
+        encrypted_id.encrypt(key_descriptor, key_options)
+        encrypted_id
       end
 
       def decrypt_encrypted_id(encrypted_id, private_key)
         encrypted_id_xml = encrypted_id.is_a?(Saml::Elements::EncryptedID) ?
             encrypted_id.to_xml : encrypted_id.to_s
-        encrypted_document      = Xmlenc::EncryptedDocument.new(encrypted_id_xml)
-
-        Saml::Elements::EncryptedID.parse(encrypted_document.decrypt(private_key), single: true)
+        encrypted_document = Xmlenc::EncryptedDocument.new(encrypted_id_xml)
+        Saml::Elements::EncryptedID.parse(encrypted_document.decrypt(private_key))
       end
 
       def verify_xml(message, raw_body)

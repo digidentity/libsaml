@@ -279,25 +279,58 @@ describe Saml::Util do
     end
   end
 
-  describe ".encrypt_encrypted_id" do
-    let(:encrypted_id) { Saml::Util.encrypt_encrypted_id(Saml::Elements::EncryptedID.new, service_provider.certificate) }
-    it "returns an encrypted assertion object" do
-      encrypted_id.should be_a Saml::Elements::EncryptedID
+  describe '.encrypt_name_id' do
+    let(:name_id) { Saml::Elements::NameId.new(value: 'NAAM') }
+    let(:key_name) { '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8' }
+    let(:key_descriptor) { service_provider.entity_descriptor.sp_sso_descriptor.find_key_descriptor(key_name, 'encryption') }
+    let(:encrypted_id) { Saml::Util.encrypt_name_id(name_id, key_descriptor) }
+
+    it 'creates an EncryptedID' do
+      expect(encrypted_id).to be_a Saml::Elements::EncryptedID
     end
 
-    it "is not valid when with no encrypted data" do
-      encrypted_id.encrypted_data = nil
-      encrypted_id.should be_invalid
+    it 'can decrypt back' do
+      expect(Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.private_key).name_id).to be_a Saml::Elements::NameId
     end
   end
 
+  describe '.encrypt_encrypted_id' do
+    let(:name_id) { Saml::Elements::NameId.new(value: 'NAAM') }
+    let(:key_name) { '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8' }
+    let(:key_descriptor) { service_provider.entity_descriptor.sp_sso_descriptor.find_key_descriptor(key_name, 'encryption') }
+    let(:encrypted_id) { Saml::Elements::EncryptedID.new(name_id: name_id) }
 
-  describe ".decrypt_encrypted_id" do
-    let(:encrypted_id) { Saml::Util.encrypt_encrypted_id(Saml::Elements::EncryptedID.new, service_provider.certificate) }
+    before { described_class.encrypt_encrypted_id(encrypted_id, key_descriptor) }
 
-    it 'it returns decrypted encrypted_id xml' do
-      assertion = Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.private_key)
-      assertion.should be_a Saml::Elements::EncryptedID
+    it 'returns an EncryptedID' do
+      expect(encrypted_id).to be_a Saml::Elements::EncryptedID
+    end
+
+    it 'builds the encrypted_data' do
+      expect(encrypted_id.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
+    end
+
+    it 'name_id is removed' do
+      expect(encrypted_id.name_id).to eq nil
+    end
+
+    it 'can decrypt back' do
+      expect(Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.private_key).name_id).to be_a Saml::Elements::NameId
+    end
+  end
+
+  describe '.decrypt_encrypted_id' do
+    let(:encrypted_id_xml) { File.read('spec/fixtures/encrypted_name_id.xml') }
+    let(:parsed_encrypted_id) { Saml::Elements::EncryptedID.parse(encrypted_id_xml) }
+
+    let(:decrypted) { Saml::Util.decrypt_encrypted_id(encrypted_id_xml, service_provider.private_key) }
+
+    it 'contains a NameId' do
+      expect(decrypted.name_id).to be_a Saml::Elements::NameId
+    end
+
+    it 'does not contain #encrypted_data' do
+      expect(decrypted.encrypted_data).to eq nil
     end
   end
 

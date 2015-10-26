@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<saml:EncryptedID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+  <xenc:EncryptedData Id="87a277df83" Type="http://www.w3.org/2001/04/xmlenc#Element">
+    <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+    <ds:KeyInfo>
+      <ds:RetrievalMethod Type="http://www.w3.org/2001/04/xmlenc#EncryptedKey" URI="#"/>
+    </ds:KeyInfo>
+    <xenc:CipherData>
+      <xenc:CipherValue>wCdTOnDhWHDs90/jtVwXQZsYLgxVCeJ0mNTjSNetmZZdR9mes9wsp/mt90tB
+eRg7NCJU8QRgbKiVn/fPS3pjE/4BcwEjXAZSEIlbfMc6Pr2OtF2iscuptfkv
+36TSYxOH8FXMAOH/uAz3QxUkplhQKA==
+</xenc:CipherValue>
+    </xenc:CipherData>
+  </xenc:EncryptedData>
+  <xenc:EncryptedKey>
+    <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+      <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+    </xenc:EncryptionMethod>
+    <ds:KeyInfo>
+      <ds:KeyName>22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8</ds:KeyName>
+    </ds:KeyInfo>
+    <xenc:CipherData>
+      <xenc:CipherValue>lN7Oe9i4NYwV/DVAYB+h0kJf/om/iRaTuyVVOng9OwxIT8QpvcSLAw1mI+uy
+KbcoOhDVyMSKgNm6P4/JyUMu67d5+sLDMXoHoAiPiWVYIlij53ActnvUT0Nj
+FlNc64QoWwNrFwwYfekArOFQFWjxqDYAHuVgOYR7Z3n9y4I9qKM=
+</xenc:CipherValue>
+    </xenc:CipherData>
+    <xenc:ReferenceList>
+      <xenc:DataReference URI="#87a277df83"/>
+    </xenc:ReferenceList>
+  </xenc:EncryptedKey>
+</saml:EncryptedID>

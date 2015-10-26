@@ -1,0 +1,27 @@
+<saml2:AttributeValue xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
+  <saml2:EncryptedID>
+    <xenc:EncryptedData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_fc3236074b71c650549449673c571016" Type="http://www.w3.org/2001/04/xmlenc#Element">
+      <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"/>
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:RetrievalMethod Type="http://www.w3.org/2001/04/xmlenc#EncryptedKey" URI="#_dad32d5a59b5ba9dac25e363e0b01e30"/>
+      </ds:KeyInfo>
+      <xenc:CipherData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+        <xenc:CipherValue>50QDNbPI6GPuEgSmZhcgC9757IqbZcipNoqMjYyilUf4OrDd31zOAoz1POSFAY1NCxdpSv60Q2cNCpiZRFU2y4tsSn6kdXgl/x85IqOYNbgj33E0gv/gAEeZOlLH2Wt2G1d+rUL5YIEHfHTFzVWXPfG4xRppDebqV5kDt1chfw2HP3R5JPm0JZkmYOaqYqhM4Hq3CVZ0lvUUvul3ESk+CiRDttXgmwnGSsHnySR4AR4uN1An29JRVqHMhYYiwYpVQQ9IAYlvax0MBZiutSBred1+pQFc6vwK8IEe7opJcVEIrjt93Fwa6iUu/fM8tz5I5/9JnOm8s9vjHjzoOkvi+lP9H7WP8T2oeFYKAStyRWw=</xenc:CipherValue>
+      </xenc:CipherData>
+    </xenc:EncryptedData>
+    <xenc:EncryptedKey xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_dad32d5a59b5ba9dac25e363e0b01e30" Recipient="urn:etoegang:KR:99999999000000000010:entities:9019">
+      <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+        <ds:DigestMethod xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+      </xenc:EncryptionMethod>
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:KeyName>a810a050-d8bf-4d9d-81c0-459aa83082a8</ds:KeyName>
+      </ds:KeyInfo>
+      <xenc:CipherData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+        <xenc:CipherValue>VZ9Wh4clQhbKK2qOM6LEZTmAGNbGTycZmNJhiC1SkqGu1E4LR9IUUONGj2YALaGVtR0V/9ylxncvtPyQpF7xoHTYXKjJpmuGajn73CBU0PG2R7RpBfLO9ecdxASKxDUK+/DtITNPEM2S0hXRch+PuTKkuUGf/v6hmWjK2E6eYOTUmBv67NUt7jGWRyF6GF5JcKoPHmPfvyHHRrkz5bI8PiWDo0yVoZDiVRX0Pjc/LOhWa25BhQJzeQeCKHXIKUZkJ4hlyTQojBHF3E1yogBPPsaQgZrNhEXLlI5qbqmJE1oKJBnUzV8PTivlxFIaQ+f7XrBfUrBLBiqK6AcUzMDa1Q==</xenc:CipherValue>
+      </xenc:CipherData>
+      <xenc:ReferenceList xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+        <xenc:DataReference URI="#_fc3236074b71c650549449673c571016"/>
+      </xenc:ReferenceList>
+    </xenc:EncryptedKey>
+  </saml2:EncryptedID>
+</saml2:AttributeValue>
