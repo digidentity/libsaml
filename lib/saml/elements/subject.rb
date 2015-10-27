@@ -7,7 +7,8 @@ module Saml
       register_namespace 'saml', Saml::SAML_NAMESPACE
       namespace 'saml'
 
-      element :_name_id, NameId, :tag => "NameID"
+      has_one :_name_id, Saml::Elements::NameId
+      has_one :encrypted_id, Saml::Elements::EncryptedID
 
       has_many :subject_confirmation, Saml::Elements::SubjectConfirmation
 

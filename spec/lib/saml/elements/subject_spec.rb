@@ -3,6 +3,21 @@ require 'spec_helper'
 describe Saml::Elements::Subject do
   let(:subject) { FactoryGirl.build(:subject) }
 
+  describe 'optional fields' do
+    [:encrypted_id].each do |field|
+      it "responds to the #{field} field" do
+        expect(subject).to respond_to(field)
+      end
+
+      it "allows #{field} to blank" do
+        subject.send("#{field}=", nil)
+        expect(subject.errors.entries).to match_array []
+        subject.send("#{field}=", '')
+        expect(subject.errors.entries).to match_array []
+      end
+    end
+  end
+
   describe "Required fields" do
     [:name_id, :subject_confirmation].each do |field|
       it "should have the #{field} field" do
