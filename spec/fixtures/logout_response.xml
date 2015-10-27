@@ -9,5 +9,6 @@
     <samlp:StatusDetail>
       <samlp:StatusValue>foo_status_value</samlp:StatusValue>
     </samlp:StatusDetail>
+    <samlp:StatusMessage>some message</samlp:StatusMessage>
   </samlp:Status>
 </samlp:LogoutResponse>

@@ -31,5 +31,9 @@ describe Saml::Elements::Status do
     it "should parse the StatusDetail" do
       status.status_detail.should be_a(Saml::Elements::StatusDetail)
     end
+
+    it 'should parse the StatusMessage' do
+      expect(status.status_message).to eq 'some message'
+    end
   end
 end
