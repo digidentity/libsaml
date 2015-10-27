@@ -1,3 +1,7 @@
+### 2.10.1
+* enhancements
+    * a ```StatusDetail``` element (which is optional) will only be added to a ```Status``` element when it’s provided as an argument, thus not by default.
+
 ### 2.10.0
 * enhancements
     * an ```AttributeValue``` element can have an ```EncryptedID``` element
