@@ -1,3 +1,7 @@
+### 2.10.2
+* enhancements
+    * added a ```StatusMessage``` element to the ```Status``` element.
+
 ### 2.9.0
 * enhancements
     * removed the ```http://www.w3.org/2001/XMLSchema``` and ```http://www.w3.org/2001/XMLSchema-instance``` namespaces from the ```to_soap``` method.
