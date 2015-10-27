@@ -59,4 +59,22 @@ describe Saml::ComplexTypes::StatusResponseType do
       status_response_type.success?.should be false
     end
   end
+
+  describe '#status_detail' do
+    context 'when initialized with a status detail' do
+      let(:status_response_type) { StatusResponseTypeDummy.new(status_detail: FactoryGirl.build(:status_detail)) }
+
+      it 'adds a status detail to the status' do
+        expect(status_response_type.status.status_detail).to be_a(Saml::Elements::StatusDetail)
+      end
+    end
+
+    context 'when initialized without a status detail' do
+      let(:status_response_type) { StatusResponseTypeDummy.new(status_detail: nil) }
+
+      it 'does NOT add a status detail to the status' do
+        expect(status_response_type.status.status_detail).to be_blank
+      end
+    end
+  end
 end

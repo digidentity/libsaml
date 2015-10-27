@@ -1,3 +1,12 @@
+### 2.10.1
+* enhancements
+    * a ```StatusDetail``` element (which is optional) will only be added to a ```Status``` element when it’s provided as an argument, thus not by default.
+
+### 2.10.0
+* enhancements
+    * an ```AttributeValue``` element can have an ```EncryptedID``` element
+    * added helper methods for encrypting a ```NameId``` element and encrypting/decrypting an ```EncryptedID``` element
+
 ### 2.9.0
 * enhancements
     * removed the ```http://www.w3.org/2001/XMLSchema``` and ```http://www.w3.org/2001/XMLSchema-instance``` namespaces from the ```to_soap``` method.
