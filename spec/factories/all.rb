@@ -1,4 +1,5 @@
 require 'factory_girl'
+
 class RequestAbstractTypeDummy
   include Saml::ComplexTypes::RequestAbstractType
 end
@@ -29,6 +30,10 @@ end
 
 class AttributeQueryTypeDummy
   include Saml::ComplexTypes::AttributeQueryType
+end
+
+class AdviceTypeDummy
+  include Saml::ComplexTypes::AdviceType
 end
 
 class StatementDummy
@@ -220,5 +225,9 @@ FactoryGirl.define do
     _id "_#{Time.now.to_i}"
     version "2.0"
     issue_instant { Time.now }
+  end
+
+  factory :advice_type_dummy, class: AdviceTypeDummy do
+    assertions { [FactoryGirl.build(:assertion)] }
   end
 end
