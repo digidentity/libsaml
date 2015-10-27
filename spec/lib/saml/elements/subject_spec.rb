@@ -3,8 +3,43 @@ require 'spec_helper'
 describe Saml::Elements::Subject do
   let(:subject) { FactoryGirl.build(:subject) }
 
+  describe '#check_identifier' do
+    context 'when no identifier is set' do
+      before do
+        subject._name_id     = nil
+        subject.encrypted_id = nil
+      end
+
+      it 'adds an error on identifiers' do
+        expect(subject).to have(1).error_on(:identifiers)
+      end
+    end
+
+    context 'when multiple identifiers are set' do
+      before do
+        subject._name_id     = FactoryGirl.build(:name_id)
+        subject.encrypted_id = FactoryGirl.build(:encrypted_id)
+      end
+
+      it 'adds an error on identifiers' do
+        expect(subject).to have(1).error_on(:identifiers)
+      end
+    end
+
+    context 'when one identifiers is set' do
+      before do
+        subject._name_id     = FactoryGirl.build(:name_id)
+        subject.encrypted_id = nil
+      end
+
+      it 'does NOT add an error on identifiers' do
+        expect(subject).to have(0).error_on(:identifiers)
+      end
+    end
+  end
+
   describe 'optional fields' do
-    [:encrypted_id].each do |field|
+    [:name_id, :encrypted_id].each do |field|
       it "responds to the #{field} field" do
         expect(subject).to respond_to(field)
       end
@@ -19,7 +54,7 @@ describe Saml::Elements::Subject do
   end
 
   describe "Required fields" do
-    [:name_id, :subject_confirmation].each do |field|
+    [:subject_confirmation].each do |field|
       it "should have the #{field} field" do
         subject.should respond_to(field)
       end

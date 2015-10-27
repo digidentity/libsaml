@@ -104,6 +104,9 @@ FactoryGirl.define do
 
   end
 
+  factory :encrypted_id, class: Saml::Elements::EncryptedID do
+  end
+
   factory :conditions, :class => Saml::Elements::Conditions do
 
   end
@@ -229,5 +232,9 @@ FactoryGirl.define do
 
   factory :advice_type_dummy, class: AdviceTypeDummy do
     assertions { [FactoryGirl.build(:assertion)] }
+  end
+
+  factory :name_id, class: Saml::Elements::NameId do
+    value 'NameID'
   end
 end
