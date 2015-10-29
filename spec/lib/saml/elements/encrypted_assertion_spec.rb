@@ -14,8 +14,9 @@ describe Saml::Elements::EncryptedAssertion do
       expect(subject.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
     end
 
-    it "should parse the encrypted key" do
-      expect(subject.encrypted_keys.first).to be_a Xmlenc::Builder::EncryptedKey
+    it "should only parse the nested encrypted key" do
+      expect(subject.encrypted_data.key_info.encrypted_key).to be_a Xmlenc::Builder::EncryptedKey
+      expect(subject.encrypted_keys).to eq []
     end
   end
 end
