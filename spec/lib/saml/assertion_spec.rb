@@ -17,7 +17,7 @@ describe Saml::Assertion do
   end
 
   describe "Optional fields" do
-    [:subject, :conditions, :authn_statement, :attribute_statement].each do |field|
+    [:subject, :conditions, :authn_statement, :attribute_statement, :advice].each do |field|
       it "should have the #{field} field" do
         assertion.should respond_to(field)
       end
@@ -57,6 +57,10 @@ describe Saml::Assertion do
 
     it "should parse Conditions" do
       assertion.conditions.should be_a(Saml::Elements::Conditions)
+    end
+
+    it "should parse Advice" do
+      expect(assertion.advice).to be_a(Saml::Elements::Advice)
     end
 
     it "should parse AuthnStatement" do

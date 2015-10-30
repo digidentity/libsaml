@@ -100,6 +100,7 @@ module Saml
     require 'saml/complex_types/subject_query_abstract_type'
     require 'saml/complex_types/attribute_query_type'
     require 'saml/complex_types/evidence_type'
+    require 'saml/complex_types/advice_type'
   end
 
   module Elements
@@ -140,6 +141,7 @@ module Saml
     require 'saml/elements/organization_url'
     require 'saml/elements/organization'
     require 'saml/elements/contact_person'
+    require 'saml/elements/advice'
     require 'saml/elements/idp_sso_descriptor'
     require 'saml/elements/sp_sso_descriptor'
     require 'saml/elements/attribute_authority_descriptor'

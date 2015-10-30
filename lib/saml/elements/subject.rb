@@ -7,11 +7,14 @@ module Saml
       register_namespace 'saml', Saml::SAML_NAMESPACE
       namespace 'saml'
 
-      element :_name_id, NameId, :tag => "NameID"
+      has_one :_name_id, Saml::Elements::NameId
+      has_one :encrypted_id, Saml::Elements::EncryptedID
 
       has_many :subject_confirmation, Saml::Elements::SubjectConfirmation
 
-      validates :name_id, :subject_confirmation, :presence => true
+      validates :subject_confirmation, presence: true
+
+      validate :check_identifier
 
       def initialize(*args)
         options               = args.extract_options!
@@ -33,6 +36,18 @@ module Saml
       def name_id_format
         @_name_id.format
       end
+
+      private
+
+      def check_identifier
+        errors.add(:identifiers, :one_identifier_mandatory) if identifiers.blank?
+        errors.add(:identifiers, :one_identifier_allowed)   if identifiers.size > 1
+      end
+
+      def identifiers
+        [_name_id, encrypted_id].compact
+      end
+
     end
   end
 end
