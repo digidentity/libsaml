@@ -1,9 +1,12 @@
-### 2.10.2
+### 2.10.3
 * enhancements
     * added an `Advice`` element and it’s ```AdviceType``` complex type
     * added `Advice`` element on an ```Assertion``` element
     * added `EncryptedID`` element on a ```Subject``` element
     * added validation on ```Subject``` element to validate if an identifier is present and only one is specified
+
+### 2.10.2
+* bug fix parsing encrypted assertions
 
 ### 2.10.1
 * enhancements
