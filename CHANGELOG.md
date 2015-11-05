@@ -1,3 +1,7 @@
+### 2.10.4
+* enhancements
+    * added `attribute_service_url` to `Saml::Provider`
+
 ### 2.10.3
 * enhancements
     * added an `Advice`` element and it’s ```AdviceType``` complex type

@@ -59,6 +59,10 @@ module Saml
       find_binding_service(descriptor.single_logout_services, binding)
     end
 
+    def attribute_service_url(binding)
+      find_binding_service(entity_descriptor.attribute_authority_descriptor.attribute_service, binding)
+    end
+
     def type
       descriptor.is_a?(Saml::Elements::SPSSODescriptor) ? "service_provider" : "identity_provider"
     end

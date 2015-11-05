@@ -18,9 +18,19 @@ class IdentityProvider
   end
 end
 
+class AuthorityProvider
+  include Saml::Provider
+
+  def initialize
+    @entity_descriptor = Saml::Elements::EntityDescriptor.parse(File.read("spec/fixtures/metadata/authority_provider.xml"))
+    @private_key = OpenSSL::PKey::RSA.new(File.read("spec/fixtures/key.pem"))
+  end
+end
+
 describe Saml::Provider do
   let(:service_provider) { ServiceProvider.new }
   let(:identity_provider) { IdentityProvider.new }
+  let(:authority_provider) { AuthorityProvider.new }
 
   describe "#assertion_consumer_service_url" do
     it "returns the url for the given index" do
@@ -59,6 +69,12 @@ describe Saml::Provider do
 
     it "returns the assertion_consumer_service for the default index" do
       service_provider.assertion_consumer_service.should be_a Saml::Elements::SPSSODescriptor::AssertionConsumerService
+    end
+  end
+
+  describe "#attribute_service_url" do
+    it "returns the attribute service url for the specified binding" do
+      authority_provider.attribute_service_url(Saml::ProtocolBinding::SOAP).should == "https://idp.example.com/SAML/AA/URI"
     end
   end
 
