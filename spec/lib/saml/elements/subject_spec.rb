@@ -54,7 +54,7 @@ describe Saml::Elements::Subject do
   end
 
   describe "Required fields" do
-    [:subject_confirmation].each do |field|
+    [:subject_confirmations].each do |field|
       it "should have the #{field} field" do
         subject.should respond_to(field)
       end
@@ -63,6 +63,29 @@ describe Saml::Elements::Subject do
         subject.send("#{field}=", nil)
         subject.should have(1).error_on(field)
       end
+    end
+  end
+
+  describe '#subject_confirmation' do
+    let(:subject_confirmation_1) { FactoryGirl.build(:subject_confirmation) }
+    let(:subject_confirmation_2) { FactoryGirl.build(:subject_confirmation) }
+
+    before { subject.subject_confirmations = [subject_confirmation_1, subject_confirmation_2] }
+
+    it 'returns the first subject confirmation element' do
+      expect(subject.subject_confirmation).to eq subject_confirmation_1
+    end
+  end
+
+  describe '#subject_confirmation=' do
+    let(:subject_confirmation_1) { FactoryGirl.build(:subject_confirmation) }
+    let(:subject_confirmation_2) { FactoryGirl.build(:subject_confirmation) }
+
+    before { subject.subject_confirmations = [subject_confirmation_1] }
+
+    it 'replaces the subject confirmations elements with the given element' do
+      subject.subject_confirmation = subject_confirmation_2
+      expect(subject.subject_confirmations).to match_array [subject_confirmation_2]
     end
   end
 
