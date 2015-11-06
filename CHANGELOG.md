@@ -1,3 +1,8 @@
+### 2.10.5
+* enhancements
+    * add a new ```SubjectConfirmation``` element as an Array when a ```Subject``` is initialized
+    * a ```SubjectConfirmation``` element has only one ```SubjectConfirmationData``` element
+
 ### 2.10.4
 * enhancements
     * added `attribute_service_url` to `Saml::Provider`
