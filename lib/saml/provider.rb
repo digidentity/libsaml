@@ -87,9 +87,9 @@ module Saml
       end
     end
 
-    # @return [Saml::ComplexTypes::SSODescriptorType]
+    # @return [Saml::ComplexTypes::RoleDescriptorType]
     def descriptor
-      entity_descriptor.sp_sso_descriptor || entity_descriptor.idp_sso_descriptor
+      entity_descriptor.sp_sso_descriptor || entity_descriptor.idp_sso_descriptor || entity_descriptor.attribute_authority_descriptor
     end
 
     def find_indexed_service_url(service_list, index)

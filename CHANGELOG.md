@@ -1,3 +1,7 @@
+### 2.10.6
+* enhancements
+    * added `AttributeAuthorithyDescriptor` as a descriptor for the Provider, which now returns a `Saml::ComplexTypes::RoleDescriptorType` instead of a `Saml::ComplexTypes::SSODescriptorType`
+
 ### 2.10.5
 * enhancements
     * add a new ```SubjectConfirmation``` element as an Array when a ```Subject``` is initialized
