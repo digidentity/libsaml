@@ -13,10 +13,9 @@ module Saml
 
       attribute :_method, String, :tag => 'Method'
 
-      has_many :subject_confirmation_data, Saml::Elements::SubjectConfirmationData
+      has_one :subject_confirmation_data, Saml::Elements::SubjectConfirmationData
 
       validates :_method, :presence => true
-
 
       def initialize(*args)
         options                    = args.extract_options!

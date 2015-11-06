@@ -29,7 +29,7 @@ describe Saml::Elements::SubjectConfirmation do
     end
 
     it "should parse subject_confirmation_data" do
-      subject_confirmation.subject_confirmation_data.first.should be_a(Saml::Elements::SubjectConfirmationData)
+      subject_confirmation.subject_confirmation_data.should be_a(Saml::Elements::SubjectConfirmationData)
     end
   end
 
