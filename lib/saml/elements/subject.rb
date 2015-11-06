@@ -10,18 +10,17 @@ module Saml
       has_one :_name_id, Saml::Elements::NameId
       has_one :encrypted_id, Saml::Elements::EncryptedID
 
-      has_many :subject_confirmation, Saml::Elements::SubjectConfirmation
+      has_many :subject_confirmations, Saml::Elements::SubjectConfirmation
 
-      validates :subject_confirmation, presence: true
-
+      validates :subject_confirmations, presence: true
       validate :check_identifier
 
       def initialize(*args)
         options               = args.extract_options!
         @_name_id             = Saml::Elements::NameId.new(format: options.delete(:name_id_format),
                                                            value:  options.delete(:name_id))
-        @subject_confirmation = Saml::Elements::SubjectConfirmation.new(recipient:      options.delete(:recipient),
-                                                                        in_response_to: options.delete(:in_response_to))
+        @subject_confirmations = [Saml::Elements::SubjectConfirmation.new(recipient:      options.delete(:recipient),
+                                                                          in_response_to: options.delete(:in_response_to))]
         super(*(args << options))
       end
 
@@ -35,6 +34,14 @@ module Saml
 
       def name_id_format
         @_name_id.format
+      end
+
+      def subject_confirmation
+        subject_confirmations.first
+      end
+
+      def subject_confirmation=(subject_confirmation)
+        self.subject_confirmations = [subject_confirmation]
       end
 
       private
