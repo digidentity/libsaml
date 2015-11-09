@@ -21,7 +21,7 @@ module Saml
     has_one   :advice, Saml::Elements::Advice
     has_many  :statements, Saml::ComplexTypes::StatementAbstractType
     has_many  :authn_statement, Saml::Elements::AuthnStatement
-    has_one   :attribute_statement, Saml::Elements::AttributeStatement
+    has_many  :attribute_statements, Saml::Elements::AttributeStatement
 
     validates :_id, :version, :issue_instant, :issuer, :presence => true
 
@@ -62,9 +62,17 @@ module Saml
     end
 
     def fetch_attributes(key)
-      return unless self.attribute_statement
-      return unless self.attribute_statement.attribute
-      attribute_statement.fetch_attributes(key)
+      return unless self.attribute_statements
+      return unless self.attribute_statements.flat_map(&:attribute)
+      attribute_statements.flat_map { |attribute_statement| attribute_statement.fetch_attributes(key) }
+    end
+
+    def attribute_statement
+      attribute_statements.try(:first)
+    end
+
+    def attribute_statement=(attribute_statement)
+      self.attribute_statements = [attribute_statement]
     end
 
     private
