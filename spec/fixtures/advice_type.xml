@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <saml:Advice xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+  <saml:AssertionIDRef>_cf45463f265373cd3a54665ef40e033b34365e24</saml:AssertionIDRef>
+  <saml:AssertionIDRef>_5b0b6c717da69dd063778aaee06a0fb240d2faf1</saml:AssertionIDRef>
   <saml:Assertion/>
   <saml:Assertion/>
 </saml:Advice>
