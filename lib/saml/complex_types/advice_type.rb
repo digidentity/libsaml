@@ -8,6 +8,7 @@ module Saml
         require 'saml/assertion'
 
         has_many :assertions, ::Saml::Assertion
+        has_many :assertion_id_refs, String, tag: 'AssertionIDRef'
       end
     end
   end

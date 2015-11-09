@@ -31,6 +31,47 @@ describe Saml::Assertion do
     end
   end
 
+  describe '#attribute_statement' do
+    let(:attribute_statement_1) { FactoryGirl.build(:attribute_statement) }
+    let(:attribute_statement_2) { FactoryGirl.build(:attribute_statement) }
+
+    context 'when there are attribute statements' do
+      before { subject.attribute_statements = [attribute_statement_1, attribute_statement_2] }
+
+      it 'returns the first attribute statement' do
+        expect(subject.attribute_statement).to eq attribute_statement_1
+      end
+    end
+
+    context 'when there is only one attribute statement' do
+      before { subject.attribute_statements = [attribute_statement_1] }
+
+      it 'returns the attribute statement' do
+        expect(subject.attribute_statement).to eq attribute_statement_1
+      end
+    end
+
+    context 'when there are no attribute statements' do
+      before { subject.attribute_statements = nil }
+
+      it 'returns nil' do
+        expect(subject.attribute_statement).to be_nil
+      end
+    end
+  end
+
+  describe '#attribute_statement=' do
+    let(:attribute_statement_1) { FactoryGirl.build(:attribute_statement) }
+    let(:attribute_statement_2) { FactoryGirl.build(:attribute_statement) }
+
+    before { subject.attribute_statements = [attribute_statement_1] }
+
+    it 'replaces the attribute statement elements with the given element' do
+      subject.attribute_statement = attribute_statement_2
+      expect(subject.attribute_statements).to match_array [attribute_statement_2]
+    end
+  end
+
   describe "parse" do
     let(:assertion_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
     let(:assertion) { Saml::Assertion.parse(assertion_xml, :single => true) }
@@ -117,10 +158,32 @@ describe Saml::Assertion do
   end
 
   describe 'add_attribute' do
-    it 'adds the attribute to the attribute statement' do
-      assertion.add_attribute('key', 'value')
-      assertion.attribute_statement.attribute.first.name.should == 'key'
-      assertion.attribute_statement.attribute.first.attribute_values.first.content.should == 'value'
+    context 'when there is only one attribute statement' do
+      it 'adds the attribute to the first attribute statement' do
+        assertion.add_attribute('key', 'value')
+
+        aggregate_failures do
+          expect(assertion.attribute_statement.attribute.first.name).to eq 'key'
+          expect(assertion.attribute_statement.attribute.first.attribute_values.first.content).to eq 'value'
+        end
+      end
+    end
+
+    context 'when there are multiple attribute statements' do
+      before { assertion.attribute_statements = [Saml::Elements::AttributeStatement.new, Saml::Elements::AttributeStatement.new] }
+
+      it 'adds the attribute to the first attribute statement' do
+        aggregate_failures do
+          expect(assertion.attribute_statements.count).to eq 2
+          expect(assertion.attribute_statements.first.attribute).to be_nil
+          expect(assertion.attribute_statements.last.attribute).to be_nil
+
+          assertion.add_attribute('key', 'value')
+          expect(assertion.attribute_statements.first.attribute.first.name).to eq 'key'
+          expect(assertion.attribute_statements.first.attribute.first.attribute_values.first.content).to eq 'value'
+          expect(assertion.attribute_statements.last.attribute).to be_nil
+        end
+      end
     end
   end
 
@@ -137,15 +200,37 @@ describe Saml::Assertion do
   end
 
   describe 'fetch_attributes' do
-    it 'returns multiple attributes from the attribute statement' do
-      assertion.add_attribute('key', 'value')
-      assertion.add_attribute('key', 'value2')
-      assertion.add_attribute('key2', 'value3')
-      assertion.fetch_attributes('key').should == %w(value value2)
+    context 'when there is only one attribute statement' do
+      it 'returns multiple attributes from the attribute statement' do
+        assertion.add_attribute('key', 'value')
+        assertion.add_attribute('key', 'value2')
+        assertion.add_attribute('key2', 'value3')
+        expect(assertion.fetch_attributes('key')).to match_array %w(value value2)
+      end
+
+      it 'returns nil if attribute is not present' do
+        expect(assertion.fetch_attribute('not_present')).to be_nil
+      end
     end
 
-    it 'returns nil if attribute is not present' do
-      assertion.fetch_attribute('not_present').should == nil
+    context 'when there are multiple attribute statements' do
+      let(:attribute_1) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_1' }
+      let(:attribute_2) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_2' }
+      let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
+      let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
+
+      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attribute: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attribute: [ attribute_3, attribute_4 ] }
+
+      before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
+
+      it 'returns multiple attributes from multiple attribute statements' do
+        expect(assertion.fetch_attributes('key')).to match_array %w(value_1 value_2 value_3)
+      end
+
+      it 'returns nil if attribute is not present' do
+        expect(assertion.fetch_attribute('not_present')).to be_nil
+      end
     end
   end
 end

@@ -1,3 +1,8 @@
+### 2.10.7
+* enhancements
+    * added `AssertionIDRef` to the AdviceType.
+    * an `Assertion` now has many `AttributeStatements` instead of just one.
+
 ### 2.10.6
 * enhancements
     * added `AttributeAuthorithyDescriptor` as a descriptor for the Provider, which now returns a `Saml::ComplexTypes::RoleDescriptorType` instead of a `Saml::ComplexTypes::SSODescriptorType`
