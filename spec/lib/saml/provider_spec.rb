@@ -202,23 +202,39 @@ describe Saml::Provider do
     end
   end
 
-  describe "descriptors #sp_descriptor and #idp_descriptor" do
+  describe "descriptors #descriptor, #sp_descriptor and #idp_descriptor" do
+    before { subject.class.send(:public, :descriptor, :sp_descriptor, :idp_descriptor, :aa_descriptor) }
+
     context "service provider" do
-      before { service_provider.class.send(:public, :sp_descriptor, :idp_descriptor) }
-      it { service_provider.sp_descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
-      it { expect{ service_provider.idp_descriptor }.to raise_error("Cannot find identity provider with entity_id: https://sp.example.com") }
+      subject { service_provider }
+      it { subject.descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
+      it { subject.sp_descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
+      it { expect{ subject.idp_descriptor }.to raise_error("Cannot find identity provider with entity_id: https://sp.example.com") }
+      it { expect{ subject.aa_descriptor }.to raise_error("Cannot find attribute authority provider with entity_id: https://sp.example.com") }
     end
 
     context "identity provider" do
-      before { identity_provider.class.send(:public, :sp_descriptor, :idp_descriptor) }
-      it { expect{ identity_provider.sp_descriptor}.to raise_error("Cannot find service provider with entity_id: https://idp.example.com") }
-      it { identity_provider.idp_descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      subject { identity_provider }
+      it { subject.descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      it { expect{ subject.sp_descriptor}.to raise_error("Cannot find service provider with entity_id: https://idp.example.com") }
+      it { subject.idp_descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      it { expect{ subject.aa_descriptor }.to raise_error("Cannot find attribute authority provider with entity_id: https://idp.example.com") }
     end
 
     context "identity and service provider" do
-      before { identity_and_service_provider.class.send(:public, :sp_descriptor, :idp_descriptor) }
-      it { identity_and_service_provider.sp_descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
-      it { identity_and_service_provider.idp_descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      subject { identity_and_service_provider }
+      it { subject.descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
+      it { subject.sp_descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
+      it { subject.idp_descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      it { expect{ subject.aa_descriptor }.to raise_error("Cannot find attribute authority provider with entity_id: https://idpsp.example.com") }
+    end
+
+    context "authority provider" do
+      subject { authority_provider }
+      it { subject.descriptor.should be_a(Saml::Elements::AttributeAuthorityDescriptor) }
+      it { expect{ subject.sp_descriptor}.to raise_error("Cannot find service provider with entity_id: https://auth.example.com") }
+      it { expect{ subject.idp_descriptor }.to raise_error("Cannot find identity provider with entity_id: https://auth.example.com") }
+      it { subject.aa_descriptor.should be_a(Saml::Elements::AttributeAuthorityDescriptor) }
     end
   end
 end

@@ -64,7 +64,7 @@ module Saml
     end
 
     def attribute_service_url(binding)
-      find_binding_service(entity_descriptor.attribute_authority_descriptor.attribute_service, binding)
+      find_binding_service(aa_descriptor.attribute_service, binding)
     end
 
     def type
@@ -99,12 +99,13 @@ module Saml
       end
     end
 
-    # @param type [Symbol] Descriptor type, available types :sp_descriptor, :idp_descriptor or :descriptor
+    # @param type [Symbol] Descriptor type, available types :sp_descriptor, :idp_descriptor, :aa_descriptor or :descriptor
     # @return [Saml::ComplexTypes::SSODescriptorType]
-    def descriptor(type)
+    def descriptor(type = :descriptor)
       return sp_descriptor if :sp_descriptor == type
       return idp_descriptor if :idp_descriptor == type
-      entity_descriptor.sp_sso_descriptor || entity_descriptor.idp_sso_descriptor
+      return aa_descriptor if :aa_descriptor == type
+      entity_descriptor.sp_sso_descriptor || entity_descriptor.idp_sso_descriptor || entity_descriptor.attribute_authority_descriptor
     end
 
     # @return [Saml::Elements::SPSSODescriptor]
@@ -117,6 +118,13 @@ module Saml
     def idp_descriptor(raise_error = true)
       entity_descriptor.idp_sso_descriptor || raise_error &&
           raise(Saml::Errors::InvalidProvider.new("Cannot find identity provider with entity_id: #{entity_id}"))
+    end
+
+    # Attribute authority descriptor
+    # @return [Saml::Elements::AttributeAuthorityDescriptor]
+    def aa_descriptor(raise_error = true)
+      entity_descriptor.attribute_authority_descriptor || raise_error &&
+          raise(Saml::Errors::InvalidProvider.new("Cannot find attribute authority provider with entity_id: #{entity_id}"))
     end
 
     def find_indexed_service_url(service_list, index)
