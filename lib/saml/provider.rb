@@ -3,24 +3,25 @@ module Saml
     extend ActiveSupport::Concern
 
     def assertion_consumer_service_url(index = nil)
-      find_indexed_service_url(descriptor.assertion_consumer_services, index)
+      find_indexed_service_url(sp_descriptor.assertion_consumer_services, index)
     end
 
-    def artifact_resolution_service_url(index = nil)
-      find_indexed_service_url(descriptor.artifact_resolution_services, index)
+    # @param [Symbol] type (see #descriptor)
+    def artifact_resolution_service_url(index = nil, type = :descriptor)
+      find_indexed_service_url(descriptor(type).artifact_resolution_services, index)
     end
 
     def attribute_consuming_service(index = nil)
-      find_indexed_service(descriptor.attribute_consuming_services, index)
+      find_indexed_service(sp_descriptor.attribute_consuming_services, index)
     end
 
     def assertion_consumer_service(index = nil)
-      find_indexed_service(descriptor.assertion_consumer_services, index)
+      find_indexed_service(sp_descriptor.assertion_consumer_services, index)
     end
 
     def assertion_consumer_service_indices
-      if descriptor.assertion_consumer_services.present?
-        descriptor.assertion_consumer_services.map(&:index)
+      if sp_descriptor.assertion_consumer_services.present?
+        sp_descriptor.assertion_consumer_services.map(&:index)
       else
         []
       end
@@ -34,13 +35,15 @@ module Saml
       entity_descriptor.entity_id
     end
 
-    def certificate(key_name = nil, use = "signing")
-      key_descriptor = find_key_descriptor(key_name, use)
+    # @param [Symbol] type (see #descriptor)
+    def certificate(key_name = nil, use = "signing", type = :descriptor)
+      key_descriptor = find_key_descriptor(key_name, use, type)
       key_descriptor.certificate if key_descriptor
     end
 
-    def find_key_descriptor(key_name = nil, use = "signing")
-      descriptor.find_key_descriptor(key_name, use)
+    # @param [Symbol] type (see #descriptor)
+    def find_key_descriptor(key_name = nil, use = "signing", type = :descriptor)
+      descriptor(type).find_key_descriptor(key_name, use)
     end
 
     def private_key
@@ -52,11 +55,12 @@ module Saml
     end
 
     def single_sign_on_service_url(binding)
-      find_binding_service(descriptor.single_sign_on_services, binding)
+      find_binding_service(idp_descriptor.single_sign_on_services, binding)
     end
 
-    def single_logout_service_url(binding)
-      find_binding_service(descriptor.single_logout_services, binding)
+    # @param [Symbol] type (see #descriptor)
+    def single_logout_service_url(binding, type = :descriptor)
+      find_binding_service(descriptor(type).single_logout_services, binding)
     end
 
     def attribute_service_url(binding)
@@ -64,7 +68,15 @@ module Saml
     end
 
     def type
-      descriptor.is_a?(Saml::Elements::SPSSODescriptor) ? "service_provider" : "identity_provider"
+      if idp_descriptor(false)
+        if sp_descriptor(false)
+          "identity_and_service_provider"
+        else
+          "identity_provider"
+        end
+      else
+        "service_provider"
+      end
     end
 
     def verify(signature_algorithm, signature, data, key_name = nil)
@@ -72,7 +84,7 @@ module Saml
     end
 
     def authn_requests_signed?
-      descriptor.authn_requests_signed
+      sp_descriptor.authn_requests_signed
     end
 
     private
@@ -87,9 +99,24 @@ module Saml
       end
     end
 
-    # @return [Saml::ComplexTypes::RoleDescriptorType]
-    def descriptor
-      entity_descriptor.sp_sso_descriptor || entity_descriptor.idp_sso_descriptor || entity_descriptor.attribute_authority_descriptor
+    # @param type [Symbol] Descriptor type, available types :sp_descriptor, :idp_descriptor or :descriptor
+    # @return [Saml::ComplexTypes::SSODescriptorType]
+    def descriptor(type)
+      return sp_descriptor if :sp_descriptor == type
+      return idp_descriptor if :idp_descriptor == type
+      entity_descriptor.sp_sso_descriptor || entity_descriptor.idp_sso_descriptor
+    end
+
+    # @return [Saml::Elements::SPSSODescriptor]
+    def sp_descriptor(raise_error = true)
+      entity_descriptor.sp_sso_descriptor || raise_error &&
+          raise(Saml::Errors::InvalidProvider.new("Cannot find service provider with entity_id: #{entity_id}"))
+    end
+
+    # @return [Saml::Elements::IDPSSODescriptor]
+    def idp_descriptor(raise_error = true)
+      entity_descriptor.idp_sso_descriptor || raise_error &&
+          raise(Saml::Errors::InvalidProvider.new("Cannot find identity provider with entity_id: #{entity_id}"))
     end
 
     def find_indexed_service_url(service_list, index)
