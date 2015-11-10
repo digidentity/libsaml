@@ -6,7 +6,7 @@ PATH
       activesupport (>= 3.2.15)
       curb
       nokogiri-happymapper (~> 0.5.7)
-      xmldsig (~> 0.2.5)
+      xmldsig (~> 0.3.0)
       xmlenc (~> 0.4.0)
 
 GEM
@@ -164,9 +164,9 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
-    xmldsig (0.2.9)
+    xmldsig (0.3.0)
       nokogiri
-    xmlenc (0.4.0)
+    xmlenc (0.4.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       nokogiri (~> 1.6.0)
@@ -183,6 +183,3 @@ DEPENDENCIES
   rspec-collection_matchers (~> 1.0)
   rspec-rails (~> 3.1)
   simplecov
-
-BUNDLED WITH
-   1.10.6
