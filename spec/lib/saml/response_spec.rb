@@ -87,6 +87,25 @@ describe Saml::Response do
     end
   end
 
+  describe '#unknown_principal?' do
+    context 'when the sub status is UNKNOWN_PRINCIPAL' do
+      let(:status_code) { Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER, sub_status_value: Saml::SubStatusCodes::UNKNOWN_PRINCIPAL) }
+      let(:status) { Saml::Elements::Status.new(status_code: status_code) }
+
+      before { response.status = status }
+
+      it 'returns true' do
+        expect(response.unknown_principal?).to eq true
+      end
+    end
+
+    context 'when the sub status is NOT UNKNOWN_PRINCIPAL' do
+      it 'returns false' do
+        expect(response.unknown_principal?).to eq false
+      end
+    end
+  end
+
   describe 'assertions' do
     let(:response) do
       response = Saml::Response.new(assertion: Saml::Assertion.new)

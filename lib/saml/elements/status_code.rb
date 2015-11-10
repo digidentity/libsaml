@@ -37,6 +37,10 @@ module Saml
       def partial_logout?
         sub_status_code.value == SubStatusCodes::PARTIAL_LOGOUT
       end
+
+      def unknown_principal?
+        sub_status_code.value == SubStatusCodes::UNKNOWN_PRINCIPAL
+      end
     end
   end
 end
