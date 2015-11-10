@@ -1,3 +1,7 @@
+### 2.11.1
+* enhancements
+    * added the `unknown_principal?` helper method to `Response`.
+
 ### 2.10.7
 * enhancements
     * added `AssertionIDRef` to the AdviceType.

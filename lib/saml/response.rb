@@ -18,6 +18,10 @@ module Saml
       !success? && status.status_code.no_authn_context?
     end
 
+    def unknown_principal?
+      !success? && status.status_code.unknown_principal?
+    end
+
     def encrypt_assertions(certificate)
       @encrypted_assertions = []
       assertions.each do |assertion|
