@@ -58,13 +58,23 @@ module Saml
     end
 
     def fetch_attribute(key)
-      fetch_attributes(key).first if fetch_attributes(key)
+      Array(fetch_attributes(key)).first
     end
 
     def fetch_attributes(key)
       return unless self.attribute_statements
       return unless self.attribute_statements.flat_map(&:attribute)
       attribute_statements.flat_map { |attribute_statement| attribute_statement.fetch_attributes(key) }
+    end
+
+    def fetch_attribute_value(key)
+      Array(fetch_attribute_values(key)).first
+    end
+
+    def fetch_attribute_values(key)
+      return unless self.attribute_statements
+      return unless self.attribute_statements.flat_map(&:attribute)
+      attribute_statements.flat_map { |attribute_statement| attribute_statement.fetch_attribute_values(key) }
     end
 
     def attribute_statement

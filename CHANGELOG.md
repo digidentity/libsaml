@@ -1,3 +1,8 @@
+### 2.11.2
+* enhancements
+    * added the `fetch_attribute_value` helper method to `Assertion` and `AttributeStatement`.
+    * added the `fetch_attribute_values` helper method to `Assertion` and `AttributeStatement`.
+
 ### 2.11.1
 * enhancements
     * added the `unknown_principal?` helper method to `Response`.

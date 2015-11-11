@@ -19,8 +19,14 @@ describe Saml::Elements::AttributeStatement do
   end
 
   describe '#fetch_attribute' do
-    it 'returns the attribute value' do
+    it 'returns the attribute value content' do
       attribute_statement.fetch_attribute('urn:ServiceID').should == '1'
+    end
+  end
+
+  describe '#fetch_attribute_value' do
+    it 'returns the attribute value' do
+      attribute_statement.fetch_attribute_value('urn:ServiceID').content.should == '1'
     end
   end
 end

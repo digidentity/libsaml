@@ -199,6 +199,18 @@ describe Saml::Assertion do
     end
   end
 
+  describe 'fetch_attribute_value' do
+    it 'returns the attribute from the attribute statement' do
+      assertion.add_attribute('key', 'value')
+      assertion.add_attribute('key2', 'value2')
+      assertion.fetch_attribute_value('key2').content.should == 'value2'
+    end
+
+    it 'returns nil if attribute is not present' do
+      assertion.fetch_attribute_value('not_present').should == nil
+    end
+  end
+
   describe 'fetch_attributes' do
     context 'when there is only one attribute statement' do
       it 'returns multiple attributes from the attribute statement' do
@@ -230,6 +242,41 @@ describe Saml::Assertion do
 
       it 'returns nil if attribute is not present' do
         expect(assertion.fetch_attribute('not_present')).to be_nil
+      end
+    end
+  end
+
+  describe 'fetch_attribute_values' do
+    context 'when there is only one attribute statement' do
+      it 'returns multiple attributes from the attribute statement' do
+        assertion.add_attribute('key', 'value')
+        assertion.add_attribute('key', 'value2')
+        assertion.add_attribute('key2', 'value3')
+        expect(assertion.fetch_attribute_values('key').map(&:content)).to match_array %w(value value2)
+      end
+
+      it 'returns nil if attribute is not present' do
+        expect(assertion.fetch_attribute_values('not_present')).to be_nil
+      end
+    end
+
+    context 'when there are multiple attribute statements' do
+      let(:attribute_1) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_1' }
+      let(:attribute_2) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_2' }
+      let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
+      let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
+
+      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attribute: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attribute: [ attribute_3, attribute_4 ] }
+
+      before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
+
+      it 'returns multiple attributes from multiple attribute statements' do
+        expect(assertion.fetch_attribute_values('key').map(&:content)).to match_array %w(value_1 value_2 value_3)
+      end
+
+      it 'returns nil if attribute is not present' do
+        expect(assertion.fetch_attribute_values('not_present')).to be == []
       end
     end
   end
