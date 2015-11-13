@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::AttributeStatement do
-  let(:attribute_statement_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
+  let(:attribute_statement_xml) { File.read(File.join('spec', 'fixtures', 'attribute_statement.xml')) }
   let(:attribute_statement) { Saml::Elements::AttributeStatement.parse(attribute_statement_xml, :single => true) }
 
   describe '#parse' do

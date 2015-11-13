@@ -3,7 +3,7 @@ module Saml
     include Saml::ComplexTypes::StatusResponseType
 
     tag "Response"
-    has_many :assertions, Saml::Assertion
+    has_many :assertions, Saml::Assertion, xpath: './'
     has_many :encrypted_assertions, Saml::Elements::EncryptedAssertion
 
     def authn_failed?
@@ -52,6 +52,6 @@ module Saml
 
     def encrypted_assertion=(encrypted_assertion)
       (self.encrypted_assertions ||= []) << encrypted_assertion
-     end
+    end
   end
 end

@@ -15,13 +15,13 @@ module Saml
 
     element :issuer, String, :namespace => 'saml', :tag => 'Issuer'
 
-    has_one   :signature, Saml::Elements::Signature
-    has_one   :subject, Saml::Elements::Subject
-    has_one   :conditions, Saml::Elements::Conditions
-    has_one   :advice, Saml::Elements::Advice
-    has_many  :statements, Saml::ComplexTypes::StatementAbstractType
-    has_many  :authn_statement, Saml::Elements::AuthnStatement
-    has_many  :attribute_statements, Saml::Elements::AttributeStatement
+    has_one   :signature, Saml::Elements::Signature, xpath: './'
+    has_one   :subject, Saml::Elements::Subject, xpath: './'
+    has_one   :conditions, Saml::Elements::Conditions, xpath: './'
+    has_one   :advice, Saml::Elements::Advice, xpath: './'
+    has_many  :statements, Saml::ComplexTypes::StatementAbstractType, xpath: './'
+    has_many  :authn_statement, Saml::Elements::AuthnStatement, xpath: './'
+    has_many  :attribute_statements, Saml::Elements::AttributeStatement, xpath: './'
 
     validates :_id, :version, :issue_instant, :issuer, :presence => true
 
