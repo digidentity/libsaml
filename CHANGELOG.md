@@ -1,3 +1,7 @@
+### 2.12.0
+* enhancements
+    * prevent multiple ```Assertion``` elements and it’s elements being added as associations to the root element when there are nested ```Assertion``` elements.
+
 ### 2.11.2
 * enhancements
     * added the `fetch_attribute_value` helper method to `Assertion` and `AttributeStatement`.
