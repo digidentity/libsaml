@@ -104,14 +104,26 @@ describe Saml::Assertion do
       expect(assertion.advice).to be_a(Saml::Elements::Advice)
     end
 
-    it "should parse AuthnStatement" do
-      assertion.authn_statement.first.should be_a(Saml::Elements::AuthnStatement)
+    it 'parses Statement elements' do
+      aggregate_failures do
+        expect(assertion.statements.size).to eq 1
+        expect(assertion.statements.first).to be_a(Saml::ComplexTypes::StatementAbstractType)
+      end
     end
 
-    it "should parse AttributeStatement" do
-      assertion.attribute_statement.should be_a(Saml::Elements::AttributeStatement)
+    it 'parses AuthnStatement elements' do
+      aggregate_failures do
+        expect(assertion.authn_statement.size).to eq 1
+        expect(assertion.authn_statement.first).to be_a(Saml::Elements::AuthnStatement)
+      end
     end
 
+    it 'parses AttributeStatement elements' do
+      aggregate_failures do
+        expect(assertion.attribute_statements.size).to eq 1
+        expect(assertion.attribute_statements.first).to be_a(Saml::Elements::AttributeStatement)
+      end
+    end
   end
 
   describe "provider" do

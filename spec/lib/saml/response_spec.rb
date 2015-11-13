@@ -31,8 +31,11 @@ describe Saml::Response do
       response.should be_a(Saml::Response)
     end
 
-    it "should parse the Assertion" do
-      response.assertion.should be_a(Saml::Assertion)
+    it 'parses Assertion elements' do
+      aggregate_failures do
+        expect(response.assertions.count).to eq 1
+        expect(response.assertion).to be_a(Saml::Assertion)
+      end
     end
 
     it "should parse multiple assertions" do
@@ -148,9 +151,7 @@ describe Saml::Response do
   end
 
   describe 'encrypted assertions' do
-    let(:response) do
-      response = Saml::Response.new(encrypted_assertion: Saml::Elements::EncryptedAssertion.new)
-    end
+    let(:response) { Saml::Response.new(encrypted_assertion: Saml::Elements::EncryptedAssertion.new) }
 
     it 'should have one encrypted assertion' do
       response.encrypted_assertions.count.should == 1
