@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    libsaml (2.12.1)
+    libsaml (2.12.2)
       activemodel (>= 3.0.0)
       activesupport (>= 3.2.15)
       curb
@@ -164,7 +164,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
-    xmldsig (0.3.0)
+    xmldsig (0.3.1)
       nokogiri
     xmlenc (0.4.1)
       activemodel (>= 3.0.0)
@@ -183,6 +183,3 @@ DEPENDENCIES
   rspec-collection_matchers (~> 1.0)
   rspec-rails (~> 3.1)
   simplecov
-
-BUNDLED WITH
-   1.10.6

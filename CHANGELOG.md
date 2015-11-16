@@ -1,3 +1,7 @@
+### 2.12.2
+* enhancements
+    * changed metadata lookup, to allow looking up SP, IDP and AA specific information combined in one entity descriptor
+
 ### 2.12.1
 * enhancements
     * an `AudienceRestriction` now has many `Audience` elements.
