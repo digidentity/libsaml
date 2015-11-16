@@ -24,6 +24,7 @@
       <saml:Conditions NotOnOrAfter="2011-08-31T08:51:05Z" NotBefore="2011-08-31T08:51:05Z">
         <saml:AudienceRestriction>
           <saml:Audience>ServiceProvider</saml:Audience>
+          <saml:Audience>AuthorityProvider</saml:Audience>
         </saml:AudienceRestriction>
       </saml:Conditions>
       <saml:Advice>

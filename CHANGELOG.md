@@ -1,3 +1,7 @@
+### 2.12.1
+* enhancements
+    * an `AudienceRestriction` now has many `Audience` elements.
+
 ### 2.12.0
 * enhancements
     * prevent multiple ```Assertion``` elements and it’s elements being added as associations to the root element when there are nested ```Assertion``` elements.

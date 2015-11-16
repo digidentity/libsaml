@@ -3,10 +3,18 @@ module Saml
     class AudienceRestriction
       include Saml::Base
 
-      tag "AudienceRestriction"
+      tag 'AudienceRestriction'
       namespace 'saml'
 
-      element :audience, String, :tag => "Audience"
+      has_many :audiences, String, tag: 'Audience'
+
+      def audience
+        Array(audiences).first
+      end
+
+      def audience=(audience)
+        self.audiences = [audience]
+      end
     end
   end
 end
