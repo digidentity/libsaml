@@ -1,12 +1,12 @@
 PATH
   remote: .
   specs:
-    libsaml (2.12.2)
+    libsaml (2.13.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.2.15)
       curb
       nokogiri-happymapper (~> 0.5.7)
-      xmldsig (~> 0.3.0)
+      xmldsig (~> 0.3.2)
       xmlenc (~> 0.4.0)
 
 GEM
@@ -165,7 +165,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
-    xmldsig (0.3.1)
+    xmldsig (0.3.2)
       nokogiri
     xmlenc (0.4.1)
       activemodel (>= 3.0.0)

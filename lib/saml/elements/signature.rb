@@ -23,9 +23,8 @@ module Saml
 
       def initialize(*args)
         super(*args)
-        options       = args.extract_options!
-        @signed_info  ||= SignedInfo.new(:uri => options.delete(:uri), :digest_value => options.delete(:digest_value))
-        @key_info     ||= KeyInfo.new
+        options      = args.extract_options!
+        @signed_info ||= SignedInfo.new(:uri => options.delete(:uri), :digest_value => options.delete(:digest_value))
       end
 
       def key_name

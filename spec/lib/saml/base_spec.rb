@@ -26,7 +26,7 @@ describe BaseDummy do
       XML
 
       it "raises an Saml::Errors::HackAttack for entity expansion has grown too large" do
-        expect{ BaseDummy.parse(xml) }.to raise_error RuntimeError, 'entity expansion has grown too large'
+        expect { BaseDummy.parse(xml) }.to raise_error RuntimeError, 'entity expansion has grown too large'
       end
     end
 
@@ -51,6 +51,40 @@ describe BaseDummy do
       expect {
         BaseDummy.parse('unknown')
       }.to raise_error(Saml::Errors::UnparseableMessage)
+    end
+
+    it 'preserves the original message' do
+      assertion         = build(:assertion, _id: Saml.generate_id)
+      response          = build(:response, assertion: assertion, _id: Saml.generate_id)
+      artifact_response = build(:artifact_response, response: response, _id: Saml.generate_id)
+
+      # x509certificate = OpenSSL::X509::Certificate.new(artifact_response.provider.certificate)
+      assertion.add_signature
+      # assertion.signature.key_info = Saml::Elements::KeyInfo.new(x509certificate.to_pem)
+      artifact_response.add_signature
+
+      xml_no_space = artifact_response.to_xml(no_space: true)
+
+      document     = Xmldsig::SignedDocument.new(xml_no_space)
+      xml_no_space = document.sign do |data, signature_algorithm|
+        artifact_response.provider.sign(signature_algorithm, data)
+      end
+
+      parsed_artifact_response = Saml::ArtifactResponse.parse(xml_no_space, single: true)
+      new_assertion            = parsed_artifact_response.response.assertion
+
+      new_response          = build(:response, assertion: new_assertion, _id: Saml.generate_id)
+      new_artifact_response = build(:artifact_response, response: new_response, _id: Saml.generate_id)
+      new_artifact_response.add_signature
+
+      xml_with_space = new_artifact_response.to_xml
+
+      document   = Xmldsig::SignedDocument.new(xml_with_space)
+      signed_xml = document.sign do |data, signature_algorithm|
+        artifact_response.provider.sign(signature_algorithm, data)
+      end
+
+      Saml::Util.verify_xml(Saml::ArtifactResponse.parse(signed_xml, single: true), signed_xml)
     end
   end
 end

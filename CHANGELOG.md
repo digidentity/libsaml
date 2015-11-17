@@ -1,6 +1,7 @@
-### Current
+### 2.13.0
 * enhancements
     * added `Saml::XmlInjector` to inject already signed assertions
+    * use original XML when using parsed objects
 
 ### 2.12.2
 * enhancements

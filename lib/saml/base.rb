@@ -8,6 +8,9 @@ module Saml
       include ::HappyMapper
       include ::ActiveModel::Validations
 
+      attr_accessor :xml_value
+      has_xml_content
+
       extend HappyMapperClassMethods
       include HappyMapperInstanceMethods
     end
@@ -19,9 +22,7 @@ module Saml
         end
       end
 
-      def from_xml=(bool)
-        @from_xml = bool
-      end
+      attr_writer :from_xml
 
       def from_xml?
         @from_xml
