@@ -16,12 +16,7 @@ module Saml
       write_xml            = builder.nil? ? true : false
       builder              ||= Nokogiri::XML::Builder.new
       builder.doc.encoding = "UTF-8"
-      result = if xml_value
-        builder << xml_value
-        builder
-      else
-        super(builder, default_namespace)
-      end
+      result               = super(builder, default_namespace)
 
       if write_xml
         instruct ? result.to_xml(nokogiri_options(options)) : result.doc.root

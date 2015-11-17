@@ -1,3 +1,8 @@
+### 2.13.1
+* revert use original XML when using parsed objects
+* revert Saml::XMLInjector
+
+
 ### 2.13.0
 * enhancements
     * added `Saml::XmlInjector` to inject already signed assertions
