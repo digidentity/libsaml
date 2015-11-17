@@ -54,6 +54,8 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
+  config.filter_run :focus
+  config.run_all_when_everything_filtered = true
   config.order = "random"
   config.include FactoryGirl::Syntax::Methods
   config.raise_errors_for_deprecations!

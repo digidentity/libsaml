@@ -8,20 +8,24 @@ module Saml
       self.signature.key_info = Saml::Elements::KeyInfo.new(x509certificate.to_pem) if x509certificate
     end
 
-    def to_xml(builder = nil, default_namespace = nil, instruct = true)
+    def to_xml(*args)
+      options                              = args.extract_options!
+      builder, default_namespace, instruct = args
+      instruct                             = true if instruct.nil?
+
       write_xml            = builder.nil? ? true : false
       builder              ||= Nokogiri::XML::Builder.new
       builder.doc.encoding = "UTF-8"
       result               = super(builder, default_namespace)
+
       if write_xml
-        instruct ? result.to_xml : result.doc.root
+        instruct ? result.to_xml(nokogiri_options(options)) : result.doc.root
       else
         result
       end
-
     end
 
-    def to_soap
+    def to_soap(options = {})
       builder = Nokogiri::XML::Builder.new
       body    = self.to_xml(builder)
 
@@ -32,7 +36,15 @@ module Saml
           builder.parent.add_child body.doc.root
         end
       end
-      builder.to_xml
+      builder.to_xml(nokogiri_options(options))
+    end
+
+    private
+
+    def nokogiri_options(options)
+      nokogiri_options                     = {save_with: 1}
+      nokogiri_options[:save_with]         = Nokogiri::XML::Node::SaveOptions::AS_XML if options[:no_space]
+      nokogiri_options
     end
   end
 end
