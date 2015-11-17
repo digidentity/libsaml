@@ -1,3 +1,7 @@
+### Current
+* enhancements
+    * added `Saml::XmlInjector` to inject already signed assertions
+
 ### 2.12.2
 * enhancements
     * changed metadata lookup, to allow looking up SP, IDP and AA specific information combined in one entity descriptor
