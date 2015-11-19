@@ -114,7 +114,7 @@ class SamlController < ApplicationController
       # provider should be of type Saml::Provider
       @response = Saml::Bindings::HTTPArtifact.resolve(request, provider.artifact_resolution_service_url)
     elsif params["SAMLResponse"]
-      @response = Saml::Bindings::HTTPost.receive_message(request, :response)
+      @response = Saml::Bindings::HTTPPost.receive_message(request, :response)
     else
        # handle invalid request
     end
