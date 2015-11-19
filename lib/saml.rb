@@ -26,6 +26,8 @@ module Saml
     end
     class SignatureInvalid < SamlError
     end
+    class SignatureMissing < SamlError
+    end
     class InvalidProvider < SamlError
     end
     class UnparseableMessage < SamlError
