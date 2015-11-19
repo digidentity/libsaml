@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Saml::Bindings::HTTPRedirect do
   let(:authn_request) { build(:authn_request, _id: "id", issuer: "https://sp.example.com", issue_instant: Time.at(0), destination: "http://example.com/sso") }
   let(:logout_response) { build(:logout_response, _id: "id", issuer: "https://sp.example.com", issue_instant: Time.at(0), destination: "http://example.com/sso") }
+  let(:logout_response_idp) { build(:logout_response, _id: "id", issuer: "https://idp.example.com", issue_instant: Time.at(0), destination: "https://sp.example.com/sso/logout") }
 
   let(:url) do
     described_class.create_url(authn_request,
@@ -113,10 +114,34 @@ describe Saml::Bindings::HTTPRedirect do
     end
 
     context "without signature" do
+      let(:parsed_params) do
+        params.except('Signature', 'SigAlg').inject({}) { |h, (k, v)| h[k] = CGI.unescape(v); h }
+      end
+
       it "raises no SignatureInvalid when AuthnRequestsSigned == false" do
         Saml::BasicProvider.any_instance.stub(:authn_requests_signed?).and_return(false)
-        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
         described_class.receive_message(request, type: :authn_request).should be_a(Saml::AuthnRequest)
+      end
+
+      it "raises no SignatureMissing when AuthnRequestsSigned == true" do
+        Saml::BasicProvider.any_instance.stub(:authn_requests_signed?).and_return(true)
+        expect { described_class.receive_message(request, type: :authn_request) }.to raise_error(Saml::Errors::SignatureMissing)
+      end
+
+      context "with an IDP issued message" do
+        let(:url) do
+          described_class.create_url(logout_response_idp,
+                                     relay_state:         "https//example.com/relay",
+                                     signature_algorithm: "http://www.w3.org/2000/09/xmldsig#rsa-sha1")
+        end
+
+        let(:response) do
+          double(:response, params: parsed_params, url: url)
+        end
+
+        it 'parses the message correctly' do
+          described_class.receive_message(response, type: :logout_response).should be_a(Saml::LogoutResponse)
+        end
       end
     end
   end

@@ -84,7 +84,7 @@ module Saml
     end
 
     def authn_requests_signed?
-      sp_descriptor.authn_requests_signed
+      sp_descriptor(false).try(:authn_requests_signed)
     end
 
     private

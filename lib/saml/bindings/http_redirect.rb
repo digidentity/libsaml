@@ -19,7 +19,11 @@ module Saml
           redirect_binding = new(request_or_response, options)
           query_string     = URI.parse(http_request.url).query
 
-          redirect_binding.verify_signature(query_string) if request_or_response.provider.authn_requests_signed?
+          if http_request.params["Signature"].present?
+            redirect_binding.verify_signature(query_string)
+          else
+            raise Saml::Errors::SignatureMissing.new('Signature missing, but provider requires a signature') if request_or_response.provider.authn_requests_signed?
+          end
 
           request_or_response.actual_destination = http_request.url
           request_or_response
