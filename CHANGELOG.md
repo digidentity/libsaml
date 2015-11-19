@@ -1,7 +1,9 @@
+### 2.14.0
+* fix issue when using the redirect binding as an IDP
+
 ### 2.13.1
 * revert use original XML when using parsed objects
 * revert Saml::XMLInjector
-
 
 ### 2.13.0
 * enhancements
