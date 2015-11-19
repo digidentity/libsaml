@@ -19,7 +19,10 @@ module Saml
           redirect_binding = new(request_or_response, options)
           query_string     = URI.parse(http_request.url).query
 
-          redirect_binding.verify_signature(query_string) if request_or_response.provider.authn_requests_signed?
+          provider = request_or_response.provider
+          if provider.type.to_s == "service_provider" && provider.authn_requests_signed?
+            redirect_binding.verify_signature(query_string)
+          end
 
           request_or_response.actual_destination = http_request.url
           request_or_response
