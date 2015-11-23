@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    libsaml (2.15.1)
+    libsaml (2.15.2)
       activemodel (>= 3.0.0)
       activesupport (>= 3.2.15)
       curb
       xmldsig (~> 0.4.0)
       xmlenc (~> 0.6.0)
-      xmlmapper (~> 0.6.0)
+      xmlmapper (~> 0.6.1)
 
 GEM
   remote: http://rubygems.org/
@@ -170,7 +170,7 @@ GEM
       activesupport (>= 3.0.0)
       nokogiri (~> 1.6.0)
       xmlmapper (~> 0.6.0)
-    xmlmapper (0.6.0)
+    xmlmapper (0.6.1)
       nokogiri (~> 1.5)
 
 PLATFORMS

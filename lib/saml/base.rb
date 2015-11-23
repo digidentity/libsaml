@@ -9,7 +9,15 @@ module Saml
       include ::ActiveModel::Validations
 
       attr_accessor :xml_value
-      has_xml_content
+
+      def use_parsed
+        @use_parsed = true
+        self
+      end
+
+      def use_parsed?
+        @use_parsed
+      end
 
       extend XmlMapperClassMethods
       include XmlMapperInstanceMethods

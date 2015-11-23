@@ -1,3 +1,6 @@
+### 2.15.2
+* call `use_parsed` on an object before calling to_xml on the element or parent to use the parsed value
+
 ### 2.15.1
 * added libsaml file for easier require
 

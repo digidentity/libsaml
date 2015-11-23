@@ -71,7 +71,7 @@ describe BaseDummy do
       end
 
       parsed_artifact_response = Saml::ArtifactResponse.parse(xml_no_space, single: true)
-      new_assertion            = parsed_artifact_response.response.assertion
+      new_assertion            = parsed_artifact_response.response.assertion.use_parsed
 
       new_response          = build(:response, assertion: new_assertion, _id: Saml.generate_id)
       new_artifact_response = build(:artifact_response, response: new_response, _id: Saml.generate_id)
