@@ -37,7 +37,7 @@ class AdviceTypeDummy
 end
 
 class StatementDummy
-  include HappyMapper
+  include XmlMapper
 
   register_namespace 'xacml-saml', "urn:oasis:xacml:2.0:saml:assertion:schema:os"
   register_namespace 'xsi', Saml::XSI_NAMESPACE

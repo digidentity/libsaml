@@ -1,7 +1,7 @@
 module Saml
   module Elements
     class Evidence
-      include HappyMapper
+      include XmlMapper
       include Saml::Base
       include Saml::ComplexTypes::EvidenceType
 

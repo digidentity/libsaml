@@ -1,7 +1,7 @@
 module Saml
   module Elements
     class EncryptedID
-      include ::HappyMapper
+      include ::XmlMapper
       include ::Saml::Base
       include ::Saml::XMLHelpers
 
@@ -34,7 +34,7 @@ module Saml
         )
         encrypted_key = self.encrypted_data.encrypt(name_id_xml, key_options)
         encrypted_key.set_encryption_method(
-          algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p', 
+          algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
           digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1'
         )
         encrypted_key.set_key_name key_name

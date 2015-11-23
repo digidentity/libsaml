@@ -1,6 +1,6 @@
 module Saml
   class Artifact
-    include ::HappyMapper
+    include ::XmlMapper
 
     TYPE_CODE      = "\000\004"
     ENDPOINT_INDEX = "\000\000"

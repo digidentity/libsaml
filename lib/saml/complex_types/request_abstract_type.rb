@@ -1,4 +1,4 @@
-require 'happymapper'
+require 'xmlmapper'
 
 module Saml
   module ComplexTypes

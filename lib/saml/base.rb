@@ -1,21 +1,21 @@
-require 'happymapper'
+require 'xmlmapper'
 
 module Saml
   module Base
     extend ActiveSupport::Concern
 
     included do
-      include ::HappyMapper
+      include ::XmlMapper
       include ::ActiveModel::Validations
 
       attr_accessor :xml_value
       has_xml_content
 
-      extend HappyMapperClassMethods
-      include HappyMapperInstanceMethods
+      extend XmlMapperClassMethods
+      include XmlMapperInstanceMethods
     end
 
-    module HappyMapperInstanceMethods
+    module XmlMapperInstanceMethods
       def initialize(attributes = {})
         attributes.each do |key, value|
           send("#{key}=", value) if respond_to?("#{key}=") && value.present?
@@ -29,7 +29,7 @@ module Saml
       end
     end
 
-    module HappyMapperClassMethods
+    module XmlMapperClassMethods
       def parse(xml, options = {})
         if xml.is_a?(String)
           ActiveSupport::XmlMini_REXML.parse(xml)

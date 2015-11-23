@@ -10,7 +10,7 @@ module Saml
 
       tag 'IDPSSODescriptor'
 
-      attribute :want_authn_requests_signed, HappyMapper::Boolean, :tag => "WantAuthnRequestsSigned", :default => false
+      attribute :want_authn_requests_signed, XmlMapper::Boolean, :tag => "WantAuthnRequestsSigned", :default => false
 
       has_many :single_sign_on_services, SingleSignOnService
 

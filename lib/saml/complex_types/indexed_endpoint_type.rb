@@ -6,7 +6,7 @@ module Saml
 
       included do
         attribute :index, Integer, :tag => "index"
-        attribute :is_default, HappyMapper::Boolean, :tag => "isDefault"
+        attribute :is_default, XmlMapper::Boolean, :tag => "isDefault"
 
         validates :index, :presence => true
       end

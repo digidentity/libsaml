@@ -63,7 +63,7 @@ describe BaseDummy do
       # assertion.signature.key_info = Saml::Elements::KeyInfo.new(x509certificate.to_pem)
       artifact_response.add_signature
 
-      xml_no_space = artifact_response.to_xml(no_space: true)
+      xml_no_space = artifact_response.to_xml(formatted: true)
 
       document     = Xmldsig::SignedDocument.new(xml_no_space)
       xml_no_space = document.sign do |data, signature_algorithm|
@@ -77,7 +77,7 @@ describe BaseDummy do
       new_artifact_response = build(:artifact_response, response: new_response, _id: Saml.generate_id)
       new_artifact_response.add_signature
 
-      xml_with_space = new_artifact_response.to_xml
+      xml_with_space = new_artifact_response.to_xml()
 
       document   = Xmldsig::SignedDocument.new(xml_with_space)
       signed_xml = document.sign do |data, signature_algorithm|

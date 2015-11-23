@@ -1,3 +1,6 @@
+### 2.15.0
+* upgrade to xmlmapper
+
 ### 2.14.0
 * fix issue when using the redirect binding as an IDP
 

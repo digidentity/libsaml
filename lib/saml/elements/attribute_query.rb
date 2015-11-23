@@ -1,7 +1,7 @@
 module Saml
   module Elements
     class AttributeQuery
-      include HappyMapper
+      include XmlMapper
       include Saml::Base
       include Saml::ComplexTypes::AttributeQueryType
 

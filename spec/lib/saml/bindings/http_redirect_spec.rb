@@ -51,7 +51,8 @@ describe Saml::Bindings::HTTPRedirect do
     end
 
     it "adds the signature" do
-      params["Signature"].should == "OvRPA88Zn9hZmYuZAJ0gELY85rSGsz7AfoEXC1uGtLLzUy7wuyfbQj6uMc9X%0AGns9U9ogkQi2JmH1EZ91bYPdP9gQfrWNUnYHqa%2FDSjZAUvxdN4g6lJSprc46%0A6fgK%2BNMAhgrCX%2F60MFHqcQbhwZ9CzOWm22aajJvQnI%2B7EbMH8nw%3D"
+      # params["Signature"].should == "OvRPA88Zn9hZmYuZAJ0gELY85rSGsz7AfoEXC1uGtLLzUy7wuyfbQj6uMc9X%0AGns9U9ogkQi2JmH1EZ91bYPdP9gQfrWNUnYHqa%2FDSjZAUvxdN4g6lJSprc46%0A6fgK%2BNMAhgrCX%2F60MFHqcQbhwZ9CzOWm22aajJvQnI%2B7EbMH8nw%3D"
+      params["Signature"].should == "HliUb3I3Uksgc1O6lxpPb%2Bnj%2FTykWLrWnw%2BnduLfF70Qf8LeCJuP6HDJSe9s%0AS9wR2rO9jFl8cuqg2AM6RuOOju%2FNWriEKIWECbMmUvJWpqeWU0IDKYHe47uv%0AAhVfPRyckfmDH2dhKW9ExJjKBlwr6SencuoZlte1uU1TqzKnnH8%3D"
     end
 
     context "with sha256" do
@@ -66,7 +67,8 @@ describe Saml::Bindings::HTTPRedirect do
       end
 
       it "calculates the signature with sha256" do
-        params["Signature"].should == "tdYHD67m1qU3MIGQML6FcLycpEcAAkL2gAS8JZpynMum8fdSV%2FDMuyALY3qa%0A%2BmOuWxW3heKnsM6h%2BshdLKdUooy4LvTFUNmSE7%2FW6QanO3%2F9ed7W8BYDdJPV%0AVUSvir9uZFWGplCRlaURTFYnmJxWUjzzrpgmSL%2Fs8dsuxvnjW1A%3D"
+        # params["Signature"].should == "tdYHD67m1qU3MIGQML6FcLycpEcAAkL2gAS8JZpynMum8fdSV%2FDMuyALY3qa%0A%2BmOuWxW3heKnsM6h%2BshdLKdUooy4LvTFUNmSE7%2FW6QanO3%2F9ed7W8BYDdJPV%0AVUSvir9uZFWGplCRlaURTFYnmJxWUjzzrpgmSL%2Fs8dsuxvnjW1A%3D"
+        params["Signature"].should == "l8tExhOUx6anBfEaqfzNjIbGqZBqlMO3AKiFhm%2F4jyn2akDbgdd4T2n6uZQ%2F%0AKicpGrHivtsYvNVwO3x1ekhD2tTZ6kSb6rbC18JC0ZnRLtBRxJT%2Bs7mJ%2FJhT%0AIRhdGV9bTN0LegRxAjY%2Bn%2B5etPls8GscYA4UK12wZLP5qNhWI4E%3D"
       end
 
     end
@@ -80,7 +82,8 @@ describe Saml::Bindings::HTTPRedirect do
       end
 
       it "uses the block to create the signature" do
-        params["Signature"].should == "OvRPA88Zn9hZmYuZAJ0gELY85rSGsz7AfoEXC1uGtLLzUy7wuyfbQj6uMc9X%0AGns9U9ogkQi2JmH1EZ91bYPdP9gQfrWNUnYHqa%2FDSjZAUvxdN4g6lJSprc46%0A6fgK%2BNMAhgrCX%2F60MFHqcQbhwZ9CzOWm22aajJvQnI%2B7EbMH8nw%3D"
+        # params["Signature"].should == "OvRPA88Zn9hZmYuZAJ0gELY85rSGsz7AfoEXC1uGtLLzUy7wuyfbQj6uMc9X%0AGns9U9ogkQi2JmH1EZ91bYPdP9gQfrWNUnYHqa%2FDSjZAUvxdN4g6lJSprc46%0A6fgK%2BNMAhgrCX%2F60MFHqcQbhwZ9CzOWm22aajJvQnI%2B7EbMH8nw%3D"
+        params["Signature"].should == "HliUb3I3Uksgc1O6lxpPb%2Bnj%2FTykWLrWnw%2BnduLfF70Qf8LeCJuP6HDJSe9s%0AS9wR2rO9jFl8cuqg2AM6RuOOju%2FNWriEKIWECbMmUvJWpqeWU0IDKYHe47uv%0AAhVfPRyckfmDH2dhKW9ExJjKBlwr6SencuoZlte1uU1TqzKnnH8%3D"
       end
     end
   end

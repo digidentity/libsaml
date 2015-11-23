@@ -1,7 +1,7 @@
 module Saml
   module ComplexTypes
     class StatementAbstractType
-      include HappyMapper
+      include XmlMapper
 
       register_namespace 'xsi', Saml::XSI_NAMESPACE
 

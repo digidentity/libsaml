@@ -14,6 +14,10 @@ group :test, :development do
   gem 'simplecov'
   gem 'factory_girl_rails'
   gem 'rspec-collection_matchers', '~> 1.0'
+
+
+  gem 'ruby-debug-ide'
+  gem 'debase'
 end
 
 # Declare any dependencies that are still in development here instead of in

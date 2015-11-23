@@ -8,7 +8,7 @@ module Saml
       namespace "md"
 
       attribute :index, Integer, :tag => "index"
-      attribute :is_default, HappyMapper::Boolean, :tag => "isDefault"
+      attribute :is_default, XmlMapper::Boolean, :tag => "isDefault"
 
       has_many :service_names, ServiceName
       has_many :service_descriptions, ServiceDescription

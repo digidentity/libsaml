@@ -1,3 +1,4 @@
+
 module Saml
   module XMLHelpers
     extend ActiveSupport::Concern
@@ -16,7 +17,12 @@ module Saml
       write_xml            = builder.nil? ? true : false
       builder              ||= Nokogiri::XML::Builder.new
       builder.doc.encoding = "UTF-8"
-      result               = super(builder, default_namespace)
+      result = if xml_value
+        builder << xml_value
+        builder
+      else
+        super(builder, default_namespace)
+      end
 
       if write_xml
         instruct ? result.to_xml(nokogiri_options(options)) : result.doc.root
@@ -43,9 +49,9 @@ module Saml
 
     def nokogiri_options(options)
       nokogiri_options             = {
-          save_with: Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::FORMAT
+          save_with: Nokogiri::XML::Node::SaveOptions::AS_XML
       }
-      nokogiri_options[:save_with] = Nokogiri::XML::Node::SaveOptions::AS_XML if options[:no_space]
+      nokogiri_options[:save_with] |= Nokogiri::XML::Node::SaveOptions::FORMAT if options[:formatted]
       nokogiri_options
     end
   end
