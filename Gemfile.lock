@@ -44,9 +44,6 @@ GEM
       thor (~> 0.19.1)
       tins (~> 1.6.0)
     curb (0.8.8)
-    debase (0.2.1)
-      debase-ruby_core_source
-    debase-ruby_core_source (0.8.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
     domain_name (0.5.25)
@@ -149,8 +146,6 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    ruby-debug-ide (0.6.0)
-      rake (>= 0.8.1)
     shellany (0.0.1)
     simplecov (0.10.0)
       docile (~> 1.1.0)
@@ -183,12 +178,10 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls (~> 0.7)
-  debase
   factory_girl_rails
   guard-rspec (~> 4.0)
   jquery-rails (>= 3.0.0)
   libsaml!
   rspec-collection_matchers (~> 1.0)
   rspec-rails (~> 3.1)
-  ruby-debug-ide
   simplecov
