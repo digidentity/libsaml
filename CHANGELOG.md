@@ -1,3 +1,6 @@
+### 2.15.1
+* added libsaml file for easier require
+
 ### 2.15.0
 * upgrade to xmlmapper
 
