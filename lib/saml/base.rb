@@ -8,7 +8,7 @@ module Saml
       include ::XmlMapper
       include ::ActiveModel::Validations
 
-      attr_accessor :xml_value
+      attr_accessor :xml_node
 
       def use_parsed
         @use_parsed = true
