@@ -16,6 +16,7 @@ group :test, :development do
   gem 'rspec-collection_matchers', '~> 1.0'
 
   gem 'xmlmapper', path: '~/code/xmlmapper'
+  gem 'xmldsig', path: '~/code/xmldsig'
 end
 
 # Declare any dependencies that are still in development here instead of in

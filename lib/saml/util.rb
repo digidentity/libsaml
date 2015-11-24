@@ -29,10 +29,10 @@ module Saml
           http.key  = OpenSSL::PKey::RSA.new(key)
         end
 
-        headers = { 
-          'Content-Type' => 'text/xml',
-          'Cache-Control' => 'no-cache, no-store',
-          'Pragma' => 'no-cache'
+        headers = {
+            'Content-Type'  => 'text/xml',
+            'Cache-Control' => 'no-cache, no-store',
+            'Pragma'        => 'no-cache'
         }
         headers.merge! additional_headers
 
@@ -57,14 +57,14 @@ module Saml
 
       def encrypt_assertion(assertion, key_descriptor_or_certificate)
         case key_descriptor_or_certificate
-        when OpenSSL::X509::Certificate
-          certificate = key_descriptor_or_certificate
-          key_name = nil
-        when Saml::Elements::KeyDescriptor
-          certificate = key_descriptor_or_certificate.certificate
-          key_name = key_descriptor_or_certificate.key_info.key_name
-        else
-          raise ArgumentError.new("Expecting Certificate or KeyDescriptor got: #{key_descriptor_or_certificate.class}")
+          when OpenSSL::X509::Certificate
+            certificate = key_descriptor_or_certificate
+            key_name    = nil
+          when Saml::Elements::KeyDescriptor
+            certificate = key_descriptor_or_certificate.certificate
+            key_name    = key_descriptor_or_certificate.key_info.key_name
+          else
+            raise ArgumentError.new("Expecting Certificate or KeyDescriptor got: #{key_descriptor_or_certificate.class}")
         end
 
         assertion = assertion.to_xml(nil, nil, false) if assertion.is_a?(Assertion) # create xml without instruct
@@ -100,7 +100,7 @@ module Saml
       end
 
       def decrypt_encrypted_id(encrypted_id, private_key)
-        encrypted_id_xml = encrypted_id.is_a?(Saml::Elements::EncryptedID) ?
+        encrypted_id_xml   = encrypted_id.is_a?(Saml::Elements::EncryptedID) ?
             encrypted_id.to_xml : encrypted_id.to_s
         encrypted_document = Xmlenc::EncryptedDocument.new(encrypted_id_xml)
         Saml::Elements::EncryptedID.parse(encrypted_document.decrypt(private_key))
@@ -118,6 +118,11 @@ module Saml
         signed_node = document.signed_nodes.find { |node| node['ID'] == message._id }
 
         message.class.parse(signed_node.to_xml, single: true)
+      end
+
+      def collect_extra_namespaces(raw_xml)
+        doc = Nokogiri::XML(raw_xml, nil, nil, Nokogiri::XML::ParseOptions::STRICT)
+        doc.collect_namespaces.each_with_object({}) { |(prefix, path), hash| hash[prefix.gsub('xmlns:', '')] = path }
       end
 
       def download_metadata_xml(location)
