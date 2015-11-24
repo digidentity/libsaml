@@ -17,8 +17,12 @@ module Saml
       write_xml            = builder.nil? ? true : false
       builder              ||= Nokogiri::XML::Builder.new
       builder.doc.encoding = "UTF-8"
-      result = if xml_node && use_parsed?
-        builder.send(:insert, xml_node)
+      result = if use_parsed?
+        if respond_to? :xml_node
+          builder.send(:insert, xml_node)
+        elsif respond_to? :xml_value
+          builder << xml_value
+        end
         builder
       else
         super(builder, default_namespace)

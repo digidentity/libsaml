@@ -9,6 +9,12 @@ PATH
       xmlenc (~> 0.6.0)
       xmlmapper (~> 0.6.2)
 
+PATH
+  remote: ~/code/xmlmapper
+  specs:
+    xmlmapper (0.6.2)
+      nokogiri (~> 1.5)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -170,8 +176,6 @@ GEM
       activesupport (>= 3.0.0)
       nokogiri (~> 1.6.0)
       xmlmapper (~> 0.6.0)
-    xmlmapper (0.6.2)
-      nokogiri (~> 1.5)
 
 PLATFORMS
   ruby
@@ -185,3 +189,4 @@ DEPENDENCIES
   rspec-collection_matchers (~> 1.0)
   rspec-rails (~> 3.1)
   simplecov
+  xmlmapper!

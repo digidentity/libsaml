@@ -77,11 +77,11 @@ describe BaseDummy do
       new_artifact_response = build(:artifact_response, response: new_response, _id: Saml.generate_id)
       new_artifact_response.add_signature
 
-      xml_with_space = new_artifact_response.to_xml()
+      xml_with_space = new_artifact_response.to_xml
 
       document   = Xmldsig::SignedDocument.new(xml_with_space)
       signed_xml = document.sign do |data, signature_algorithm|
-        artifact_response.provider.sign(signature_algorithm, data)
+        new_artifact_response.provider.sign(signature_algorithm, data)
       end
 
       Saml::Util.verify_xml(Saml::ArtifactResponse.parse(signed_xml, single: true), signed_xml)
