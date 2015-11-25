@@ -9,18 +9,6 @@ PATH
       xmlenc (~> 0.6.0)
       xmlmapper (~> 0.6.2)
 
-PATH
-  remote: ~/code/xmldsig
-  specs:
-    xmldsig (0.4.0)
-      nokogiri
-
-PATH
-  remote: ~/code/xmlmapper
-  specs:
-    xmlmapper (0.6.2)
-      nokogiri (~> 1.5)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -175,11 +163,15 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
+    xmldsig (0.4.0)
+      nokogiri
     xmlenc (0.6.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       nokogiri (~> 1.6.0)
       xmlmapper (~> 0.6.0)
+    xmlmapper (0.6.2)
+      nokogiri (~> 1.5)
 
 PLATFORMS
   ruby
@@ -193,5 +185,3 @@ DEPENDENCIES
   rspec-collection_matchers (~> 1.0)
   rspec-rails (~> 3.1)
   simplecov
-  xmldsig!
-  xmlmapper!
