@@ -33,6 +33,11 @@ module Saml
       def from_xml?
         @from_xml
       end
+
+      def use_original(object)
+        registered_namespaces.merge!(Saml::Util.collect_extra_namespaces(object.xml_value))
+        object.use_parsed
+      end
     end
 
     module XmlMapperClassMethods

@@ -1,3 +1,6 @@
+### 2.15.4
+* call `use_original` on a root object with the object that requires the original value
+
 ### 2.15.2
 * call `use_parsed` on an object before calling to_xml on the element or parent to use the parsed value
 
