@@ -2,6 +2,8 @@ module Saml
   class AuthnRequest
     include Saml::ComplexTypes::RequestAbstractType
 
+    attr_accessor :xml_value
+
     tag 'AuthnRequest'
     attribute :force_authn, Boolean, :tag => "ForceAuthn"
     attribute :is_passive, Boolean, :tag => "IsPassive"

@@ -3,6 +3,8 @@ module Saml
     include Saml::Base
     include Saml::XMLHelpers
 
+    attr_accessor :xml_value
+
     register_namespace 'samlp', Saml::SAMLP_NAMESPACE
     register_namespace 'saml', Saml::SAML_NAMESPACE
 

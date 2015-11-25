@@ -2,6 +2,8 @@ module Saml
   class Response
     include Saml::ComplexTypes::StatusResponseType
 
+    attr_accessor :xml_value
+
     tag "Response"
     has_many :assertions, Saml::Assertion, xpath: './'
     has_many :encrypted_assertions, Saml::Elements::EncryptedAssertion
