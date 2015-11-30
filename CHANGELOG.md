@@ -1,3 +1,6 @@
+### 2.15.6
+* allow `LogoutRequest` to use `xml_value`
+
 ### 2.15.5
 * add `not_on_or_after` on logout requests
 
