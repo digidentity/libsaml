@@ -7,6 +7,21 @@ describe Saml::LogoutRequest do
     Saml::LogoutRequest.ancestors.should include Saml::ComplexTypes::RequestAbstractType
   end
 
+  describe "Optional fields" do
+    [:not_on_or_after].each do |field|
+      it "should have the #{field} field" do
+        logout_request.should respond_to(field)
+      end
+
+      it "should allow #{field} to blank" do
+        logout_request.send("#{field}=", nil)
+        logout_request.should be_valid
+        logout_request.send("#{field}=", "")
+        logout_request.should be_valid
+      end
+    end
+  end
+
   describe "Required fields" do
     [:name_id].each do |field|
       it "should have the #{field} field" do
