@@ -1,3 +1,6 @@
+### 2.15.5
+* add `not_on_or_after` on logout requests
+
 ### 2.15.4
 * call `use_original` on a root object with the object that requires the original value
 
