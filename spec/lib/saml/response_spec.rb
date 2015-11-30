@@ -90,6 +90,25 @@ describe Saml::Response do
     end
   end
 
+  describe '#request_unsupported?' do
+    context 'when the sub status is REQUEST_UNSUPPORTED' do
+      let(:status_code) { Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER, sub_status_value: Saml::SubStatusCodes::REQUEST_UNSUPPORTED) }
+      let(:status) { Saml::Elements::Status.new(status_code: status_code) }
+
+      before { response.status = status }
+
+      it 'returns true' do
+        expect(response.request_unsupported?).to eq true
+      end
+    end
+
+    context 'when the sub status is NOT REQUEST_UNSUPPORTED' do
+      it 'returns false' do
+        expect(response.request_unsupported?).to eq false
+      end
+    end
+  end
+
   describe '#unknown_principal?' do
     context 'when the sub status is UNKNOWN_PRINCIPAL' do
       let(:status_code) { Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER, sub_status_value: Saml::SubStatusCodes::UNKNOWN_PRINCIPAL) }

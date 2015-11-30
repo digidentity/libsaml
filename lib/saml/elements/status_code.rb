@@ -30,6 +30,10 @@ module Saml
         sub_status_code.value == SubStatusCodes::REQUEST_DENIED
       end
 
+      def request_unsupported?
+        sub_status_code.value == SubStatusCodes::REQUEST_UNSUPPORTED
+      end
+
       def no_authn_context?
         sub_status_code.value == SubStatusCodes::NO_AUTHN_CONTEXT
       end

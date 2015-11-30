@@ -59,13 +59,14 @@ module Saml
   end
 
   module SubStatusCodes
-    AUTHN_FAILED      = 'urn:oasis:names:tc:SAML:2.0:status:AuthnFailed'
-    NO_AUTHN_CONTEXT  = 'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext'
-    PARTIAL_LOGOUT    = 'urn:oasis:names:tc:SAML:2.0:status:PartialLogout'
-    REQUEST_DENIED    = 'urn:oasis:names:tc:SAML:2.0:status:RequestDenied'
-    UNKNOWN_PRINCIPAL = 'urn:oasis:names:tc:SAML:2.0:status:UnknownPrincipal'
+    AUTHN_FAILED        = 'urn:oasis:names:tc:SAML:2.0:status:AuthnFailed'
+    NO_AUTHN_CONTEXT    = 'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext'
+    PARTIAL_LOGOUT      = 'urn:oasis:names:tc:SAML:2.0:status:PartialLogout'
+    REQUEST_DENIED      = 'urn:oasis:names:tc:SAML:2.0:status:RequestDenied'
+    REQUEST_UNSUPPORTED = 'urn:oasis:names:tc:SAML:2.0:status:RequestUnsupported'
+    UNKNOWN_PRINCIPAL   = 'urn:oasis:names:tc:SAML:2.0:status:UnknownPrincipal'
 
-    ALL = [AUTHN_FAILED, NO_AUTHN_CONTEXT, PARTIAL_LOGOUT, REQUEST_DENIED, UNKNOWN_PRINCIPAL]
+    ALL = [AUTHN_FAILED, NO_AUTHN_CONTEXT, PARTIAL_LOGOUT, REQUEST_DENIED, REQUEST_UNSUPPORTED, UNKNOWN_PRINCIPAL]
   end
 
   module Bindings
