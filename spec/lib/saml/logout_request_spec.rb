@@ -7,6 +7,10 @@ describe Saml::LogoutRequest do
     Saml::LogoutRequest.ancestors.should include Saml::ComplexTypes::RequestAbstractType
   end
 
+  it 'responds to xml_value' do
+    expect(logout_request).to respond_to :xml_value
+  end
+
   describe "Optional fields" do
     [:not_on_or_after].each do |field|
       it "should have the #{field} field" do

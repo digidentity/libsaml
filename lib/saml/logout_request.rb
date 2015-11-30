@@ -2,6 +2,8 @@ module Saml
   class LogoutRequest
     include Saml::ComplexTypes::RequestAbstractType
 
+    attr_accessor :xml_value
+
     tag "LogoutRequest"
 
     attribute :not_on_or_after, Time, :tag => "NotOnOrAfter", :on_save => lambda { |val| val.utc.xmlschema if val.present? }
