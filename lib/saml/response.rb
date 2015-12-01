@@ -16,6 +16,10 @@ module Saml
       !success? && status.status_code.request_denied?
     end
 
+    def request_unsupported?
+      !success? && status.status_code.request_unsupported?
+    end
+
     def no_authn_context?
       !success? && status.status_code.no_authn_context?
     end

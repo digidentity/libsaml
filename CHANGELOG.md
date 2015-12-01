@@ -1,3 +1,6 @@
+### 2.15.7
+* added the `request_unsupported?` helper method to `Response`.
+
 ### 2.15.6
 * allow `LogoutRequest` to use `xml_value`
 
