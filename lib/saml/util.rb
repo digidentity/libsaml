@@ -29,6 +29,12 @@ module Saml
           http.key  = OpenSSL::PKey::RSA.new(key)
         end
 
+        if Saml::Config.http_ca_file.present? && File.exist?(Saml::Config.http_ca_file)
+          http.cert_store = OpenSSL::X509::Store.new
+          http.cert_store.set_default_paths
+          http.cert_store.add_file(Saml::Config.http_ca_file)
+        end
+
         headers = {
             'Content-Type'  => 'text/xml',
             'Cache-Control' => 'no-cache, no-store',
