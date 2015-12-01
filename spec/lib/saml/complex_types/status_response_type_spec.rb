@@ -77,4 +77,22 @@ describe Saml::ComplexTypes::StatusResponseType do
       end
     end
   end
+
+  describe '#status_message' do
+    context 'when initialized with a status message' do
+      let(:status_response_type) { StatusResponseTypeDummy.new(status_message: 'status message') }
+
+      it 'adds a status message to the status' do
+        expect(status_response_type.status.status_message).to eq 'status message'
+      end
+    end
+
+    context 'when initialized without a status message' do
+      let(:status_response_type) { StatusResponseTypeDummy.new(status_message: nil) }
+
+      it 'does NOT add a status message to the status' do
+        expect(status_response_type.status.status_message).to be_blank
+      end
+    end
+  end
 end
