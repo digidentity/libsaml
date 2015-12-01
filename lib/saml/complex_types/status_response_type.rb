@@ -18,7 +18,8 @@ module Saml
         options = args.extract_options!
         @status = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: options.delete(:status_value),
                                                                                          sub_status_value: options.delete(:sub_status_value)))
-        @status.status_detail = Saml::Elements::StatusDetail.new(status_value: options.delete(:status_detail)) if options[:status_detail]
+        @status.status_detail  = Saml::Elements::StatusDetail.new(status_value: options.delete(:status_detail)) if options[:status_detail]
+        @status.status_message = options.delete(:status_message) if options[:status_message]
         super(*(args << options))
       end
 
