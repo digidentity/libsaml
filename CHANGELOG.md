@@ -1,3 +1,6 @@
+### 2.15.8
+* added the option to set a `status_message` on a `Status` through the initializer of a `Response`.
+
 ### 2.15.7
 * added the `request_unsupported?` helper method to `Response`.
 
