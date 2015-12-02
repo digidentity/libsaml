@@ -21,28 +21,10 @@ module Saml
         http.use_ssl     = uri.scheme == 'https'
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
-        if Saml::Config.ssl_certificate_file.present? && Saml::Config.ssl_private_key_file.present?
-          cert = File.read(Saml::Config.ssl_certificate_file)
-          key  = File.read(Saml::Config.ssl_private_key_file)
+        add_cacert_file(http)
+        add_ssl_certificate_and_key(http)
 
-          http.cert = OpenSSL::X509::Certificate.new(cert)
-          http.key  = OpenSSL::PKey::RSA.new(key)
-        end
-
-        if Saml::Config.http_ca_file.present? && File.exist?(Saml::Config.http_ca_file)
-          http.cert_store = OpenSSL::X509::Store.new
-          http.cert_store.set_default_paths
-          http.cert_store.add_file(Saml::Config.http_ca_file)
-        end
-
-        headers = {
-            'Content-Type'  => 'text/xml',
-            'Cache-Control' => 'no-cache, no-store',
-            'Pragma'        => 'no-cache'
-        }
-        headers.merge! additional_headers
-
-        request      = Net::HTTP::Post.new(uri.request_uri, headers)
+        request      = Net::HTTP::Post.new(uri.request_uri, merged_headers(additional_headers))
         request.body = message
 
         http.request(request)
@@ -63,14 +45,14 @@ module Saml
 
       def encrypt_assertion(assertion, key_descriptor_or_certificate)
         case key_descriptor_or_certificate
-          when OpenSSL::X509::Certificate
-            certificate = key_descriptor_or_certificate
-            key_name    = nil
-          when Saml::Elements::KeyDescriptor
-            certificate = key_descriptor_or_certificate.certificate
-            key_name    = key_descriptor_or_certificate.key_info.key_name
-          else
-            raise ArgumentError.new("Expecting Certificate or KeyDescriptor got: #{key_descriptor_or_certificate.class}")
+        when OpenSSL::X509::Certificate
+          certificate = key_descriptor_or_certificate
+          key_name    = nil
+        when Saml::Elements::KeyDescriptor
+          certificate = key_descriptor_or_certificate.certificate
+          key_name    = key_descriptor_or_certificate.key_info.key_name
+        else
+          fail ArgumentError, "Expecting Certificate or KeyDescriptor got: #{key_descriptor_or_certificate.class}"
         end
 
         assertion = assertion.to_xml(nil, nil, false) if assertion.is_a?(Assertion) # create xml without instruct
@@ -119,7 +101,7 @@ module Saml
           message.provider.verify(signature_algorithm, signature, data, message.signature.key_name)
         end
 
-        raise Saml::Errors::SignatureInvalid.new unless signature_valid
+        fail Saml::Errors::SignatureInvalid unless signature_valid
 
         signed_node = document.signed_nodes.find { |node| node['ID'] == message._id }
 
@@ -138,17 +120,45 @@ module Saml
         http.use_ssl     = uri.scheme == 'https'
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
+        add_cacert_file(http)
+
         request = Net::HTTP::Get.new(uri.request_uri)
 
         response = http.request(request)
         if response.code == '200'
           response.body
         else
-          raise Saml::Errors::MetadataDownloadFailed.new("Cannot download metadata for: #{location}: #{response.body}")
+          fail Saml::Errors::MetadataDownloadFailed, "Cannot download metadata for: #{location}: #{response.body}"
         end
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse,
           Net::HTTPHeaderSyntaxError, Net::ProtocolError => error
-        raise Saml::Errors::MetadataDownloadFailed.new("Cannot download metadata for: #{location}: #{error.message}")
+        raise Saml::Errors::MetadataDownloadFailed, "Cannot download metadata for: #{location}: #{error.message}"
+      end
+
+      private
+
+      def merged_headers(headers)
+        { 'Content-Type' => 'text/xml',
+          'Cache-Control' => 'no-cache, no-store',
+          'Pragma' => 'no-cache' }.merge(headers)
+      end
+
+      def add_cacert_file(http)
+        return http unless Saml::Config.http_ca_file.present?
+        http.cert_store = OpenSSL::X509::Store.new
+        http.cert_store.set_default_paths
+        http.cert_store.add_file(Saml::Config.http_ca_file)
+        http
+      end
+
+      def add_ssl_certificate_and_key(http)
+        return http unless Saml::Config.ssl_certificate_file.present?
+        return http unless Saml::Config.ssl_private_key_file.present?
+        cert = File.read(Saml::Config.ssl_certificate_file)
+        key  = File.read(Saml::Config.ssl_private_key_file)
+        http.cert = OpenSSL::X509::Certificate.new(cert)
+        http.key  = OpenSSL::PKey::RSA.new(key)
+        http
       end
     end
   end
