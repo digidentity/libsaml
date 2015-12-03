@@ -190,6 +190,25 @@ describe Saml::Util do
         post_request
       end
     end
+
+    context 'with http_ca_file' do
+      let(:http_ca_file) { File.join('spec', 'fixtures', 'certificate.pem') }
+
+      before :each do
+        Saml::Config.http_ca_file = http_ca_file
+
+        Net::HTTP.stub(:new).and_return(net_http)
+      end
+
+      after :each do
+        Saml::Config.http_ca_file = nil
+      end
+
+      it 'sets the ca_file' do
+        net_http.cert_store.should_receive(:add_file).with(http_ca_file)
+        post_request
+      end
+    end
   end
 
   describe '.verify_xml' do
@@ -393,6 +412,26 @@ describe Saml::Util do
       it "sets the verify mode to 'VERIFY_PEER'" do
         net_http.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
         download_metadata
+      end
+    end
+
+    context 'with http_ca_file' do
+      let(:http_ca_file) { File.join('spec', 'fixtures', 'certificate.pem') }
+
+      before :each do
+        Saml::Config.http_ca_file = http_ca_file
+
+        Net::HTTP.stub(:new).and_return(net_http)
+      end
+
+      after :each do
+        Saml::Config.http_ca_file = nil
+      end
+
+      it 'sets the ca_file' do
+        net_http.cert_store.should_receive(:add_file).with(http_ca_file)
+        location = 'https://example.com/foo/bar'
+        described_class.download_metadata_xml location
       end
     end
   end

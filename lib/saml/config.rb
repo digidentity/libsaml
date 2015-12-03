@@ -12,6 +12,9 @@ module Saml
     mattr_accessor :ssl_certificate_file
     @@ssl_certificate_file = nil
 
+    mattr_accessor :http_ca_file
+    @@http_ca_file = nil
+
     mattr_accessor :registered_stores
     @@registered_stores = {}
 
@@ -23,6 +26,5 @@ module Saml
     end
 
     module_function :register_store
-
   end
 end
