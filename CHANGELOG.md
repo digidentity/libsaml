@@ -1,3 +1,8 @@
+### 2.16.0
+* Added ability to password protect key file.
+* Added `find_by_source_id` to `Saml::ProviderStore::File`
+* Added http ca file config
+
 ### 2.15.8
 * added the option to set a `status_message` on a `Status` through the initializer of a `Response`.
 
