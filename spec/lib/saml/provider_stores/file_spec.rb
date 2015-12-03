@@ -34,4 +34,13 @@ describe Saml::ProviderStores::File do
       file_store.find_by_source_id('non-existing-sha1').should be_nil
     end
   end
+
+  describe 'key file with password' do
+    let(:file_store) { described_class.new('spec/fixtures/metadata', 'spec/fixtures/key_with_pwd.pem', 'my_password') }
+    describe 'initialize' do
+      it 'creates a store of providers' do
+        file_store.providers.values.first.should be_a(Saml::BasicProvider)
+      end
+    end
+  end
 end

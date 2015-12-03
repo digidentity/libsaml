@@ -3,11 +3,11 @@ module Saml
     class File
       attr_accessor :providers
 
-      def initialize(metadata_dir = "config/metadata", key_file = "config/ssl/key.pem")
+      def initialize(metadata_dir = "config/metadata", key_file = "config/ssl/key.pem", key_password = nil)
         @mutex         = Mutex.new
         self.providers = {}
 
-        load_files(metadata_dir, key_file)
+        load_files(metadata_dir, key_file, key_password)
       end
 
       def find_by_entity_id(entity_id)
@@ -21,9 +21,9 @@ module Saml
         end.to_a[1]
       end
 
-      def load_files(metadata_dir, key_file)
+      def load_files(metadata_dir, key_file, key_password = nil)
         Dir[::File.join(metadata_dir, '*.xml')].each do |file|
-          add_metadata(::File.read(file), OpenSSL::PKey::RSA.new(::File.read(key_file)))
+          add_metadata(::File.read(file), get_private_key(key_file, key_password))
         end
       end
 
@@ -35,6 +35,13 @@ module Saml
         @mutex.synchronize do
           providers[provider.entity_id] = provider
         end
+      end
+
+      private
+
+      def get_private_key(file, password)
+        return OpenSSL::PKey::RSA.new(::File.read(file)) unless password.present?
+        OpenSSL::PKey::RSA.new(::File.read(file), password)
       end
     end
   end
