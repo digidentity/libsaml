@@ -7,6 +7,8 @@ module Saml
 
       tag 'EncryptedID'
 
+      attr_accessor :xml_node
+
       register_namespace 'saml', ::Saml::SAML_NAMESPACE
       namespace 'saml'
 

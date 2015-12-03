@@ -45,6 +45,10 @@ describe Saml::Elements::EncryptedID do
     it "should parse the encrypted key" do
       expect(subject.encrypted_keys.first).to be_a Xmlenc::Builder::EncryptedKey
     end
+
+    it "should store the xml_node value" do
+      expect(subject.xml_node).to be_a Nokogiri::XML::Node
+    end
   end
 
   describe '#encrypt' do
