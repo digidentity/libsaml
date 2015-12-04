@@ -52,11 +52,13 @@ describe Saml::Elements::AudienceRestriction do
     it 'replaces the audience elements with the given element' do
       aggregate_failures do
         expect(audience_restriction.audiences.count).to eq 2
-        expect(audience_restriction.audiences).to match_array ['ServiceProvider', 'AuthorityProvider']
+        expect(audience_restriction.audiences).to contain_exactly an_instance_of(Saml::Elements::Audience), an_instance_of(Saml::Elements::Audience)
+        expect(audience_restriction.audiences.map(&:value)).to match_array ['ServiceProvider', 'AuthorityProvider']
 
-        audience_restriction.audience = 'IdentityProvider'
+        audience_restriction.audience = Saml::Elements::Audience.new(value: 'IdentityProvider')
         expect(audience_restriction.audiences.count).to eq 1
-        expect(audience_restriction.audiences).to match_array ['IdentityProvider']
+        expect(audience_restriction.audiences).to contain_exactly an_instance_of(Saml::Elements::Audience)
+        expect(audience_restriction.audiences.map(&:value)).to match_array ['IdentityProvider']
       end
     end
   end
@@ -74,7 +76,7 @@ describe Saml::Elements::AudienceRestriction do
     end
 
     it 'has the correct Audience values' do
-      expect(audience_restriction.audiences).to match_array ['ServiceProvider', 'AuthorityProvider']
+      expect(audience_restriction.audiences.map(&:value)).to match_array ['ServiceProvider', 'AuthorityProvider']
     end
   end
 end

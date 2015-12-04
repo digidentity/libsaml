@@ -6,7 +6,7 @@ module Saml
       tag 'AudienceRestriction'
       namespace 'saml'
 
-      has_many :audiences, String, tag: 'Audience'
+      has_many :audiences, Saml::Elements::Audience
 
       def audience
         Array(audiences).first

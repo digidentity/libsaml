@@ -112,6 +112,7 @@ module Saml
     require 'saml/elements/authenticating_authority'
     require 'saml/elements/subject_locality'
     require 'saml/elements/authn_context'
+    require 'saml/elements/audience'
     require 'saml/elements/audience_restriction'
     require 'saml/elements/sub_status_code'
     require 'saml/elements/status_code'
