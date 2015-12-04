@@ -7,6 +7,10 @@ describe Saml::Elements::AttributeStatement do
   let(:attribute_1) { FactoryGirl.build(:attribute, name: 'key_1') }
   let(:attribute_2) { FactoryGirl.build(:attribute, name: 'key_2') }
 
+  it 'includes the AttributeFetcher' do
+    expect(described_class.ancestors).to include Saml::AttributeFetcher
+  end
+
   describe "Optional fields" do
     [:attributes, :encrypted_attributes].each do |field|
       it "should have the #{field} field" do

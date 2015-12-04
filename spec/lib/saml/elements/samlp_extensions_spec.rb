@@ -2,6 +2,10 @@ require "spec_helper"
 
 describe Saml::Elements::SAMLPExtensions do
 
+  it 'includes the AttributeFetcher' do
+    expect(described_class.ancestors).to include Saml::AttributeFetcher
+  end
+
   it "has a tag" do
     described_class.tag_name.should eq "Extensions"
   end
