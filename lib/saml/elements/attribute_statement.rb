@@ -7,7 +7,7 @@ module Saml
       register_namespace 'saml', Saml::SAML_NAMESPACE
       namespace 'saml'
 
-      has_many :attribute, Saml::Elements::Attribute
+      has_many :attributes, Saml::Elements::Attribute
       has_many :encrypted_attributes, Saml::Elements::EncryptedAttribute
 
       def fetch_attribute(key)
@@ -23,7 +23,17 @@ module Saml
       end
 
       def fetch_attribute_values(key)
-        attribute.find_all { |attr| attr.name == key }.flat_map(&:attribute_values)
+        attributes.find_all { |attr| attr.name == key }.flat_map(&:attribute_values)
+      end
+
+      def attribute
+        warn '[DEPRECATED] please use #attributes'
+        attributes
+      end
+
+      def attribute=(attributes)
+        warn '[DEPRECATED] please use #attributes='
+        self.attributes = attributes
       end
     end
   end
