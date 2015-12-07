@@ -255,6 +255,16 @@ describe Saml::Util do
       end
     end
 
+    describe 'authn request within an artifact response' do
+      let(:artifact_response) { Saml::ArtifactResponse.new authn_request: Saml::AuthnRequest.new.tap(&:add_signature) }
+      let(:signed_xml) { Saml::Util.sign_xml(artifact_response) }
+
+      let(:authn_request) { Saml::AuthnRequest.parse signed_xml, single: true }
+
+      it 'parses the authn request from the signed XML without an undefined samlp prefix error' do
+        Saml::Util.verify_xml(authn_request, signed_xml).should be_a(Saml::AuthnRequest)
+      end
+    end
   end
 
   describe '.encrypt_assertion' do
