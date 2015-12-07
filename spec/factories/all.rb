@@ -237,4 +237,8 @@ FactoryGirl.define do
   factory :name_id, class: Saml::Elements::NameId do
     value 'NameID'
   end
+
+  factory :session_index, class: Saml::Elements::SessionIndex do
+    value 'SessionIndex'
+  end
 end

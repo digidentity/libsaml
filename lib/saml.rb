@@ -125,6 +125,7 @@ module Saml
     require 'saml/elements/encrypted_attribute'
     require 'saml/elements/name_id'
     require 'saml/elements/name_id_format'
+    require 'saml/elements/session_index'
     require 'saml/elements/encrypted_id'
     require 'saml/elements/attribute_value'
     require 'saml/elements/attribute'

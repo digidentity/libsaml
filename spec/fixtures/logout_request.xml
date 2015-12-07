@@ -4,4 +4,5 @@
                      ID="_43faa9487db98daa757214c2d233d31a8ac043be" IssueInstant="2011-08-31T08:54:36+02:00">
   <saml:Issuer>ServiceProvider</saml:Issuer>
   <saml:NameID>s00000000:123456789</saml:NameID>
+  <samlp:SessionIndex>123456789123456789123456789123456789</samlp:SessionIndex>
 </samlp:LogoutRequest>
