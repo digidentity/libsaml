@@ -1,3 +1,6 @@
+### 2.19.1
+* return canonicalised xml after verify
+
 ### 2.18.1
 * added `SessionIndex` to `LogoutRequest`
 
