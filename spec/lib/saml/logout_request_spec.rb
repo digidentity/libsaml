@@ -12,7 +12,7 @@ describe Saml::LogoutRequest do
   end
 
   describe "Optional fields" do
-    [:not_on_or_after].each do |field|
+    [:not_on_or_after, :session_index].each do |field|
       it "should have the #{field} field" do
         logout_request.should respond_to(field)
       end
@@ -50,6 +50,10 @@ describe Saml::LogoutRequest do
 
     it "should parse name_id" do
       logout_request.name_id.should == "s00000000:123456789"
+    end
+
+    it "should parse session_index" do
+      logout_request.session_index.should == "123456789123456789123456789123456789"
     end
   end
 
