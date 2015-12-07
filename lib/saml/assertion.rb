@@ -55,8 +55,8 @@ module Saml
 
     def add_attribute(key, value)
       self.attribute_statement ||= Saml::Elements::AttributeStatement.new
-      self.attribute_statement.attribute ||= []
-      self.attribute_statement.attribute << Saml::Elements::Attribute.new(name: key, attribute_value: value)
+      self.attribute_statement.attributes ||= []
+      self.attribute_statement.attributes << Saml::Elements::Attribute.new(name: key, attribute_value: value)
     end
 
     def fetch_attribute(key)
@@ -65,7 +65,7 @@ module Saml
 
     def fetch_attributes(key)
       return unless self.attribute_statements
-      return unless self.attribute_statements.flat_map(&:attribute)
+      return unless self.attribute_statements.flat_map(&:attributes)
       attribute_statements.flat_map { |attribute_statement| attribute_statement.fetch_attributes(key) }
     end
 
@@ -75,7 +75,7 @@ module Saml
 
     def fetch_attribute_values(key)
       return unless self.attribute_statements
-      return unless self.attribute_statements.flat_map(&:attribute)
+      return unless self.attribute_statements.flat_map(&:attributes)
       attribute_statements.flat_map { |attribute_statement| attribute_statement.fetch_attribute_values(key) }
     end
 

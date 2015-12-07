@@ -5,6 +5,7 @@ require 'saml/xml_helpers'
 require 'saml/encoding'
 require 'saml/util'
 require 'saml/notification'
+require 'saml/attribute_fetcher'
 require 'xmlenc'
 require 'xmldsig'
 require "net/https"

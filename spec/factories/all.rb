@@ -152,7 +152,7 @@ FactoryGirl.define do
   end
 
   factory :attribute_statement, :class => Saml::Elements::AttributeStatement do
-    attribute FactoryGirl.build(:attribute)
+    attributes [ FactoryGirl.build(:attribute) ]
   end
 
   factory :subject_locality, :class => Saml::Elements::SubjectLocality do

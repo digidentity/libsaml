@@ -3,6 +3,7 @@ module Saml
     class SAMLPExtensions
       include Saml::Base
       include Saml::XMLHelpers
+      include Saml::AttributeFetcher
 
       tag "Extensions"
       namespace "samlp"

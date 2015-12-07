@@ -175,8 +175,8 @@ describe Saml::Assertion do
         assertion.add_attribute('key', 'value')
 
         aggregate_failures do
-          expect(assertion.attribute_statement.attribute.first.name).to eq 'key'
-          expect(assertion.attribute_statement.attribute.first.attribute_values.first.content).to eq 'value'
+          expect(assertion.attribute_statement.attributes.first.name).to eq 'key'
+          expect(assertion.attribute_statement.attributes.first.attribute_values.first.content).to eq 'value'
         end
       end
     end
@@ -187,13 +187,13 @@ describe Saml::Assertion do
       it 'adds the attribute to the first attribute statement' do
         aggregate_failures do
           expect(assertion.attribute_statements.count).to eq 2
-          expect(assertion.attribute_statements.first.attribute).to be_nil
-          expect(assertion.attribute_statements.last.attribute).to be_nil
+          expect(assertion.attribute_statements.first.attributes).to be_nil
+          expect(assertion.attribute_statements.last.attributes).to be_nil
 
           assertion.add_attribute('key', 'value')
-          expect(assertion.attribute_statements.first.attribute.first.name).to eq 'key'
-          expect(assertion.attribute_statements.first.attribute.first.attribute_values.first.content).to eq 'value'
-          expect(assertion.attribute_statements.last.attribute).to be_nil
+          expect(assertion.attribute_statements.first.attributes.first.name).to eq 'key'
+          expect(assertion.attribute_statements.first.attributes.first.attribute_values.first.content).to eq 'value'
+          expect(assertion.attribute_statements.last.attributes).to be_nil
         end
       end
     end
@@ -243,8 +243,8 @@ describe Saml::Assertion do
       let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
       let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
 
-      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attribute: [ attribute_1, attribute_2 ] }
-      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attribute: [ attribute_3, attribute_4 ] }
+      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
 
       before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
 
@@ -278,8 +278,8 @@ describe Saml::Assertion do
       let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
       let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
 
-      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attribute: [ attribute_1, attribute_2 ] }
-      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attribute: [ attribute_3, attribute_4 ] }
+      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
 
       before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
 
