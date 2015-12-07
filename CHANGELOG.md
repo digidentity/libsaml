@@ -1,3 +1,6 @@
+### 2.18.1
+* added `SessionIndex` to `LogoutRequest`
+
 ### 2.18.0
 * added `attribute_fetcher` to samlp extensions
 * added `Saml::Element::Audience`
