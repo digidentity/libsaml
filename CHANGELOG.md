@@ -1,3 +1,7 @@
+### 2.18.0
+* added `attribute_fetcher` to samlp extensions
+* added `Saml::Element::Audience`
+
 ### 2.16.0
 * Added ability to password protect key file.
 * Added `find_by_source_id` to `Saml::ProviderStore::File`
