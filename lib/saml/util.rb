@@ -105,7 +105,7 @@ module Saml
 
         signed_node = document.signed_nodes.find { |node| node['ID'] == message._id }
 
-        message.class.parse(signed_node.to_xml, single: true)
+        message.class.parse(signed_node.canonicalize, single: true)
       end
 
       def collect_extra_namespaces(raw_xml)
