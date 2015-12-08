@@ -1,3 +1,6 @@
+### 2.19.2
+* allow empty attributes
+
 ### 2.19.1
 * return canonicalised xml after verify
 
