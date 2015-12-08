@@ -1,3 +1,6 @@
+### 2.19.3
+* add “fail_silent” option to “#decrypt_encrypted_id”.
+
 ### 2.19.2
 * allow empty attributes
 
