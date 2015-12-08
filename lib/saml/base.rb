@@ -24,7 +24,7 @@ module Saml
     module XmlMapperInstanceMethods
       def initialize(attributes = {})
         attributes.each do |key, value|
-          send("#{key}=", value) if respond_to?("#{key}=") && value.present?
+          send("#{key}=", value) if respond_to?("#{key}=") && value
         end
       end
 
