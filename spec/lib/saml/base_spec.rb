@@ -4,11 +4,22 @@ class BaseDummy
   include Saml::Base
 
   tag 'tag'
+  attribute :uri, String, tag: 'URI'
 end
 
 describe BaseDummy do
-  describe "parse override" do
-    context "with a billion laughs" do
+  describe '#initialize' do
+    it 'should not set a nil attribute' do
+      expect(BaseDummy.new(uri: nil).to_xml).to_not include(' URI=""')
+    end
+
+    it 'should set a blank attribute' do
+      expect(BaseDummy.new(uri: '').to_xml).to include(' URI=""')
+    end
+  end
+
+  describe 'parse override' do
+    context 'with a billion laughs' do
       xml = <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE lolz [
@@ -25,22 +36,22 @@ describe BaseDummy do
 <samlp:AuthnRequest xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" IssueInstant="2013-08-25T14:31:07Z" AssertionConsumerServiceURL="test:&lol4;"></samlp:AuthnRequest>
       XML
 
-      it "raises an Saml::Errors::HackAttack for entity expansion has grown too large" do
+      it 'raises an Saml::Errors::HackAttack for entity expansion has grown too large' do
         expect { BaseDummy.parse(xml) }.to raise_error RuntimeError, 'entity expansion has grown too large'
       end
     end
 
-    it "sets the from_xml flag" do
-      BaseDummy.parse("<tag></tag>", single: true).from_xml?.should be true
+    it 'sets the from_xml flag' do
+      BaseDummy.parse('<tag></tag>', single: true).from_xml?.should be true
     end
 
-    it "raises an error if the message cannot be parsed" do
+    it 'raises an error if the message cannot be parsed' do
       expect {
-        BaseDummy.parse("invalid")
+        BaseDummy.parse('invalid')
       }.to raise_error(Saml::Errors::UnparseableMessage)
     end
 
-    it "raises an error if the message is nil" do
+    it 'raises an error if the message is nil' do
       expect {
         BaseDummy.parse(nil)
       }.to raise_error(Saml::Errors::UnparseableMessage)
@@ -53,7 +64,7 @@ describe BaseDummy do
       }.to raise_error(Saml::Errors::UnparseableMessage)
     end
 
-    it "preserves the original value" do
+    it 'preserves the original value' do
       cert = OpenSSL::X509::Certificate.new(Base64.decode64(%{MIIG7jCCBNagAwIBAgICC0cwDQYJKoZIhvcNAQELBQAwTzELMAkGA1UEBhMC
                           TkwxGTAXBgNVBAoTEERpZ2lkZW50aXR5IEIuVi4xJTAjBgNVBAMTHERpZ2lk
                           ZW50aXR5IFNlcnZpY2VzIENBIC0gRzIwHhcNMTUwNzA2MDkyNjEwWhcNMTgw
@@ -106,7 +117,7 @@ describe BaseDummy do
 
       xml_with_space = new_artifact_response.to_xml
 
-      document   = Xmldsig::SignedDocument.new(xml_with_space)
+      document = Xmldsig::SignedDocument.new(xml_with_space)
       document.sign do |data, signature_algorithm|
         new_artifact_response.provider.sign(signature_algorithm, data)
       end
