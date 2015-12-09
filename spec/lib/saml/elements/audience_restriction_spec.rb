@@ -21,7 +21,7 @@ describe Saml::Elements::AudienceRestriction do
 
   describe '#audience' do
     context 'when there are audiences' do
-      before { allow(audience_restriction).to receive(:audiences).and_return ['AuthorityProvider', 'ServiceProvider'] }
+      before { allow(audience_restriction).to receive(:audiences).and_return [ build(:audience, value: 'AuthorityProvider'), build(:audience, value: 'ServiceProvider') ] }
 
       it 'returns the first audience' do
         expect(audience_restriction.audience).to eq 'AuthorityProvider'
@@ -29,7 +29,7 @@ describe Saml::Elements::AudienceRestriction do
     end
 
     context 'when there is only one audience' do
-      before { allow(audience_restriction).to receive(:audiences).and_return ['ServiceProvider'] }
+      before { allow(audience_restriction).to receive(:audiences).and_return [ build(:audience, value: 'ServiceProvider') ] }
 
       it 'returns the audience' do
         expect(audience_restriction.audience).to eq 'ServiceProvider'
@@ -55,7 +55,7 @@ describe Saml::Elements::AudienceRestriction do
         expect(audience_restriction.audiences).to contain_exactly an_instance_of(Saml::Elements::Audience), an_instance_of(Saml::Elements::Audience)
         expect(audience_restriction.audiences.map(&:value)).to match_array ['ServiceProvider', 'AuthorityProvider']
 
-        audience_restriction.audience = Saml::Elements::Audience.new(value: 'IdentityProvider')
+        audience_restriction.audience = 'IdentityProvider'
         expect(audience_restriction.audiences.count).to eq 1
         expect(audience_restriction.audiences).to contain_exactly an_instance_of(Saml::Elements::Audience)
         expect(audience_restriction.audiences.map(&:value)).to match_array ['IdentityProvider']

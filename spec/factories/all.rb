@@ -123,6 +123,10 @@ FactoryGirl.define do
 
   end
 
+  factory :audience, :class => Saml::Elements::Audience do
+
+  end
+
   factory :audience_restriction, :class => Saml::Elements::AudienceRestriction do
 
   end

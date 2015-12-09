@@ -9,11 +9,11 @@ module Saml
       has_many :audiences, Saml::Elements::Audience
 
       def audience
-        Array(audiences).first
+        Array(audiences).first.try(:value)
       end
 
-      def audience=(audience)
-        self.audiences = [audience]
+      def audience=(value)
+        self.audiences = [ Saml::Elements::Audience.new(value: value) ]
       end
     end
   end
