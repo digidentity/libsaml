@@ -87,11 +87,11 @@ module Saml
         encrypted_id
       end
 
-      def decrypt_encrypted_id(encrypted_id, private_key)
+      def decrypt_encrypted_id(encrypted_id, private_key, fail_silent = false)
         encrypted_id_xml   = encrypted_id.is_a?(Saml::Elements::EncryptedID) ?
             encrypted_id.to_xml : encrypted_id.to_s
         encrypted_document = Xmlenc::EncryptedDocument.new(encrypted_id_xml)
-        Saml::Elements::EncryptedID.parse(encrypted_document.decrypt(private_key))
+        Saml::Elements::EncryptedID.parse(encrypted_document.decrypt(private_key, fail_silent))
       end
 
       def verify_xml(message, raw_body)

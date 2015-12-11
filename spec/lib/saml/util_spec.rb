@@ -361,6 +361,11 @@ describe Saml::Util do
     it 'does not contain #encrypted_data' do
       expect(decrypted.encrypted_data).to eq nil
     end
+
+    it 'passes the "fail_silent" option to EncryptedDocument decryption' do
+      expect_any_instance_of(Xmlenc::EncryptedDocument).to receive(:decrypt).with(service_provider.private_key, true).and_call_original
+      Saml::Util.decrypt_encrypted_id(encrypted_id_xml, service_provider.private_key, true)
+    end
   end
 
   describe '.download_metadata_xml' do
