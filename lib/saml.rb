@@ -214,7 +214,7 @@ module Saml
   end
 
   def self.provider(entity_id)
-    if current_provider.entity_id == entity_id
+    if current_provider && current_provider.entity_id == entity_id
       current_provider
     else
       current_store.find_by_entity_id(entity_id) || raise(Saml::Errors::InvalidProvider.new("Cannot find provider with entity_id: #{entity_id}"))
