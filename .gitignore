@@ -27,3 +27,4 @@ vendor/bundle
 coverage/
 spec/dummy/log/*.log
 *.gem
+Gemfile.lock
