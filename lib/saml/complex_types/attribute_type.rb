@@ -23,7 +23,7 @@ module Saml
       end
 
       def attribute_value
-        warn '[DEPRECATED] please use #attribute_values'
+        warn '[DEPRECATED] `attribute_value` please use #attribute_values'
         attribute_values.first.try(:content)
       end
 

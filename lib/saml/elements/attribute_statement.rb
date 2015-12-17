@@ -12,12 +12,12 @@ module Saml
       has_many :encrypted_attributes, Saml::Elements::EncryptedAttribute
 
       def attribute
-        warn '[DEPRECATED] please use #attributes'
+        warn '[DEPRECATED] `attribute` please use #attributes'
         attributes
       end
 
       def attribute=(attributes)
-        warn '[DEPRECATED] please use #attributes='
+        warn '[DEPRECATED] `attribute=` please use #attributes='
         self.attributes = attributes
       end
     end
