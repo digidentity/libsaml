@@ -55,7 +55,7 @@ describe Saml::ComplexTypes::AttributeType do
     end
 
     it 'shows a deprecation warning' do
-      expect { attribute_type.attribute_value }.to output("[DEPRECATED] please use #attribute_values\n").to_stderr
+      expect { attribute_type.attribute_value }.to output("[DEPRECATED] `attribute_value` please use #attribute_values\n").to_stderr
     end
   end
 

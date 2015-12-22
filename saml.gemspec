@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "activemodel", ">= 3.0.0"
   s.add_dependency "xmlmapper", '~> 0.6.4'
   s.add_dependency "xmldsig", '~> 0.4.0'
-  s.add_dependency "xmlenc", '~> 0.6.0'
+  s.add_dependency "xmlenc", '~> 0.6.2'
   s.add_dependency "curb"
 
   s.add_development_dependency "coveralls", "~> 0.7"

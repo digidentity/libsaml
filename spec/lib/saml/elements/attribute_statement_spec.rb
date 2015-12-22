@@ -60,7 +60,7 @@ describe Saml::Elements::AttributeStatement do
     end
 
     it 'shows a deprecation warning' do
-      expect { attribute_statement.attribute }.to output("[DEPRECATED] please use #attributes\n").to_stderr
+      expect { attribute_statement.attribute }.to output("[DEPRECATED] `attribute` please use #attributes\n").to_stderr
     end
   end
 
@@ -76,7 +76,7 @@ describe Saml::Elements::AttributeStatement do
     end
 
     it 'shows a deprecation warning' do
-      expect { attribute_statement.attribute = [ attribute_1 ] }.to output("[DEPRECATED] please use #attributes=\n").to_stderr
+      expect { attribute_statement.attribute = [ attribute_1 ] }.to output("[DEPRECATED] `attribute=` please use #attributes=\n").to_stderr
     end
   end
 end
