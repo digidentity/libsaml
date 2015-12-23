@@ -39,13 +39,13 @@ module Saml
         xml.parent.namespace = xml.parent.namespace_definitions.find { |n| n.prefix == 'soapenv' }
 
         if header_options = options[:header]
-          xml.Header do |xml|
-            xml.MessageID(header_options[:wsa_message_id].presence || "uuid:#{SecureRandom.uuid}")
-            xml.Action(header_options[:wsa_action])
-            xml.To(header_options[:wsa_to]) if header_options[:wsa_to]
+          xml.Header('xmlns:wsa' => 'http://schemas.xmlsoap.org/ws/2004/08/addressing') do |xml|
+            xml['wsa'].MessageID(header_options[:wsa_message_id].presence || "uuid:#{SecureRandom.uuid}")
+            xml['wsa'].Action(header_options[:wsa_action])
+            xml['wsa'].To(header_options[:wsa_to]) if header_options[:wsa_to]
             if header_options[:wsa_address]
-              xml.ReplyTo do |xml|
-                xml.Address(header_options[:wsa_address])
+              xml['wsa'].ReplyTo do |xml|
+                xml['wsa'].Address(header_options[:wsa_address])
               end
             end
           end

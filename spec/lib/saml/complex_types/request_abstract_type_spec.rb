@@ -77,13 +77,20 @@ describe Saml::ComplexTypes::RequestAbstractType do
       soap = request_abstract_type.to_soap(
           header: {
               wsa_message_id: 'id',
-              wsa_action:  'some_action',
-              wsa_to:      'to',
-              wsa_address: 'address'
+              wsa_action:     'some_action',
+              wsa_to:         'to',
+              wsa_address:    'address'
           }
       )
+      puts soap
       xml = Hash.from_xml(soap)
-      xml["Envelope"]["Header"].should eq("MessageID"=>"id", "To" => "to", "Action"=>"some_action", "ReplyTo"=>{"Address"=>"address"})
+      xml["Envelope"]["Header"].should eq(
+                                           "MessageID" => "id",
+                                           "To"        => "to",
+                                           "Action"    => "some_action",
+                                           "ReplyTo"   => { "Address" => "address" },
+                                           'xmlns:wsa' => 'http://schemas.xmlsoap.org/ws/2004/08/addressing'
+                                       )
     end
   end
 

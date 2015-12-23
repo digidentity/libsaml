@@ -1,4 +1,4 @@
-### 2.19.7
+### 2.19.10
 * allow soap wsa headers to be given
 
 ### 2.19.4
