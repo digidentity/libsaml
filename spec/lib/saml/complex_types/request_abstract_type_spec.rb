@@ -83,7 +83,7 @@ describe Saml::ComplexTypes::RequestAbstractType do
           }
       )
       xml = Hash.from_xml(soap)
-      xml["Envelope"]["Header"].should eq("MessageID"=>"id", "Action"=>"some_action", "ReplyTo"=>{"Address"=>"address"})
+      xml["Envelope"]["Header"].should eq("MessageID"=>"id", "To" => "to", "Action"=>"some_action", "ReplyTo"=>{"Address"=>"address"})
     end
   end
 

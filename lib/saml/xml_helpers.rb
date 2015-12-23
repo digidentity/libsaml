@@ -42,7 +42,7 @@ module Saml
           xml.Header do |xml|
             xml.MessageID(header_options[:wsa_message_id].presence || "uuid:#{SecureRandom.uuid}")
             xml.Action(header_options[:wsa_action])
-            xml.To(header_options[:wsa_to]) if options[:wsa_to]
+            xml.To(header_options[:wsa_to]) if header_options[:wsa_to]
             if header_options[:wsa_address]
               xml.ReplyTo do |xml|
                 xml.Address(header_options[:wsa_address])
