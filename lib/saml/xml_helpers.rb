@@ -1,4 +1,3 @@
-
 module Saml
   module XMLHelpers
     extend ActiveSupport::Concern
@@ -17,7 +16,7 @@ module Saml
       write_xml            = builder.nil? ? true : false
       builder              ||= Nokogiri::XML::Builder.new
       builder.doc.encoding = "UTF-8"
-      result = if use_parsed? && respond_to?(:xml_value)
+      result               = if use_parsed? && respond_to?(:xml_value)
         builder << xml_value
         builder
       else
@@ -37,9 +36,23 @@ module Saml
 
       builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8")
       builder.Envelope(:'xmlns:soapenv' => "http://schemas.xmlsoap.org/soap/envelope/") do |xml|
-        builder.parent.namespace = builder.parent.namespace_definitions.find { |n| n.prefix == 'soapenv' }
-        builder.Body do
-          builder.parent.add_child body.doc.root
+        xml.parent.namespace = xml.parent.namespace_definitions.find { |n| n.prefix == 'soapenv' }
+
+        if header_options = options[:header]
+          xml.Header do |xml|
+            xml.MessageID(header_options[:wsa_message_id].presence || "uuid:#{SecureRandom.uuid}")
+            xml.Action(header_options[:wsa_action])
+            xml.To(header_options[:wsa_to]) if options[:wsa_to]
+            if header_options[:wsa_address]
+              xml.ReplyTo do |xml|
+                xml.Address(header_options[:wsa_address])
+              end
+            end
+          end
+        end
+
+        xml.Body do |xml|
+          xml.parent.add_child body.doc.root
         end
       end
       builder.to_xml(nokogiri_options(options))

@@ -1,4 +1,7 @@
-### 2.19.14
+### 2.19.7
+* allow soap wsa headers to be given
+
+### 2.19.4
 * fix audience backwardscompatibility
 
 ### 2.19.3

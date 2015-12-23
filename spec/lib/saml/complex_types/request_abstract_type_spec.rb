@@ -72,6 +72,19 @@ describe Saml::ComplexTypes::RequestAbstractType do
     it "wraps the xml in a soap envelope" do
       Nokogiri::XML::Document.parse(request_abstract_type.to_soap).root.name.should == "Envelope"
     end
+
+    it "adds wsa header if options are given" do
+      soap = request_abstract_type.to_soap(
+          header: {
+              wsa_message_id: 'id',
+              wsa_action:  'some_action',
+              wsa_to:      'to',
+              wsa_address: 'address'
+          }
+      )
+      xml = Hash.from_xml(soap)
+      xml["Envelope"]["Header"].should eq("MessageID"=>"id", "Action"=>"some_action", "ReplyTo"=>{"Address"=>"address"})
+    end
   end
 
   describe "IssueInstant" do
