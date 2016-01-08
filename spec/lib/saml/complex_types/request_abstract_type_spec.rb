@@ -82,7 +82,6 @@ describe Saml::ComplexTypes::RequestAbstractType do
               wsa_address:    'address'
           }
       )
-      puts soap
       xml = Hash.from_xml(soap)
       xml["Envelope"]["Header"].should eq(
                                            "MessageID" => "id",

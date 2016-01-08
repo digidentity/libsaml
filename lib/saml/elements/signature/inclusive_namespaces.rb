@@ -11,7 +11,7 @@ module Saml
         attribute :prefix_list, String, :tag => "PrefixList"
 
         def initialize(*args)
-          @prefix_list = "ds saml samlp xs"
+          @prefix_list = Saml::Config.inclusive_namespaces_prefix_list
           super(*args)
         end
       end
