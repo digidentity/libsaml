@@ -1,4 +1,7 @@
 ### 2.19.10
+* Added the InclusiveNamespaces #prefix_list to the config
+
+### 2.19.9
 * allow soap wsa headers to be given
 
 ### 2.19.4

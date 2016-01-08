@@ -20,6 +20,9 @@ module Saml
 
     mattr_accessor :default_store
 
+    mattr_accessor :inclusive_namespaces_prefix_list
+    @@inclusive_namespaces_prefix_list = "ds saml samlp xs"
+
     def register_store(name, store, options = {})
       registered_stores[name] = store
       self.default_store = name if options[:default]
