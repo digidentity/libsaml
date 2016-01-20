@@ -47,11 +47,11 @@ module Saml
     end
 
     def signing_key
-      @signing_key || private_key
+      @signing_key || encryption_key
     end
 
-    def private_key
-      @private_key
+    def encryption_key
+      @encryption_key
     end
 
     def sign(signature_algorithm, data)

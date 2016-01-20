@@ -163,7 +163,7 @@ describe Saml::Response do
     it 'encrypts the assertion' do
       expect {
         expect {
-          response.decrypt_assertions(response.provider.private_key)
+          response.decrypt_assertions(response.provider.encryption_key)
         }.to change(response.assertions, :count).by(1)
       }.to change(response.encrypted_assertions, :count).by(-1)
     end
