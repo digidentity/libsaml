@@ -3,7 +3,8 @@ module Saml
     class File
       attr_accessor :providers
 
-      def initialize(metadata_dir = "config/metadata", key_file = "config/ssl/key.pem", key_password = nil)
+      def initialize(metadata_dir = "config/metadata", key_file = "config/ssl/key.pem", key_password = nil,
+                     sign_key_file = nil, sign_key_password = nil)
         @mutex         = Mutex.new
         self.providers = {}
 
@@ -21,16 +22,17 @@ module Saml
         end.to_a[1]
       end
 
-      def load_files(metadata_dir, key_file, key_password = nil)
+      def load_files(metadata_dir, key_file, key_password = nil, sign_key_file = nil, sign_key_password = nil)
         Dir[::File.join(metadata_dir, '*.xml')].each do |file|
-          add_metadata(::File.read(file), get_private_key(key_file, key_password))
+          add_metadata(::File.read(file), get_private_key(key_file, key_password),
+                       sign_key_file.present? ? get_private_key(sign_key_file, sign_key_password) : nil)
         end
       end
 
-      def add_metadata(metadata_xml, private_key = nil)
+      def add_metadata(metadata_xml, private_key = nil, signing_key = nil)
         entity_descriptor = Saml::Elements::EntityDescriptor.parse(metadata_xml, single: true)
         type              = entity_descriptor.sp_sso_descriptor.present? ? 'service_provider' : 'identity_provider'
-        provider          = BasicProvider.new(entity_descriptor, private_key, type)
+        provider          = BasicProvider.new(entity_descriptor, private_key, type, signing_key)
 
         @mutex.synchronize do
           providers[provider.entity_id] = provider

@@ -9,6 +9,16 @@ class ServiceProvider
   end
 end
 
+class ServiceProviderWithSigningKeys
+  include Saml::Provider
+
+  def initialize
+    @entity_descriptor = Saml::Elements::EntityDescriptor.parse(File.read("spec/fixtures/metadata/service_provider_with_signing_keys.xml"))
+    @private_key = OpenSSL::PKey::RSA.new(File.read("spec/fixtures/key.pem"))
+    @signing_key = OpenSSL::PKey::RSA.new(File.read("spec/fixtures/signing_key.pem"))
+  end
+end
+
 class IdentityProvider
   include Saml::Provider
 
@@ -38,6 +48,7 @@ end
 
 describe Saml::Provider do
   let(:service_provider) { ServiceProvider.new }
+  let(:service_provider_with_signing_key) { ServiceProviderWithSigningKeys.new }
   let(:identity_provider) { IdentityProvider.new }
   let(:authority_provider) { AuthorityProvider.new }
   let(:identity_and_service_provider) { IdentityAndServiceProvider.new }
@@ -157,6 +168,20 @@ describe Saml::Provider do
   describe "#sign" do
     it "uses the private key to sign" do
       service_provider.sign("sha256", "test").should == service_provider.private_key.sign(OpenSSL::Digest::SHA256.new, "test")
+    end
+
+    it "uses the signing key to sign if present" do
+      service_provider_with_signing_key.sign("sha256", "test").should == service_provider_with_signing_key.signing_key.sign(OpenSSL::Digest::SHA256.new, "test")
+    end
+  end
+
+  describe "#signing_key" do
+    it "returns the private_key if signing_key is not present" do
+      service_provider.signing_key.should == service_provider.private_key
+    end
+
+    it "returns a different key from the private_key if signing_key is present" do
+      service_provider_with_signing_key.signing_key.should_not == service_provider_with_signing_key.private_key
     end
   end
 

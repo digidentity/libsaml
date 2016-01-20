@@ -46,12 +46,16 @@ module Saml
       descriptor(type).find_key_descriptor(key_name, use)
     end
 
+    def signing_key
+      @signing_key || private_key
+    end
+
     def private_key
       @private_key
     end
 
     def sign(signature_algorithm, data)
-      private_key.sign(digest_method(signature_algorithm).new, data)
+      signing_key.sign(digest_method(signature_algorithm).new, data)
     end
 
     def single_sign_on_service_url(binding)

@@ -43,4 +43,14 @@ describe Saml::ProviderStores::File do
       end
     end
   end
+
+  describe 'with a separate signing key' do
+    let(:file_store) { described_class.new('spec/fixtures/metadata', 'spec/fixtures/key.pem', nil, 'spec/fixtures/signing_key.pem') }
+    describe 'initialize' do
+      it 'creates a store of providers' do
+        file_store.providers.values.first.should be_a(Saml::BasicProvider)
+      end
+    end
+  end
+
 end
