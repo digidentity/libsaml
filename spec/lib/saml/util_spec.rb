@@ -5,7 +5,7 @@ class ServiceProvider
 
   def initialize
     @entity_descriptor = Saml::Elements::EntityDescriptor.parse(File.read('spec/fixtures/metadata/service_provider.xml'))
-    @private_key       = OpenSSL::PKey::RSA.new(File.read('spec/fixtures/key.pem'))
+    @encryption_key    = OpenSSL::PKey::RSA.new(File.read('spec/fixtures/key.pem'))
   end
 end
 
@@ -303,7 +303,7 @@ describe Saml::Util do
     let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new, service_provider.certificate) }
 
     it 'it returns decrypted assertion xml' do
-      assertion = Saml::Util.decrypt_assertion(encrypted_assertion, service_provider.private_key)
+      assertion = Saml::Util.decrypt_assertion(encrypted_assertion, service_provider.encryption_key)
       assertion.should be_a Saml::Assertion
     end
   end
@@ -319,7 +319,7 @@ describe Saml::Util do
     end
 
     it 'can decrypt back' do
-      expect(Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.private_key).name_id).to be_a Saml::Elements::NameId
+      expect(Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.encryption_key).name_id).to be_a Saml::Elements::NameId
     end
   end
 
@@ -344,7 +344,7 @@ describe Saml::Util do
     end
 
     it 'can decrypt back' do
-      expect(Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.private_key).name_id).to be_a Saml::Elements::NameId
+      expect(Saml::Util.decrypt_encrypted_id(encrypted_id, service_provider.encryption_key).name_id).to be_a Saml::Elements::NameId
     end
   end
 
@@ -352,7 +352,7 @@ describe Saml::Util do
     let(:encrypted_id_xml) { File.read('spec/fixtures/encrypted_name_id.xml') }
     let(:parsed_encrypted_id) { Saml::Elements::EncryptedID.parse(encrypted_id_xml) }
 
-    let(:decrypted) { Saml::Util.decrypt_encrypted_id(encrypted_id_xml, service_provider.private_key) }
+    let(:decrypted) { Saml::Util.decrypt_encrypted_id(encrypted_id_xml, service_provider.encryption_key) }
 
     it 'contains a NameId' do
       expect(decrypted.name_id).to be_a Saml::Elements::NameId
@@ -363,8 +363,8 @@ describe Saml::Util do
     end
 
     it 'passes the "fail_silent" option to EncryptedDocument decryption' do
-      expect_any_instance_of(Xmlenc::EncryptedDocument).to receive(:decrypt).with(service_provider.private_key, true).and_call_original
-      Saml::Util.decrypt_encrypted_id(encrypted_id_xml, service_provider.private_key, true)
+      expect_any_instance_of(Xmlenc::EncryptedDocument).to receive(:decrypt).with(service_provider.encryption_key, true).and_call_original
+      Saml::Util.decrypt_encrypted_id(encrypted_id_xml, service_provider.encryption_key, true)
     end
   end
 

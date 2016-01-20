@@ -8,7 +8,7 @@ module Saml
           entity_descriptor = Saml::Elements::EntityDescriptor.parse(metadata, single: true)
           type              = entity_descriptor.sp_sso_descriptor.present? ? "service_provider" : "identity_provider"
 
-          BasicProvider.new(entity_descriptor, nil, type)
+          BasicProvider.new(entity_descriptor, nil, type, nil)
         end
 
         alias_method :find_by_entity_id, :find_by_metadata_location
