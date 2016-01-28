@@ -117,7 +117,7 @@ describe Saml::Bindings::HTTPArtifact do
 
       it "sends the artifact_resolve to the identity provider" do
         uri = URI.parse(identity_provider.artifact_resolution_service_url)
-        Net::HTTP.should_receive(:new).with(uri.host, uri.port).and_return double.as_null_object
+        Net::HTTP.should_receive(:new).with(uri.host, uri.port, :ENV, nil, nil, nil).and_return double.as_null_object
         described_class.resolve(request, identity_provider.artifact_resolution_service_url)
         @request.path.should == "/sso/resolve_artifact"
       end

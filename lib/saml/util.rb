@@ -14,10 +14,12 @@ module Saml
         params
       end
 
-      def post(location, message, additional_headers = {})
+      def post(location, message, additional_headers = {}, proxy = {})
         uri = URI.parse(location)
+        default_proxy_settings = { addr: :ENV, port: nil, user: nil, pass: nil }
+        proxy = default_proxy_settings.merge(proxy)
 
-        http             = Net::HTTP.new(uri.host, uri.port)
+        http             = Net::HTTP.new(uri.host, uri.port, proxy[:addr], proxy[:port], proxy[:user], proxy[:pass])
         http.use_ssl     = uri.scheme == 'https'
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
