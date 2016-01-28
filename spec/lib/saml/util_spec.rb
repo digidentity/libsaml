@@ -127,6 +127,13 @@ describe Saml::Util do
       described_class.post location, message, additional_headers
     end
 
+    it "can use a proxy" do
+      proxy = { addr: '127.0.0.1', port: 8888, user: 'someuser', pass: 'somepass' }
+
+      Net::HTTP.should_receive(:new).with("example.com", 80, proxy[:addr], proxy[:port], proxy[:user], proxy[:pass]).and_return(net_http)
+      described_class.post location, message, {}, proxy
+    end
+
     context 'default settings' do
       before do
         Net::HTTP.stub(:new).and_return(net_http)
@@ -158,6 +165,11 @@ describe Saml::Util do
 
       it "doesn't use the private key" do
         net_http.should_not_receive(:key=)
+        post_request
+      end
+
+      it "doesn't use proxy settings" do
+        Net::HTTP.should_receive(:new).with('example.com', 80, :ENV, nil, nil, nil)
         post_request
       end
     end

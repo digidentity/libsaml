@@ -58,7 +58,7 @@ describe Saml::Bindings::SOAP do
 
       it "sends the logout_request to the request destination" do
         uri = URI.parse(logout_request.destination)
-        Net::HTTP.should_receive(:new).with(uri.host, uri.port).and_return double.as_null_object
+        Net::HTTP.should_receive(:new).with(uri.host, uri.port, :ENV, nil, nil, nil).and_return double.as_null_object
         described_class.post_message(logout_request, :logout_response)
         @request.path.should == "/logout"
       end

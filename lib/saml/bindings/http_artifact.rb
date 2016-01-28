@@ -30,11 +30,12 @@ module Saml
           Saml::Util.verify_xml(artifact_resolve, raw_xml)
         end
 
-        def resolve(request, location)
+        def resolve(request, location, additional_headers = {}, proxy = {})
           artifact         = request.params["SAMLart"]
           artifact_resolve = Saml::ArtifactResolve.new(artifact: artifact, destination: location)
 
-          response = Saml::Util.post(location, notify('create_post', Saml::Util.sign_xml(artifact_resolve, :soap)))
+          message = notify('create_post', Saml::Util.sign_xml(artifact_resolve, :soap))
+          response = Saml::Util.post(location, message, additional_headers, proxy)
 
           if response.code == "200"
             notify('receive_response', response.body)
