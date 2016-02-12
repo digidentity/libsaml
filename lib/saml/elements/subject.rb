@@ -17,23 +17,25 @@ module Saml
 
       def initialize(*args)
         options               = args.extract_options!
-        @_name_id             = Saml::Elements::NameId.new(format: options.delete(:name_id_format),
-                                                           value:  options.delete(:name_id))
+        if options[:name_id].present?
+          @_name_id             = Saml::Elements::NameId.new(format: options.delete(:name_id_format),
+                                                             value:  options.delete(:name_id))
+        end
         @subject_confirmations = [Saml::Elements::SubjectConfirmation.new(recipient:      options.delete(:recipient),
                                                                           in_response_to: options.delete(:in_response_to))]
         super(*(args << options))
       end
 
       def name_id
-        @_name_id.value
+        @_name_id.try(:value)
       end
 
       def name_id=(value)
-        @_name_id.value = value
+        @_name_id.value = value if @_name_id
       end
 
       def name_id_format
-        @_name_id.format
+        @_name_id.try(:format)
       end
 
       def subject_confirmation

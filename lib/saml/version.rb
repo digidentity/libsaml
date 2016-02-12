@@ -1,3 +1,3 @@
 module Saml
-  VERSION = "2.20.0"
+  VERSION = "2.20.1"
 end
