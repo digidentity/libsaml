@@ -153,6 +153,15 @@ describe Saml::Assertion do
       assertion = Saml::Assertion.new(:authn_context_class_ref => "authn_context")
       assertion.authn_statement.authn_context.authn_context_class_ref.should == "authn_context"
     end
+
+    context 'subject is specified' do
+      subject { described_class.new(subject: assertion_subject) }
+      let(:assertion_subject) { ::Saml::Elements::Subject.new(value: 'TEST') }
+
+      it 'should set #subject to the specified subject' do
+        expect(subject.subject).to eq assertion_subject
+      end
+    end
   end
 
   describe "IssueInstant" do

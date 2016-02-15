@@ -66,6 +66,38 @@ describe Saml::Elements::Subject do
     end
   end
 
+  describe '.initialize' do
+    subject { described_class.new(params) }
+
+    context 'name_id is specified' do
+      let(:params) { { name_id: 'TEST', name_id_format: 'format' } }
+
+      it 'adds a name_id' do
+        expect(subject._name_id).to be_a Saml::Elements::NameId
+      end
+
+      it '#name_id equals the given value' do
+        expect(subject.name_id).to eq 'TEST'
+      end
+
+      it '#name_id_format equals the given format' do
+        expect(subject.name_id_format).to eq 'format'
+      end
+    end
+
+    context 'no name_id is specified' do
+      let(:params) { {} }
+
+      it '#name_id is nil' do
+        expect(subject.name_id).to eq nil
+      end
+
+      it '#name_id_format is nil' do
+        expect(subject.name_id_format).to eq nil
+      end
+    end
+  end
+
   describe '#subject_confirmation' do
     let(:subject_confirmation_1) { FactoryGirl.build(:subject_confirmation) }
     let(:subject_confirmation_2) { FactoryGirl.build(:subject_confirmation) }

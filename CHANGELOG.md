@@ -1,3 +1,6 @@
+### 2.20.1
+* Added the option to set a custom `subject` in the assertion
+
 ### 2.19.10
 * Added the InclusiveNamespaces #prefix_list to the config
 
