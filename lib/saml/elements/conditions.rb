@@ -3,11 +3,11 @@ module Saml
     class Conditions
       include Saml::Base
 
-      tag "Conditions"
+      tag 'Conditions'
       namespace 'saml'
 
-      attribute :not_before, Time, :tag => "NotBefore", :on_save => lambda { |val| val.utc.xmlschema }
-      attribute :not_on_or_after, Time, :tag => "NotOnOrAfter", :on_save => lambda { |val| val.utc.xmlschema }
+      attribute :not_before, Time, tag: 'NotBefore', on_save: lambda { |val| val.utc.xmlschema if val.present? }
+      attribute :not_on_or_after, Time, tag: 'NotOnOrAfter', on_save: lambda { |val| val.utc.xmlschema if val.present? }
 
       has_one :audience_restriction, Saml::Elements::AudienceRestriction
 
