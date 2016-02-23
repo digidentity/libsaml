@@ -154,12 +154,10 @@ module Saml
       end
 
       def add_ssl_certificate_and_key(http)
-        return http unless Saml::Config.ssl_certificate_file.present?
-        return http unless Saml::Config.ssl_private_key_file.present?
-        cert = File.read(Saml::Config.ssl_certificate_file)
-        key  = File.read(Saml::Config.ssl_private_key_file)
-        http.cert = OpenSSL::X509::Certificate.new(cert)
-        http.key  = OpenSSL::PKey::RSA.new(key)
+        return http unless Saml::Config.ssl_certificate.present?
+        return http unless Saml::Config.ssl_private_key.present?
+        http.key  = Saml::Config.ssl_private_key
+        http.cert = Saml::Config.ssl_certificate
         http
       end
     end

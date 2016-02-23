@@ -1,3 +1,9 @@
+### 2.20.3
+* Added #ssl_private_key and #ssl_certificate to the config.
+
+### 2.20.2
+* Only convert the not_before and not_on_or_after to the XML schema format when there is a value.
+
 ### 2.20.1
 * Added the option to set a custom `subject` in the assertion
 

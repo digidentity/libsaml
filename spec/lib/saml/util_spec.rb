@@ -179,6 +179,9 @@ describe Saml::Util do
       let(:key_file) { File.join('spec', 'fixtures', 'key.pem') }
 
       before :each do
+        allow(OpenSSL::X509::Certificate).to receive(:new).and_return('cert')
+        allow(OpenSSL::PKey::RSA).to receive(:new).and_return('key')
+
         Saml::Config.ssl_certificate_file = certificate_file
         Saml::Config.ssl_private_key_file = key_file
 
@@ -191,13 +194,11 @@ describe Saml::Util do
       end
 
       it 'sets the certificate' do
-        OpenSSL::X509::Certificate.stub(:new).and_return('cert')
         net_http.should_receive(:cert=).with('cert')
         post_request
       end
 
       it 'sets the private key' do
-        OpenSSL::PKey::RSA.stub(:new).and_return('key')
         net_http.should_receive(:key=).with('key')
         post_request
       end
