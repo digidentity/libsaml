@@ -1,3 +1,6 @@
+### 2.20.4
+* Fixed `EncryptedID`, now only parses the correct encrypted keys.
+
 ### 2.20.3
 * Added #ssl_private_key and #ssl_certificate to the config.
 
