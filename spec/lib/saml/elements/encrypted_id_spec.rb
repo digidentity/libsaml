@@ -76,4 +76,17 @@ describe Saml::Elements::EncryptedID do
       expect(encrypted_id.name_id).to eq nil
     end
   end
+
+  context 'when <xenc:EncryptedKey> is contained inside <xenc:EncryptedData>' do
+    let(:xml) { File.read File.join('spec', 'fixtures', 'encrypted_id_alternative.xml') }
+    subject   { described_class.parse(xml, single: true) }
+
+    it 'should parse the encrypted data' do
+      expect(subject.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
+    end
+
+    it 'should not have any encrypted key' do
+      expect(subject.encrypted_keys).to be_empty
+    end
+  end
 end
