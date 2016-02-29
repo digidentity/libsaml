@@ -13,7 +13,7 @@ module Saml
       namespace 'saml'
 
       has_one :encrypted_data, Xmlenc::Builder::EncryptedData
-      has_many :encrypted_keys, Xmlenc::Builder::EncryptedKey
+      has_many :encrypted_keys, Xmlenc::Builder::EncryptedKey, xpath: './'
       has_one :name_id, Saml::Elements::NameId
 
       validates :encrypted_data, presence: true
