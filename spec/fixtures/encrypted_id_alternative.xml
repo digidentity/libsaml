@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<saml:EncryptedID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"
+                  xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+  <xenc:EncryptedData Id="696d955c6b" Type="http://www.w3.org/2001/04/xmlenc#Element">
+    <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"></xenc:EncryptionMethod>
+    <ds:KeyInfo>
+      <xenc:EncryptedKey Id="2df42b073b" Recipient="urn:etoegang:KR:99999999000000000010:entities:901900">
+        <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+        </xenc:EncryptionMethod>
+        <ds:KeyInfo>
+          <ds:KeyName>a810a050-d8bf-4d9d-81c0-459aa83082a8</ds:KeyName>
+        </ds:KeyInfo>
+        <xenc:CipherData>
+          <xenc:CipherValue>
+            KPEOxHppm3PrprYdA7EM7v5fswF1OAw4FwjWh3ZZ0+sGJZczUEhaB/aT7Qxe
+            1RE3/hKHW6SaKVSCdrwrO0bT0NS4FKVvCgH8cVNyiBK3WospHGfU58k0zlMY
+            aHkSEz/GxLSpqSbEXAToBnSc+Ssq2e49jo7CS5x79Jj3FZp4kMOSpwCAoVxM
+            UYleEw8NAXPkorWX5rZpp6WR+zipUA0yhQ+z83VPFPjZey9VWIuITxdY25DH
+            4I2TVlyzXAGmH8jqCaybPMQK2vZtCf3wIptUMF8/MUA3Ej/EutOtEaXZP8th xqzl54pUA7gXGIACbnoWUaEipNYiA8lq0oopVHll7w==
+          </xenc:CipherValue>
+        </xenc:CipherData>
+      </xenc:EncryptedKey>
+    </ds:KeyInfo>
+    <xenc:CipherData>
+      <xenc:CipherValue>
+        dZo055pEi1JbBO0y0d1oFkJ4uM5nzYMQrONBlRxAcri+5R/1ygdXj6k6CPiX
+        D94YC96C2yf2I3iukZax1R9km4Rl3alPy3yNF2x5sWU7kk1NKizhXI70L9Mo
+        ta1GKS/xQEoqKIjh3oCKH6TZAix2N37r0sh1O/Ux0DGIgVrT3nG5ag6UoZw3
+        RgoJrRf8BLC4qrDaKNQr+alJeFWNoSb96KFfMpqeZmOZlJjPnBclU6a8Tax6
+        vC2LDM6mPu6dslX0+9hqLouQxJhfTHG3M2tOPh3c48niay0xQCPYYGG8RB3O
+        PAaXUqK0eNv+e3vOsQoIcge7M4L9yO5D1Bq/dWA7DT32LbDRrZxlnOw1M9Qw JTQZ9nAP+6XQrSnaU8+9+9jO
+      </xenc:CipherValue>
+    </xenc:CipherData>
+  </xenc:EncryptedData>
+</saml:EncryptedID>
