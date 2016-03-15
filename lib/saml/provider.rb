@@ -56,7 +56,7 @@ module Saml
     end
 
     def encryption_key
-      @encryption_key || private_key
+      @encryption_key
     end
 
     def sign(signature_algorithm, data)
