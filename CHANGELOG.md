@@ -1,3 +1,6 @@
+### 2.20.5
+* Fixed Provider encrypted_key recursion bug
+
 ### 2.20.4
 * Fixed `EncryptedID`, now only parses the correct encrypted keys.
 
