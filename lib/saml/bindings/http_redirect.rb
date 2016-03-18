@@ -75,7 +75,7 @@ module Saml
         end
 
         relay_state = params["RelayState"] ? "&RelayState=#{params['RelayState']}" : ""
-        "#{param_key}=#{params['SAMLRequest']}#{relay_state}&SigAlg=#{params['SigAlg']}"
+        "#{param_key}=#{params[param_key]}#{relay_state}&SigAlg=#{params['SigAlg']}"
       end
 
       def encoded_message
