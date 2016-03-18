@@ -28,3 +28,5 @@ coverage/
 spec/dummy/log/*.log
 *.gem
 Gemfile.lock
+.ruby-gemset
+.ruby-version
