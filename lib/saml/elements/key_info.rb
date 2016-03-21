@@ -19,7 +19,7 @@ module Saml
         if cert
           self.x509Data = X509Data.new(cert)
         end
-        if self.x509Data && self.x509Data.x509certificate
+        if self.x509Data && self.x509Data.x509certificate && Saml::Config.generate_key_name
           self.key_name = Digest::SHA1.hexdigest(self.x509Data.x509certificate.to_der)
         end
       end

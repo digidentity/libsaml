@@ -31,7 +31,7 @@ module Saml
 
         key_descriptors_by_use = find_key_descriptors_by_use(use)
 
-        if key_name.present?
+        if key_name.present? && key_name_specified?
           key_descriptors_by_use.find { |key| key.key_info.key_name == key_name }
         else
           key_descriptors_by_use.first
@@ -46,6 +46,10 @@ module Saml
 
       def key_name_or_use_specified?
         key_descriptors.any? { |key| key.use.present? || key.key_info.key_name.present? }
+      end
+
+      def key_name_specified?
+        key_descriptors.any? { |key| key.key_info.key_name.present? }
       end
     end
   end
