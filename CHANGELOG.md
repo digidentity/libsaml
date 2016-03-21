@@ -1,3 +1,7 @@
+### 2.20.6
+* added config options `generate_key_name` to disable automatic keyname generation
+* improved the key info lookup for role descriptors
+
 ### 2.20.5
 * Fixed Provider encrypted_key recursion bug
 
