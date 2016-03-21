@@ -18,6 +18,9 @@ module Saml
     mattr_accessor :registered_stores
     @@registered_stores = {}
 
+    mattr_accessor :generate_key_name
+    @@generate_key_name = true
+
     mattr_accessor :default_store
 
     mattr_accessor :inclusive_namespaces_prefix_list

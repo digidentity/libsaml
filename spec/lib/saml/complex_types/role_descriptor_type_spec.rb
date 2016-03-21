@@ -83,5 +83,37 @@ describe Saml::ComplexTypes::RoleDescriptorType do
         end
       end
     end
+
+    context "when the key descriptors did not set use or key name" do
+      let(:key_descriptor) do
+        key_descriptor = FactoryGirl.build :key_descriptor
+        key_descriptor.key_info.key_name = nil
+        key_descriptor
+      end
+
+      before do
+        role_descriptor.key_descriptors = [key_descriptor]
+      end
+
+      it "returns the first key descriptor even if use and keyname are requested" do
+        role_descriptor.find_key_descriptor('key', 'signing').should eq key_descriptor
+      end
+    end
+
+    context "when the key descriptors did not set key name but the message contains it" do
+      let(:key_descriptor) do
+        key_descriptor = FactoryGirl.build :key_descriptor, use: 'signing'
+        key_descriptor.key_info.key_name = nil
+        key_descriptor
+      end
+
+      before do
+        role_descriptor.key_descriptors = [key_descriptor]
+      end
+
+      it "returns the first key descriptor even if use and keyname are requested" do
+        role_descriptor.find_key_descriptor('key', 'signing').should eq key_descriptor
+      end
+    end
   end
 end
