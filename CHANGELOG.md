@@ -1,3 +1,6 @@
+### 2.20.7
+* Added `inclusive_namespaces_prefix_list` param to Signature to specify a custom inclusive_namespaces_prefix_list instead of the global one in config.
+
 ### 2.20.6
 * added config options `generate_key_name` to disable automatic keyname generation
 * improved the key info lookup for role descriptors

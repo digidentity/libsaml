@@ -13,9 +13,10 @@ module Saml
         element :digest_value, String, :tag => "DigestValue", :state_when_nil => true
 
         def initialize(*args)
-          @transforms    = Transforms.new
-          @digest_method = DigestMethod.new
           super(*args)
+          options = args.extract_options!
+          @transforms    = Transforms.new(:inclusive_namespaces_prefix_list => options[:inclusive_namespaces_prefix_list])
+          @digest_method = DigestMethod.new
         end
       end
     end

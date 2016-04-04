@@ -22,9 +22,9 @@ module Saml
       has_one :key_info, KeyInfo
 
       def initialize(*args)
-        super(*args)
         options      = args.extract_options!
-        @signed_info ||= SignedInfo.new(:uri => options.delete(:uri), :digest_value => options.delete(:digest_value))
+        @signed_info ||= SignedInfo.new(:uri => options.delete(:uri), :digest_value => options.delete(:digest_value), :inclusive_namespaces_prefix_list => options.delete(:inclusive_namespaces_prefix_list))
+        super(*(args << options))
       end
 
       def key_name

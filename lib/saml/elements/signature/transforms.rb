@@ -10,10 +10,11 @@ module Saml
         has_many :transform, Transform, :tag => "Transform"
 
         def initialize(*args)
+          options = args.extract_options!
           @transform = [Transform.new(:algorithm => "http://www.w3.org/2000/09/xmldsig#enveloped-signature"),
                         Transform.new(:algorithm            => "http://www.w3.org/2001/10/xml-exc-c14n#",
-                                      :inclusive_namespaces => InclusiveNamespaces.new)]
-          super(*args)
+                                      :inclusive_namespaces => InclusiveNamespaces.new(:prefix_list => options.delete(:inclusive_namespaces_prefix_list)))]
+          super(*(args << options))
         end
       end
     end
