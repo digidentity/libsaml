@@ -1,3 +1,6 @@
+### 2.21.0
+* increase xml mapper version
+
 ### 2.20.6
 * added config options `generate_key_name` to disable automatic keyname generation
 * improved the key info lookup for role descriptors
