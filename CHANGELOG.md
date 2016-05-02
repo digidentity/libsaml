@@ -1,3 +1,6 @@
+### 2.21.1
+* Clear OpenSSL error queue if verification fails - https://bugs.ruby-lang.org/issues/7215
+
 ### 2.21.0
 * increase xml mapper version
 
