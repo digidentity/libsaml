@@ -53,6 +53,13 @@ describe Saml::Provider do
   let(:authority_provider) { AuthorityProvider.new }
   let(:identity_and_service_provider) { IdentityAndServiceProvider.new }
 
+  describe "#verify" do
+    it "clears the OpenSSL error queue after a verification returns false" do
+      expect(service_provider_with_signing_key.verify('sha1', 'some-invalid-sigature', 'some-document')).to eq(false)
+      expect(OpenSSL.errors).to be_empty
+    end
+  end
+
   describe "#assertion_consumer_service_url" do
     it "returns the url for the given index" do
       service_provider.assertion_consumer_service_url(0).should == "https://sp.example.com/sso/receive_artifact"
