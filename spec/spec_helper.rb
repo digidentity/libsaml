@@ -7,10 +7,8 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
 ])
 
 SimpleCov.start 'rails' do
-  add_filter "/admin/backdoors_controller.rb"
-  add_filter "/errors_controller"
-  add_filter "/spec/"
-  add_filter "/vendor/"
+  add_filter 'lib/libsaml.rb'
+  add_filter 'lib/saml/version.rb'
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -57,7 +55,7 @@ RSpec.configure do |config|
   #     --seed 1234
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
-  config.order = "random"
+  config.order = 'random'
   config.include FactoryGirl::Syntax::Methods
   config.raise_errors_for_deprecations!
 end
