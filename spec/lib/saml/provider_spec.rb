@@ -182,6 +182,12 @@ describe Saml::Provider do
     end
   end
 
+  describe '#private_key (DEPRECATED)' do
+    it 'shows a deprecation warning' do
+      expect { service_provider_with_signing_key.private_key }.to output("[DEPRECATED] `private_key` please use signing_key or encryption_key\n").to_stderr
+    end
+  end
+
   describe "#signing_key" do
     it "returns the encryption key if signing key is not present" do
       service_provider.signing_key.should == service_provider.encryption_key

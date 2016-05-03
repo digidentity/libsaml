@@ -10,7 +10,6 @@ gem 'jquery-rails', '>= 3.0.0'
 
 group :test, :development do
   gem 'rspec-rails', '~> 3.1'
-  gem 'guard-rspec', '~> 4.0'
   gem 'simplecov'
   gem 'factory_girl_rails'
   gem 'rspec-collection_matchers', '~> 1.0'
