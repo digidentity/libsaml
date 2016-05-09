@@ -58,7 +58,10 @@ module Saml
       end
 
       def create_url
-        [request_or_response.destination, signed_params].join("?")
+        url = request_or_response.destination
+        delimiter = url.include?('?') ? '&' : '?'
+
+        [url, signed_params].join(delimiter)
       end
 
       private
