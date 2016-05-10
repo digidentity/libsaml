@@ -1,3 +1,6 @@
+### 2.21.2
+* Fixed bug when a destination url contains a query string https://github.com/digidentity/libsaml/pull/120
+
 ### 2.21.1
 * Clear OpenSSL error queue if verification fails - https://bugs.ruby-lang.org/issues/7215
 
