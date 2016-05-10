@@ -5,11 +5,14 @@ describe Saml::Bindings::HTTPRedirect do
   let(:logout_response) { build(:logout_response, _id: "id", issuer: "https://sp.example.com", issue_instant: Time.at(0), destination: "http://example.com/sso") }
   let(:logout_response_idp) { build(:logout_response, _id: "id", issuer: "https://idp.example.com", issue_instant: Time.at(0), destination: "https://sp.example.com/sso/logout") }
 
-  let(:url) do
-    described_class.create_url(authn_request,
+
+  def get_url(request = authn_request)
+    described_class.create_url(request,
                                relay_state:         "https//example.com/relay",
                                signature_algorithm: "http://www.w3.org/2000/09/xmldsig#rsa-sha1")
   end
+
+  let(:url) { get_url }
   let(:params) { Saml::Util.parse_params(url) }
 
   describe ".create_url" do
@@ -22,6 +25,17 @@ describe Saml::Bindings::HTTPRedirect do
 
     it "parses the url from the destination" do
       url.should start_with("http://example.com/sso")
+    end
+
+    it "uses the correct delimiter when there are existing parameters in the destination URL" do
+     request = build(:authn_request, _id: "id", issuer: "https://sp.example.com", issue_instant: Time.at(0), destination: "http://example.com/sso?idpid=1234asdf")
+     url = get_url(request)
+
+     params = CGI.parse(URI.parse(url).query)
+
+     expect(url.count('?')).to eq(1)
+     expect(params['idpid']).to eq(['1234asdf'])
+     expect(params['SAMLRequest']).to_not be_blank
     end
 
     context "with a request message" do
