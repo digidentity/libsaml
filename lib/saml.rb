@@ -113,7 +113,7 @@ module Saml
                           INTERNET_PROTOCOL_PASSWORD,
                           KERBEROS,
                           MOBILE_ONE_FACTOR_UNREGISTERED,
-                          MOBILE_ONE_FACTOR_CONTRACT    ,
+                          MOBILE_ONE_FACTOR_CONTRACT,
                           PASSWORD,
                           PREVIOUS_SESSION,
                           X509,
