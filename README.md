@@ -102,7 +102,7 @@ class SamlController < ApplicationController
 
     authn_request = Saml::AuthnRequest.new(:destination => destination)
 
-    session[:authn_request_id] = auth_request._id
+    session[:authn_request_id] = authn_request._id
 
     @saml_attributes = Saml::Bindings::HTTPPost.create_form_attributes(authn_request)
 
