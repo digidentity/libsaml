@@ -98,7 +98,7 @@ class SamlController < ApplicationController
 
   def request_authentication
     provider = Saml.provider("my:very:original:entityid")
-    destination = provider.single_sign_on_service_url(Saml::ProtocolBindings::HTTP_POST)
+    destination = provider.single_sign_on_service_url(Saml::ProtocolBinding::HTTP_POST)
 
     authn_request = Saml::AuthnRequest.new(:destination => destination)
 
