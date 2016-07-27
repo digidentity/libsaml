@@ -195,7 +195,7 @@ class SamlController < ActionController::Base
       # render an auto submit form with hidden fields set in the attributes hash
       @attribute = Saml::Bindings::HTTPPost.create_form_attributes(response, relay_state: session[:saml_request][:relay_state])
     else
-      # handle unsported binding
+      # handle unsupported binding
     end
   end
 
