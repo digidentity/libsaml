@@ -1,3 +1,6 @@
+### 2.22.1
+* Added config option to include nested prefixlists by default.
+
 ### 2.22.0
 * Added option to include nested prefixlists before signing.
 

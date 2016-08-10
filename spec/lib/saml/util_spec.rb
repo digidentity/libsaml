@@ -48,7 +48,18 @@ describe Saml::Util do
 
         let(:artifact_response_prefixlist) { Nokogiri::XML::Document.parse(subject).xpath('samlp:ArtifactResponse/ds:Signature//ec:InclusiveNamespaces').attr('PrefixList').value }
 
-        context 'when enabled' do
+        context 'when enabled by config' do
+          before { Saml::Config.include_nested_prefixlist = true }
+          after { Saml::Config.include_nested_prefixlist = false }
+
+          subject { described_class.sign_xml artifact_response, :xml, false }
+
+          it 'adds the nested and the default prefixlists to the unsigned signatures' do
+            expect(artifact_response_prefixlist).to eq 'foo bar baz ds saml samlp xs'
+          end
+        end
+
+        context 'when enabled by parameter' do
           subject { described_class.sign_xml artifact_response, :xml, true }
 
           it 'adds the nested and the default prefixlists to the unsigned signatures' do
