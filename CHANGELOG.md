@@ -1,3 +1,9 @@
+### 2.22.0
+* Added option to include nested prefixlists before signing.
+
+### 2.21.3
+* Added more possible `AuthnContextClassRef` values.
+
 ### 2.21.2
 * Fixed bug when a destination url contains a query string https://github.com/digidentity/libsaml/pull/120
 

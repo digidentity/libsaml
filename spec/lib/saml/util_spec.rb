@@ -26,6 +26,45 @@ describe Saml::Util do
         described_class.sign_xml message
       end
 
+      describe '"format" parameter' do
+        context 'when no format is given' do
+          it 'formats the message as xml by default' do
+            expect(message).to receive(:to_xml).and_call_original
+            described_class.sign_xml message
+          end
+        end
+
+        context 'when a format is given' do
+          it 'formats the message as the given format' do
+            expect(message).to receive(:to_soap).and_call_original
+            described_class.sign_xml message, :soap
+          end
+        end
+      end
+
+      describe '"include_nested_prefixlist" parameter' do
+        let(:artifact_response_xml) { File.read(File.join('spec', 'fixtures', 'unsigned_artifact_response_with_signed_response_with_multiple_signatures.xml')) }
+        let(:artifact_response)     { Saml::ArtifactResponse.parse(artifact_response_xml, single: true) }
+
+        let(:artifact_response_prefixlist) { Nokogiri::XML::Document.parse(subject).xpath('samlp:ArtifactResponse/ds:Signature//ec:InclusiveNamespaces').attr('PrefixList').value }
+
+        context 'when enabled' do
+          subject { described_class.sign_xml artifact_response, :xml, true }
+
+          it 'adds the nested and the default prefixlists to the unsigned signatures' do
+            expect(artifact_response_prefixlist).to eq 'foo bar baz ds saml samlp xs'
+          end
+        end
+
+        context 'when disabled' do
+          subject { described_class.sign_xml artifact_response, :xml, false }
+
+          it 'adds the default prefixlists to the unsigned signatures' do
+            expect(artifact_response_prefixlist).to eq 'ds saml samlp xs'
+          end
+        end
+      end
+
       context 'when a block is given' do
         it 'sign is called on the signed document, not on the provider' do
           message.provider.should_not_receive(:sign)

@@ -32,10 +32,25 @@ module Saml
         http.request(request)
       end
 
-      def sign_xml(message, format = :xml, &block)
+      def sign_xml(message, format = :xml, include_nested_prefixlist = false, &block)
         message.add_signature
 
         document = Xmldsig::SignedDocument.new(message.send("to_#{format}"))
+
+        if include_nested_prefixlist
+          document.signatures.reverse.each_with_object([]) do |signature, nested_prefixlist|
+            inclusive_namespaces = signature.signature.at_xpath('descendant::ec:InclusiveNamespaces', Xmldsig::NAMESPACES)
+
+            if inclusive_namespaces
+              nested_prefixlist.concat(inclusive_namespaces.get_attribute('PrefixList').to_s.split(' '))
+
+              if signature.unsigned?
+                inclusive_namespaces.set_attribute('PrefixList', nested_prefixlist.uniq.join(' '))
+              end
+            end
+          end
+        end
+
         if block_given?
           document.sign(&block)
         else
