@@ -26,6 +26,9 @@ module Saml
     mattr_accessor :inclusive_namespaces_prefix_list
     @@inclusive_namespaces_prefix_list = "ds saml samlp xs"
 
+    mattr_accessor :include_nested_prefixlist
+    @@include_nested_prefixlist = false
+
     def register_store(name, store, options = {})
       registered_stores[name] = store
       self.default_store = name if options[:default]

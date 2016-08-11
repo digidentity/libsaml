@@ -53,4 +53,9 @@ describe Saml::Config do
     end
   end
 
+  describe '#include_nested_prefixlist' do
+    it 'is disabled by default' do
+      expect(Saml::Config.include_nested_prefixlist).to eq false
+    end
+  end
 end

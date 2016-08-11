@@ -37,7 +37,7 @@ module Saml
 
         document = Xmldsig::SignedDocument.new(message.send("to_#{format}"))
 
-        if include_nested_prefixlist
+        if Saml::Config.include_nested_prefixlist || include_nested_prefixlist
           document.signatures.reverse.each_with_object([]) do |signature, nested_prefixlist|
             inclusive_namespaces = signature.signature.at_xpath('descendant::ec:InclusiveNamespaces', Xmldsig::NAMESPACES)
 
