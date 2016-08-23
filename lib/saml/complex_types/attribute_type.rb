@@ -6,10 +6,14 @@ module Saml
 
       included do
         register_namespace "saml", Saml::SAML_NAMESPACE
+        register_namespace 'ext',  Saml::ATTR_EXT_NAMESPACE
 
         attribute :name, String, :tag => 'Name'
         attribute :format, String, tag: 'NameFormat'
         attribute :friendly_name, String, tag: 'FriendlyName'
+
+        attribute :original_issuer, String, tag: 'ext:OriginalIssuer'
+        attribute :last_modified, Time, tag: 'ext:LastModified', on_save: lambda { |val| val.utc.xmlschema if val.present? }
 
         has_many :attribute_values, Saml::Elements::AttributeValue
 

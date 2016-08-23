@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ext="urn:oasis:names:tc:SAML:attribute:ext" Name="urn:ServiceID" ext:LastModified="2016-08-23T10:26:04Z" ext:OriginalIssuer="urn:original:issuer">
+  <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">1</saml:AttributeValue>
+  <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">2</saml:AttributeValue>
+</saml:Attribute>
