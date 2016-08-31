@@ -15,6 +15,7 @@ module Saml
   MD_NAMESPACE       = 'urn:oasis:names:tc:SAML:2.0:metadata'
   MD_RPI_NAMESPACE   = 'urn:oasis:names:tc:SAML:metadata:rpi'
   MD_ATTR_NAMESPACE  = 'urn:oasis:names:tc:SAML:metadata:attribute'
+  ATTR_EXT_NAMESPACE = 'urn:oasis:names:tc:SAML:attributes:ext'
   SAML_NAMESPACE     = 'urn:oasis:names:tc:SAML:2.0:assertion'
   SAMLP_NAMESPACE    = 'urn:oasis:names:tc:SAML:2.0:protocol'
   XS_NAMESPACE       = 'http://www.w3.org/2001/XMLSchema'

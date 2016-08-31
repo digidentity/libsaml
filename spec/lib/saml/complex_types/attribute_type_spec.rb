@@ -17,7 +17,7 @@ describe Saml::ComplexTypes::AttributeType do
   end
 
   describe "Optional fields" do
-    [:format, :friendly_name, :attribute_values].each do |field|
+    [:format, :friendly_name, :original_issuer, :last_modified, :attribute_values].each do |field|
       it "should have the #{field} field" do
         attribute_type.should respond_to(field)
       end
@@ -41,6 +41,23 @@ describe Saml::ComplexTypes::AttributeType do
 
     it 'should parse all the AttributeValues' do
       expect(attribute_type.attribute_values.count).to eq 2
+    end
+
+    context 'with the attributes extension' do
+      let(:attribute_xml) { File.read(File.join('spec','fixtures','attribute_with_attributes_extension.xml')) }
+      let(:attribute) { Saml::Elements::Attribute.parse(attribute_xml, :single => true) }
+
+      it "should create an Attribute" do
+        attribute.should be_a(Saml::Elements::Attribute)
+      end
+
+      it 'knows its values' do
+        aggregate_failures do
+          expect(attribute.original_issuer).to eq 'urn:original:issuer'
+          expect(attribute.last_modified).to be_a Time
+          expect(attribute.last_modified.utc).to eq '2016-08-23 10:26:04 UTC'
+        end
+      end
     end
   end
 
