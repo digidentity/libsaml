@@ -1,3 +1,6 @@
+### 2.22.2
+* Added the ext:OriginalIssuer and ext:LastModified attributes from the SAML V2.0 Attribute Extensions to the AttributeType.
+
 ### 2.22.1
 * Added config option to include nested prefixlists by default.
 
