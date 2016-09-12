@@ -1,3 +1,6 @@
+### 2.23.1
+* Added method to encrypt attributes
+
 ### 2.22.2
 * Added the ext:OriginalIssuer and ext:LastModified attributes from the SAML V2.0 Attribute Extensions to the AttributeType.
 
