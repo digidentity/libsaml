@@ -86,9 +86,18 @@ describe Saml::Elements::EncryptedAttribute do
         end
       end
 
+      # NOTE The xmlmapper gem will order XML namespaces differently under JRuby and MRI
+      
+      let(:xml_attribute_jruby) { "<saml:Attribute xmlns:ext=\"urn:oasis:names:tc:SAML:attributes:ext\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"/>" }
+      let(:xml_attribute_mri) { '<saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ext="urn:oasis:names:tc:SAML:attributes:ext"/>' }
       it 'encrypts the XML of the passed in attribute' do
-        expect_any_instance_of(Xmlenc::Builder::EncryptedData).to receive(:encrypt).with('<saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ext="urn:oasis:names:tc:SAML:attributes:ext"/>', { recipient: 'recipient' }).and_call_original
-        encrypt
+        if RUBY_ENGINE == 'jruby'
+          expect_any_instance_of(Xmlenc::Builder::EncryptedData).to receive(:encrypt).with(xml_attribute_jruby, { recipient: 'recipient' }).and_call_original
+          encrypt
+        else
+          expect_any_instance_of(Xmlenc::Builder::EncryptedData).to receive(:encrypt).with(xml_attribute_mri, { recipient: 'recipient' }).and_call_original
+          encrypt
+        end
       end
 
       it 'matches the carried key name to the encrypted data key name' do

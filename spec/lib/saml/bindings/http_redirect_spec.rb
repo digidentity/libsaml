@@ -17,6 +17,11 @@ describe Saml::Bindings::HTTPRedirect do
 
   describe ".create_url" do
 
+    let(:sha1_signature_mri) { "HliUb3I3Uksgc1O6lxpPb%2Bnj%2FTykWLrWnw%2BnduLfF70Qf8LeCJuP6HDJSe9s%0AS9wR2rO9jFl8cuqg2AM6RuOOju%2FNWriEKIWECbMmUvJWpqeWU0IDKYHe47uv%0AAhVfPRyckfmDH2dhKW9ExJjKBlwr6SencuoZlte1uU1TqzKnnH8%3D" }
+    let(:sha1_signature_jruby) { "oWkIRjOIKQQ7IZfyLJwQ0w2wsI68p8D4Bl1gBPEIKJ4fhqLws6dppyOPENcv%0ALSNZj%2F%2Fs5%2FnMAbrQN9%2FhOqKd2oS2%2Bwc9aZiZp3%2FUsFQz%2BTnA9PxbWSgCWI%2Fq%0ABNc0ulN3NOTEPMv%2F5QQaDGCozU%2F8dZIWIfYFTw39bNFvsj500Ko%3D" }
+    let(:sha256_signature_mri) { "l8tExhOUx6anBfEaqfzNjIbGqZBqlMO3AKiFhm%2F4jyn2akDbgdd4T2n6uZQ%2F%0AKicpGrHivtsYvNVwO3x1ekhD2tTZ6kSb6rbC18JC0ZnRLtBRxJT%2Bs7mJ%2FJhT%0AIRhdGV9bTN0LegRxAjY%2Bn%2B5etPls8GscYA4UK12wZLP5qNhWI4E%3D" }
+    let(:sha256_signature_jruby) { "EiCPg3xvA4dGBb65t4bbEZ%2FTiMamV%2FSbKCsqjtA7L8TnkMV%2BgE9bKD%2FxYJYY%0ABua%2FFIX6g8fBYRDZZEkJ9jfRjHLGYxsenuRi6TBZePdkfXtQRPVf8VgiMDsi%0AmBY5N6sj%2FyCaODVHAapam96mMCtcJszg3tr%2FOj8luja7nM%2BFc%2FA%3D" }
+
     it 'creates a notification' do
       expect {
         url
@@ -64,9 +69,13 @@ describe Saml::Bindings::HTTPRedirect do
       params["SigAlg"].should == CGI.escape("http://www.w3.org/2000/09/xmldsig#rsa-sha1")
     end
 
+    # NOTE The xmlmapper gem will order XML namespaces differently under JRuby and MRI
     it "adds the signature" do
-      # params["Signature"].should == "OvRPA88Zn9hZmYuZAJ0gELY85rSGsz7AfoEXC1uGtLLzUy7wuyfbQj6uMc9X%0AGns9U9ogkQi2JmH1EZ91bYPdP9gQfrWNUnYHqa%2FDSjZAUvxdN4g6lJSprc46%0A6fgK%2BNMAhgrCX%2F60MFHqcQbhwZ9CzOWm22aajJvQnI%2B7EbMH8nw%3D"
-      params["Signature"].should == "HliUb3I3Uksgc1O6lxpPb%2Bnj%2FTykWLrWnw%2BnduLfF70Qf8LeCJuP6HDJSe9s%0AS9wR2rO9jFl8cuqg2AM6RuOOju%2FNWriEKIWECbMmUvJWpqeWU0IDKYHe47uv%0AAhVfPRyckfmDH2dhKW9ExJjKBlwr6SencuoZlte1uU1TqzKnnH8%3D"
+      if RUBY_ENGINE == 'jruby'
+        params["Signature"].should == sha1_signature_jruby
+      else
+        params["Signature"].should == sha1_signature_mri
+      end
     end
 
     context "with sha256" do
@@ -80,9 +89,13 @@ describe Saml::Bindings::HTTPRedirect do
         params["SigAlg"].should == CGI.escape("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256")
       end
 
+      # NOTE The xmlmapper gem will order XML namespaces differently under JRuby and MRI
       it "calculates the signature with sha256" do
-        # params["Signature"].should == "tdYHD67m1qU3MIGQML6FcLycpEcAAkL2gAS8JZpynMum8fdSV%2FDMuyALY3qa%0A%2BmOuWxW3heKnsM6h%2BshdLKdUooy4LvTFUNmSE7%2FW6QanO3%2F9ed7W8BYDdJPV%0AVUSvir9uZFWGplCRlaURTFYnmJxWUjzzrpgmSL%2Fs8dsuxvnjW1A%3D"
-        params["Signature"].should == "l8tExhOUx6anBfEaqfzNjIbGqZBqlMO3AKiFhm%2F4jyn2akDbgdd4T2n6uZQ%2F%0AKicpGrHivtsYvNVwO3x1ekhD2tTZ6kSb6rbC18JC0ZnRLtBRxJT%2Bs7mJ%2FJhT%0AIRhdGV9bTN0LegRxAjY%2Bn%2B5etPls8GscYA4UK12wZLP5qNhWI4E%3D"
+        if RUBY_ENGINE == 'jruby'
+          params["Signature"].should == sha256_signature_jruby
+        else
+          params["Signature"].should == sha256_signature_mri
+        end
       end
 
     end
