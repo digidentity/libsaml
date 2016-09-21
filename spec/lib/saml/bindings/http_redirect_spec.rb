@@ -109,8 +109,11 @@ describe Saml::Bindings::HTTPRedirect do
       end
 
       it "uses the block to create the signature" do
-        # params["Signature"].should == "OvRPA88Zn9hZmYuZAJ0gELY85rSGsz7AfoEXC1uGtLLzUy7wuyfbQj6uMc9X%0AGns9U9ogkQi2JmH1EZ91bYPdP9gQfrWNUnYHqa%2FDSjZAUvxdN4g6lJSprc46%0A6fgK%2BNMAhgrCX%2F60MFHqcQbhwZ9CzOWm22aajJvQnI%2B7EbMH8nw%3D"
-        params["Signature"].should == "HliUb3I3Uksgc1O6lxpPb%2Bnj%2FTykWLrWnw%2BnduLfF70Qf8LeCJuP6HDJSe9s%0AS9wR2rO9jFl8cuqg2AM6RuOOju%2FNWriEKIWECbMmUvJWpqeWU0IDKYHe47uv%0AAhVfPRyckfmDH2dhKW9ExJjKBlwr6SencuoZlte1uU1TqzKnnH8%3D"
+        if RUBY_ENGINE == 'jruby'
+          params["Signature"].should == sha1_signature_jruby
+        else
+          params["Signature"].should == sha1_signature_mri
+        end
       end
     end
   end
