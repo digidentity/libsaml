@@ -159,7 +159,7 @@ class SamlController < ActionController::Base
     authn_request = if request.get?
       Saml::Bindings::HTTPRedirect.receive_message(request, type: :authn_request)
     elsif request.post?
-      Saml::Bindings::HTTPPost.receive_message(request, type: :authn_request)
+      Saml::Bindings::HTTPPost.receive_message(request, :authn_request)
     else
       return head :not_allowed
     end
