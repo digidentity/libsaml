@@ -24,7 +24,16 @@ module Saml
           notify('receive_message', message)
           request_or_response = Saml.parse_message(message, type)
 
-          verified_request_or_response = Saml::Util.verify_xml(request_or_response, message)
+          skip_signature_verification = (
+            request_or_response.is_a?(Saml::AuthnRequest) &&
+            !request_or_response.provider.authn_requests_signed?
+          )
+
+          verified_request_or_response = if skip_signature_verification
+            request_or_response
+          else
+            Saml::Util.verify_xml(request_or_response, message)
+          end
           verified_request_or_response.actual_destination = request.url
           verified_request_or_response
         end
