@@ -20,6 +20,9 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+require "bundler/gem_tasks"
+require "rake/testtask"
+
 require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:core) do |spec|
@@ -27,7 +30,3 @@ RSpec::Core::RakeTask.new(:core) do |spec|
 end
 
 task :default => [:core]
-
-
-Bundler::GemHelper.install_tasks
-

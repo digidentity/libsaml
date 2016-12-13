@@ -1,3 +1,7 @@
+### 2.24.1
+* The POST Binding now allows unsigned AuthnRequests if specifically configured in the EntityDescriptor
+* add_attribute now allows extra attributes to be set via add_attribute("key", "value", type: "xsi:string")
+
 ### 2.23.1
 * Added method to encrypt attributes
 
