@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Saml::Rails::ControllerHelper do
   ApplicationController = Struct.new(:controller) do
-    def self.before_filter(*args)
+    def self.before_action(*args)
     end
 
     attr_accessor :headers
@@ -19,7 +19,7 @@ describe Saml::Rails::ControllerHelper do
   class Controller < ApplicationController
     include Saml::Rails::ControllerHelper
 
-    def self.before_filter(&block)
+    def self.before_action(&block)
       new.run_callback(&block)
     end
 

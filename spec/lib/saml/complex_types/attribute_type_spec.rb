@@ -61,21 +61,6 @@ describe Saml::ComplexTypes::AttributeType do
     end
   end
 
-  describe '#attribute_value (DEPRECATED)' do
-    let(:attribute_value_1) { FactoryGirl.build(:attribute_value, content: 'foo') }
-    let(:attribute_value_2) { FactoryGirl.build(:attribute_value, content: 'bar') }
-
-    before { attribute_type.attribute_values = [attribute_value_1, attribute_value_2] }
-
-    it 'returns the value of the first attribute value' do
-      expect(attribute_type.attribute_value).to eq 'foo'
-    end
-
-    it 'shows a deprecation warning' do
-      expect { attribute_type.attribute_value }.to output("[DEPRECATED] `attribute_value` please use #attribute_values\n").to_stderr
-    end
-  end
-
   describe '#attribute_value=' do
     let(:attribute_value) { FactoryGirl.build(:attribute_value, content: 'foobar') }
 

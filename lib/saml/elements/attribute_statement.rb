@@ -10,16 +10,6 @@ module Saml
 
       has_many :attributes, Saml::Elements::Attribute
       has_many :encrypted_attributes, Saml::Elements::EncryptedAttribute
-
-      def attribute
-        warn '[DEPRECATED] `attribute` please use #attributes'
-        attributes
-      end
-
-      def attribute=(attributes)
-        warn '[DEPRECATED] `attribute=` please use #attributes='
-        self.attributes = attributes
-      end
     end
   end
 end

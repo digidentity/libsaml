@@ -12,7 +12,9 @@ module Saml
           define_method "#{method}_with_notification" do |*args|
             notify "#{method}", send("#{method}_without_notification", *args)
           end
-          alias_method_chain :#{method}, :notification
+
+          alias_method "#{method}_without_notification", :#{method}
+          alias_method :#{method}, "#{method}_with_notification"
         RUBY
 
         if instance_method

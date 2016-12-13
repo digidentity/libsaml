@@ -51,32 +51,4 @@ describe Saml::Elements::AttributeStatement do
       attribute_statement.fetch_attribute_value('urn:ServiceID').content.should == '1'
     end
   end
-
-  describe '#attribute (DEPRECATED)' do
-    before { attribute_statement.attributes = [ attribute_1, attribute_2 ] }
-
-    it 'returns the attributes' do
-      expect(attribute_statement.attribute).to match_array [ attribute_1, attribute_2 ]
-    end
-
-    it 'shows a deprecation warning' do
-      expect { attribute_statement.attribute }.to output("[DEPRECATED] `attribute` please use #attributes\n").to_stderr
-    end
-  end
-
-  describe '#attribute= (DEPRECATED)' do
-    before { attribute_statement.attributes = nil }
-
-    it 'sets the attributes' do
-      aggregate_failures do
-        expect(attribute_statement.attributes).to be_nil
-        attribute_statement.attribute = [ attribute_1, attribute_2 ]
-        expect(attribute_statement.attributes).to match_array [ attribute_1, attribute_2 ]
-      end
-    end
-
-    it 'shows a deprecation warning' do
-      expect { attribute_statement.attribute = [ attribute_1 ] }.to output("[DEPRECATED] `attribute=` please use #attributes=\n").to_stderr
-    end
-  end
 end

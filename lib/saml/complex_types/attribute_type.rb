@@ -26,11 +26,6 @@ module Saml
         super(*(args << options))
       end
 
-      def attribute_value
-        warn '[DEPRECATED] `attribute_value` please use #attribute_values'
-        attribute_values.first.try(:content)
-      end
-
       def attribute_value=(value)
         attribute_value = if value.is_a? String
           Saml::Elements::AttributeValue.new(content: value)
