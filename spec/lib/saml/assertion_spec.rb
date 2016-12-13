@@ -190,6 +190,18 @@ describe Saml::Assertion do
       end
     end
 
+    context 'with an xsi type added' do
+      it 'adds the attribute and includes the xsi type' do
+        assertion.add_attribute('key', 'value', type: 'xsi:string')
+
+        aggregate_failures do
+          expect(assertion.attribute_statement.attributes.first.name).to eq 'key'
+          expect(assertion.attribute_statement.attributes.first.attribute_values.first.content).to eq 'value'
+          expect(assertion.attribute_statement.attributes.first.attribute_values.first.type).to eq 'xsi:string'
+        end
+      end
+    end
+
     context 'when there are multiple attribute statements' do
       before { assertion.attribute_statements = [Saml::Elements::AttributeStatement.new, Saml::Elements::AttributeStatement.new] }
 
