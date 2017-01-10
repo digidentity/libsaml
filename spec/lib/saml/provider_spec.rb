@@ -172,6 +172,34 @@ describe Saml::Provider do
     end
   end
 
+  describe '#find_key_descriptor' do
+    let(:key_descriptor) { service_provider.find_key_descriptor('22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', 'encryption', :sp_descriptor) }
+
+    it 'returns a key descriptor'  do
+      aggregate_failures do
+        expect(key_descriptor).to be_a Saml::Elements::KeyDescriptor
+        expect(key_descriptor.key_info.key_name).to eq '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+        expect(key_descriptor.use).to eq 'encryption'
+      end
+    end
+  end
+
+  describe '#find_key_descriptors_by_use' do
+    let(:key_descriptors) { service_provider.find_key_descriptors_by_use('signing', :sp_descriptor) }
+
+    it 'returns all key descriptors with the specified use'  do
+      aggregate_failures do
+        expect(key_descriptors.count).to eq 2
+        expect(key_descriptors.first).to be_a Saml::Elements::KeyDescriptor
+        expect(key_descriptors.first.key_info.key_name).to eq '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+        expect(key_descriptors.first.use).to eq 'signing'
+        expect(key_descriptors.second).to be_a Saml::Elements::KeyDescriptor
+        expect(key_descriptors.second.key_info.key_name).to eq '82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+        expect(key_descriptors.second.use).to eq 'signing'
+      end
+    end
+  end
+
   describe "#sign" do
     it "uses the encryption key to sign" do
       service_provider.sign("sha256", "test").should == service_provider.encryption_key.sign(OpenSSL::Digest::SHA256.new, "test")

@@ -116,4 +116,41 @@ describe Saml::ComplexTypes::RoleDescriptorType do
       end
     end
   end
+
+  describe '#find_key_descriptors_by_use' do
+    let(:key_descriptor_1) { FactoryGirl.build :key_descriptor }
+    let(:key_descriptor_2) { FactoryGirl.build :key_descriptor, use: 'signing' }
+    let(:key_descriptor_3) { FactoryGirl.build :key_descriptor, use: 'encryption' }
+    let(:key_descriptor_4) do
+      key_descriptor                   = FactoryGirl.build :key_descriptor, use: 'encryption'
+      key_descriptor.key_info.key_name = 'key'
+      key_descriptor
+    end
+
+    before { role_descriptor.key_descriptors = [key_descriptor_1, key_descriptor_2, key_descriptor_3, key_descriptor_4] }
+
+    context 'when "use" is specified' do
+      let(:key_descriptors) { role_descriptor.find_key_descriptors_by_use('encryption') }
+
+      it 'returns all key descriptors with the specified use' do
+        aggregate_failures do
+          expect(key_descriptors.count).to eq 2
+          expect(key_descriptors.first).to eq key_descriptor_3
+          expect(key_descriptors.second).to eq key_descriptor_4
+        end
+      end
+    end
+
+    context 'when NO "use" is specified' do
+      let(:key_descriptors) { role_descriptor.find_key_descriptors_by_use(nil) }
+
+      it 'returns key descriptors without use specified' do
+        aggregate_failures do
+          expect(key_descriptors.count).to eq 1
+          expect(key_descriptors.first).to eq key_descriptor_1
+        end
+      end
+    end
+  end
+
 end
