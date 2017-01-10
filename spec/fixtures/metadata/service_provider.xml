@@ -25,6 +25,14 @@
         </ds:X509Data>
       </ds:KeyInfo>
     </md:KeyDescriptor>
+    <md:KeyDescriptor use="encryption">
+      <ds:KeyInfo>
+        <ds:KeyName>82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8</ds:KeyName>
+        <ds:X509Data>
+          <ds:X509Certificate>MIICgjCCAeugAwIBAgIBADANBgkqhkiG9w0BAQUFADA6MQswCQYDVQQGEwJCRTENMAsGA1UECgwEVGVzdDENMAsGA1UECwwEVGVzdDENMAsGA1UEAwwEVGVzdDAeFw0xMzAxMTQxMzM5NTBaFw0xNDAxMTQxMzM5NTBaMDoxCzAJBgNVBAYTAkJFMQ0wCwYDVQQKDARUZXN0MQ0wCwYDVQQLDARUZXN0MQ0wCwYDVQQDDARUZXN0MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgJhsC/EH+FebE7OfgwWyQgSxXiY4i5XMj/U+MJUsZ1O2jb70aMkb3hwXKGPWBV0fHHKkdeugchxKx/973fvrkgiYWiy3j6yUyBzSgWoCKcZGZEng5cgA9L/6roVkpnjNCYc49PQYa68+cLy419ooWSEYnTFlDpUiShviljEWT6wIDAQABo4GXMIGUMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBJIbgZXUnf4On2C9KiGNrvcBXvvMGIGA1UdIwRbMFmAFBJIbgZXUnf4On2C9KiGNrvcBXvvoT6kPDA6MQswCQYDVQQGEwJCRTENMAsGA1UECgwEVGVzdDENMAsGA1UECwwEVGVzdDENMAsGA1UEAwwEVGVzdIIBADANBgkqhkiG9w0BAQUFAAOBgQDJcmmrA4y1K/TLMLA/zWf90snZubfCFC1iR3gBSKi5v49OxM4vkZSLo9gQfUJGwohPqld/PB6B1o1gpHEcbxWEgFnL+3irPcNLpcXPLNvbpzHjCOhVvRHIwIw+ZwlWir1yQKYcNXIPUFRqdRRsAwyOT8Qv3yGWNPYzNQ16qzPYJg==</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
     <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://sp.example.com/sso/logout"/>
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" index="0" Location="https://sp.example.com/sso/receive_artifact"/>
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" index="1" Location="https://sp.example.com/sso/receive_artifact_default" isDefault="true"/>
