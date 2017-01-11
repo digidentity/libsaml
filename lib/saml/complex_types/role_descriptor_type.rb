@@ -29,7 +29,7 @@ module Saml
       def find_key_descriptor(key_name, use)
         return key_descriptors.first unless key_name_or_use_specified?
 
-        key_descriptors_by_use = find_key_descriptors_by_use(use)
+        key_descriptors_by_use = find_key_descriptors_by_use_or_without(use)
 
         if key_name.present? && key_name_specified?
           key_descriptors_by_use.find { |key| key.key_info.key_name == key_name }
@@ -38,9 +38,13 @@ module Saml
         end
       end
 
+      def find_key_descriptors_by_use(use)
+        key_descriptors.select { |key| key.use == use }
+      end
+
       private
 
-      def find_key_descriptors_by_use(use)
+      def find_key_descriptors_by_use_or_without(use)
         key_descriptors.select { |key| key.use == use || key.use.blank? }
       end
 

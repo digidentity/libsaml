@@ -46,9 +46,8 @@ module Saml
       descriptor(type).find_key_descriptor(key_name, use)
     end
 
-    def private_key
-      warn '[DEPRECATED] `private_key` please use signing_key or encryption_key'
-      encryption_key
+    def find_key_descriptors_by_use(use, type = :descriptor)
+      descriptor(type).find_key_descriptors_by_use(use)
     end
 
     def signing_key

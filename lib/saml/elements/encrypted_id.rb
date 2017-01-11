@@ -23,9 +23,9 @@ module Saml
         super(*(args << options))
       end
 
-      def encrypt(key_descriptor, key_options = {})
-        certificate = key_descriptor.certificate
-        key_name = key_descriptor.key_info.key_name
+      def encrypt(key_descriptors, key_options = {})
+        key_descriptors = Array(key_descriptors)
+        encrypted_keys = []
 
         self.encrypted_data = Xmlenc::Builder::EncryptedData.new
         self.encrypted_data.set_key_retrieval_method Xmlenc::Builder::RetrievalMethod.new(
@@ -34,14 +34,21 @@ module Saml
         self.encrypted_data.set_encryption_method(
           algorithm: 'http://www.w3.org/2001/04/xmlenc#aes256-cbc'
         )
-        encrypted_key = self.encrypted_data.encrypt(name_id_xml, key_options)
-        encrypted_key.set_encryption_method(
-          algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
-          digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1'
-        )
-        encrypted_key.set_key_name key_name
-        encrypted_key.encrypt certificate.public_key
-        self.encrypted_keys = [encrypted_key]
+
+        key_descriptors.each do |key_descriptor|
+          encrypted_key = self.encrypted_data.encrypt(name_id_xml, key_options)
+          encrypted_key.set_encryption_method(
+            algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
+            digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1'
+          )
+
+          encrypted_key.set_key_name(key_descriptor.key_info.key_name)
+          encrypted_key.encrypt(key_descriptor.certificate.public_key)
+
+          encrypted_keys << encrypted_key
+        end
+
+        self.encrypted_keys = encrypted_keys
         self.name_id = nil
       end
 
