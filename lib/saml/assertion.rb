@@ -42,7 +42,8 @@ module Saml
       end
 
       @conditions      = Saml::Elements::Conditions.new(:audience => options.delete(:audience))
-      @authn_statement = Saml::Elements::AuthnStatement.new(:authn_instant           => Time.now,
+      authn_instant    = options.delete(:authn_instant) || Time.now
+      @authn_statement = Saml::Elements::AuthnStatement.new(:authn_instant           => authn_instant,
                                                             :address                 => options.delete(:address),
                                                             :authn_context_class_ref => options.delete(:authn_context_class_ref),
                                                             :session_index           => options.delete(:session_index))
