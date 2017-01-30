@@ -1,3 +1,9 @@
+### 3.0.2
+* Allow the AuthnInstant to be set
+
+### 3.0.0
+* require active support version >= 4.2
+
 ### 2.24.1
 * The POST Binding now allows unsigned AuthnRequests if specifically configured in the EntityDescriptor
 * add_attribute now allows extra attributes to be set via add_attribute("key", "value", type: "xsi:string")
