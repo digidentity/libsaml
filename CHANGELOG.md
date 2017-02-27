@@ -1,3 +1,6 @@
+### 3.0.3
+* Use lambda for validations
+
 ### 3.0.2
 * Allow the AuthnInstant to be set
 
