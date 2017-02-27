@@ -28,7 +28,7 @@ module Saml
     validates :_id, :version, :issue_instant, :issuer, :presence => true
 
     validates :version, inclusion: %w(2.0)
-    validate :check_issue_instant, :if => 'issue_instant.present?'
+    validate :check_issue_instant, :if => lambda { |val| val.issue_instant.present? }
 
     def initialize(*args)
       options          = args.extract_options!
