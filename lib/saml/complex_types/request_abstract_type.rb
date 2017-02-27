@@ -28,8 +28,10 @@ module Saml
         validates :_id, :version, :issue_instant, presence: true
 
         validates :version, inclusion: %w(2.0)
-        validate :check_destination, if: 'destination.present? && actual_destination.present?'
-        validate :check_issue_instant, if: 'issue_instant.present?'
+        validate :check_destination, if: lambda { |val|
+          val.destination.present? && val.actual_destination.present?
+        }
+        validate :check_issue_instant, if: lambda { |val| val.issue_instant.present? }
       end
 
       def initialize(*args)
