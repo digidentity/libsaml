@@ -1,3 +1,6 @@
+### 3.0.6
+* Fix the encryption of an EncryptedID element with multiple recipients.
+
 ### 3.0.3
 * Use lambda for validations
 
