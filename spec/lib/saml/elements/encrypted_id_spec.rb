@@ -63,25 +63,41 @@ describe Saml::Elements::EncryptedID do
       it 'encrypts the encrypted ID for the given key descriptor' do
         aggregate_failures do
           expect(encrypted_id.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
+          expect(encrypted_id.encrypted_data.key_info.retrieval_method).to be_present
+          expect(encrypted_id.encrypted_data.key_info.key_name).to be_nil
+
           expect(encrypted_id.encrypted_keys.count).to eq 1
           expect(encrypted_id.encrypted_keys.first).to be_a Xmlenc::Builder::EncryptedKey
           expect(encrypted_id.encrypted_keys.first.key_info.key_name).to eq '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+          expect(encrypted_id.encrypted_keys.first.carried_key_name).to be_nil
+
           expect(encrypted_id.name_id).to be_nil
         end
       end
     end
 
     context 'when multiple key descriptors are given' do
-      before { encrypted_id.encrypt(key_descriptors) }
+      let(:key_name) { 'some_key_name' }
+
+      before { encrypted_id.encrypt(key_descriptors, { id: '_some_id', key_name: key_name }) }
 
       it 'encrypts the encrypted ID for each given key descriptor' do
         aggregate_failures do
           expect(encrypted_id.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
+          expect(encrypted_id.encrypted_data.key_info.retrieval_method).to be_nil
+          expect(encrypted_id.encrypted_data.key_info.key_name).to eq key_name
+
           expect(encrypted_id.encrypted_keys.count).to eq 2
+
           expect(encrypted_id.encrypted_keys.first).to be_a Xmlenc::Builder::EncryptedKey
           expect(encrypted_id.encrypted_keys.first.key_info.key_name).to eq '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+          expect(encrypted_id.encrypted_keys.first.carried_key_name).to eq key_name
+
           expect(encrypted_id.encrypted_keys.second).to be_a Xmlenc::Builder::EncryptedKey
           expect(encrypted_id.encrypted_keys.second.key_info.key_name).to eq '82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+          expect(encrypted_id.encrypted_keys.second.carried_key_name).to eq key_name
+
+          expect(encrypted_id.encrypted_keys.first.id).not_to eq encrypted_id.encrypted_keys.second.id
           expect(encrypted_id.name_id).to be_nil
         end
       end
