@@ -2,15 +2,28 @@ require 'spec_helper'
 
 describe Saml::Config do
 
-  let(:private_key_file) { File.join('spec', 'fixtures', 'key.pem') }
-  let(:private_key)      { OpenSSL::PKey::RSA.new(File.read(private_key_file)) }
+  let(:private_key_file) {File.join('spec', 'fixtures', 'key.pem')}
+  let(:private_key) {OpenSSL::PKey::RSA.new(File.read(private_key_file))}
 
-  let(:certificate_file) { File.join('spec', 'fixtures', 'certificate.pem') }
-  let(:certificate)      { OpenSSL::X509::Certificate.new(File.read(certificate_file)) }
+  let(:certificate_file) {File.join('spec', 'fixtures', 'certificate.pem')}
+  let(:certificate) {OpenSSL::X509::Certificate.new(File.read(certificate_file))}
 
   after do
     Saml::Config.ssl_private_key = nil
     Saml::Config.ssl_certificate = nil
+  end
+
+
+  describe '#signature_method' do
+    it 'returns the default signature algorithm' do
+      expect(Saml::Config.signature_algorithm).to eq "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+    end
+  end
+
+  describe '#digest_method' do
+    it 'returns the default digest method algorithm' do
+      expect(Saml::Config.digest_algorithm).to eq "http://www.w3.org/2001/04/xmlenc#sha256"
+    end
   end
 
   describe '#ssl_private_key_file' do

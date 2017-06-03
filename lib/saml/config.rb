@@ -21,6 +21,12 @@ module Saml
     mattr_accessor :generate_key_name
     @@generate_key_name = true
 
+    mattr_accessor :signature_algorithm
+    @@signature_algorithm = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+
+    mattr_accessor :digest_algorithm
+    @@digest_algorithm = "http://www.w3.org/2001/04/xmlenc#sha256"
+
     mattr_accessor :default_store
 
     mattr_accessor :inclusive_namespaces_prefix_list

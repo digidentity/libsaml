@@ -9,6 +9,7 @@ module Saml
 
         attribute :binding, String, :tag => "Binding"
         attribute :location, String, :tag => "Location"
+        attribute :response_location, String, :tag => "ResponseLocation"
 
         validates :binding, :location, :presence => true
       end

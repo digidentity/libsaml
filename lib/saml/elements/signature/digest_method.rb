@@ -10,7 +10,7 @@ module Saml
         attribute :algorithm, String, :tag => "Algorithm"
 
         def initialize(*args)
-          @algorithm = "http://www.w3.org/2001/04/xmlenc#sha256"
+          @algorithm = Saml::Config.digest_algorithm
           super(*args)
         end
       end
