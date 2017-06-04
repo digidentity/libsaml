@@ -3,7 +3,7 @@ module Saml
     include Provider
     attr_accessor :entity_descriptor, :encryption_key, :type
 
-    def initialize(entity_descriptor, encryption_key, type, signing_key)
+    def initialize(entity_descriptor, encryption_key, type, signing_key=nil)
       @entity_descriptor = entity_descriptor
       @encryption_key    = encryption_key
       @type              = type
