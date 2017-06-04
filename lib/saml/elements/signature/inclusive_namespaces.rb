@@ -11,7 +11,8 @@ module Saml
         attribute :prefix_list, String, :tag => "PrefixList"
 
         def initialize(*args)
-          @prefix_list = Saml::Config.inclusive_namespaces_prefix_list
+          options = args.extract_options!
+          @prefix_list = options[:prefix_list] || Saml::Config.inclusive_namespaces_prefix_list
           super(*args)
         end
       end
