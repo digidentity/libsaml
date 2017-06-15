@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "activemodel", ">= 3.0.0"
   s.add_dependency "xmlmapper", '~> 0.7.2'
   s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8'
-  s.add_dependency "xmldsig", '~> 0.5.1'
+  s.add_dependency "xmldsig", '~> 0.6.0'
   s.add_dependency "xmlenc", '~> 0.6.2'
   # s.add_dependency "curb"
 
