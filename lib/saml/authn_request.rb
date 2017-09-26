@@ -14,6 +14,7 @@ module Saml
     attribute :provider_name, String, :tag => "ProviderName"
 
     has_one :requested_authn_context, Saml::Elements::RequestedAuthnContext
+    has_one :scoping, Saml::Elements::Scoping
 
     validates :force_authn, :inclusion => [true, false, nil]
     validates :assertion_consumer_service_index, :numericality => true, :if => lambda { |val|
