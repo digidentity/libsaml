@@ -8,4 +8,10 @@
   <samlp:RequestedAuthnContext Comparison="minimum">
     <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
   </samlp:RequestedAuthnContext>
+  <samlp:Scoping>
+    <samlp:IDPList>
+      <samlp:IDPEntry ProviderID="provider-id-1" Name="Provider name 1" Loc="https://idp1.example.com"/>
+      <samlp:IDPEntry ProviderID="provider-id-2" Name="Provider name 2" Loc="https://idp2.example.com"/>
+    </samlp:IDPList>
+  </samlp:Scoping>
 </samlp:AuthnRequest>

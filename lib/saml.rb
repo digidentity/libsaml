@@ -197,6 +197,9 @@ module Saml
     require 'saml/elements/entities_descriptor'
     require 'saml/elements/attribute_query'
     require 'saml/elements/evidence'
+    require 'saml/elements/idp_entry'
+    require 'saml/elements/idp_list'
+    require 'saml/elements/scoping'
   end
 
   module Rails

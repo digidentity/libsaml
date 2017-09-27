@@ -12,7 +12,7 @@ describe Saml::AuthnRequest do
     Saml::AuthnRequest.tag_name.should == "AuthnRequest"
   end
 
-  [:force_authn, :assertion_consumer_service_index, :assertion_consumer_service_url, :protocol_binding, :provider_name, :requested_authn_context, :is_passive].each do |attribute|
+  [:force_authn, :assertion_consumer_service_index, :assertion_consumer_service_url, :protocol_binding, :provider_name, :requested_authn_context, :is_passive, :scoping].each do |attribute|
     it "should accept the #{attribute} attribute" do
       authn_request.should respond_to(attribute)
     end
@@ -76,6 +76,10 @@ describe Saml::AuthnRequest do
 
     it "should create an Saml::Elements::RequestedAuthnContext" do
       authn_request.requested_authn_context.should be_a(Saml::Elements::RequestedAuthnContext)
+    end
+
+    it 'should create a Saml::Elements::Scoping' do
+      expect(authn_request.scoping).to be_a(Saml::Elements::Scoping)
     end
 
     context "with two requested_authn_context_class_refs" do

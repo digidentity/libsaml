@@ -1,3 +1,12 @@
+### 3.0.9
+* Added `Scoping` element to an `AuthnRequest`
+
+### 3.0.8
+* Backward compatibility fix. (#147)
+
+### 3.0.7
+* Added signature config and response location
+
 ### 3.0.6
 * Fix the encryption of an EncryptedID element with multiple recipients.
 

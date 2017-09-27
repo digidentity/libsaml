@@ -245,4 +245,15 @@ FactoryGirl.define do
   factory :session_index, class: Saml::Elements::SessionIndex do
     value 'SessionIndex'
   end
+
+  factory :scoping, :class => Saml::Elements::Scoping do
+  end
+
+  factory :idp_list, :class => Saml::Elements::IdpList do
+  end
+
+  factory :idp_entry, :class => Saml::Elements::IdpEntry do
+    provider_id 'ProviderID'
+  end
+
 end
