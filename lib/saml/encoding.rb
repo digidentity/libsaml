@@ -5,7 +5,7 @@ module Saml
   class Encoding
 
     def self.encode_64 string
-      Base64.encode64(string).chomp
+      Base64.strict_encode64(string)
     end
 
     def self.decode_64 base64_string

@@ -17,10 +17,10 @@ describe Saml::Bindings::HTTPRedirect do
 
   describe ".create_url" do
 
-    let(:sha1_signature_mri) { "HliUb3I3Uksgc1O6lxpPb%2Bnj%2FTykWLrWnw%2BnduLfF70Qf8LeCJuP6HDJSe9s%0AS9wR2rO9jFl8cuqg2AM6RuOOju%2FNWriEKIWECbMmUvJWpqeWU0IDKYHe47uv%0AAhVfPRyckfmDH2dhKW9ExJjKBlwr6SencuoZlte1uU1TqzKnnH8%3D" }
-    let(:sha1_signature_jruby) { "oWkIRjOIKQQ7IZfyLJwQ0w2wsI68p8D4Bl1gBPEIKJ4fhqLws6dppyOPENcv%0ALSNZj%2F%2Fs5%2FnMAbrQN9%2FhOqKd2oS2%2Bwc9aZiZp3%2FUsFQz%2BTnA9PxbWSgCWI%2Fq%0ABNc0ulN3NOTEPMv%2F5QQaDGCozU%2F8dZIWIfYFTw39bNFvsj500Ko%3D" }
-    let(:sha256_signature_mri) { "l8tExhOUx6anBfEaqfzNjIbGqZBqlMO3AKiFhm%2F4jyn2akDbgdd4T2n6uZQ%2F%0AKicpGrHivtsYvNVwO3x1ekhD2tTZ6kSb6rbC18JC0ZnRLtBRxJT%2Bs7mJ%2FJhT%0AIRhdGV9bTN0LegRxAjY%2Bn%2B5etPls8GscYA4UK12wZLP5qNhWI4E%3D" }
-    let(:sha256_signature_jruby) { "EiCPg3xvA4dGBb65t4bbEZ%2FTiMamV%2FSbKCsqjtA7L8TnkMV%2BgE9bKD%2FxYJYY%0ABua%2FFIX6g8fBYRDZZEkJ9jfRjHLGYxsenuRi6TBZePdkfXtQRPVf8VgiMDsi%0AmBY5N6sj%2FyCaODVHAapam96mMCtcJszg3tr%2FOj8luja7nM%2BFc%2FA%3D" }
+    let(:sha1_signature_mri) { "cbNvXpgIAEfTOzjHqjicwo3OrxdQrlz8EVUKaSVTYcfDKmdivP7ggbSLKofAB4P25TUmIQVdLhJF4GlKtaVTnp34rU%2B1PIklydvcR5KPlYbN3DPGU%2FewbbzkoRO8aHG78kOOiPa9tVhjCFgu5ji6h%2FPz%2FS%2FyEXfJUndt501O%2FLQ%3D" }
+    let(:sha1_signature_jruby) { "2vXj7953U%2FPO%2FId%2FFhIZdNpOnPIMMnuIUcpxQ%2F5%2BTN1PDghQW3uqdIIPM8oQPtYEjgj8jIoRHAGbkyZQX5bUEiAZA7y1Dj1awvRKIna225ggZaxYsTGBpc5av2Kj4sLSo%2BRKTF6thfncT3MfbnVO6wo9YzJVPk2YuKX2Ko5fB00%3D" }
+    let(:sha256_signature_mri) { "dxItbidLlxvem97mHEhRJfPfRNwUu%2FTJJD5scdak4zwOORVJ9XglaDQyE2zy1EnRvnkUE8uJ7%2FrEjEGwWQ7hdgdAAmgD4pE5XmE8%2F13LaiysXvfb6Vnb%2Byf6%2BggJKNd1laz4oMSR8vnchzh68oPNet7tNuvD2eszy2v5sQ7r4ew%3D" }
+    let(:sha256_signature_jruby) { "svplMNOBflxICRoxZo1FCSg0xSPtmBQeZSraKQ7eFNHFFsuEwy2uOJ2RA6ZleY%2FQIYH%2BWTDUn2kLaR98QjyYp5zrC27SaDvCA80alUxFS%2F65alLr3Jq4DGN%2BP5QqxypN04pM%2F12EhqnF7TGkIl%2B1sciVjGnQgK0DRC7Jvt%2BlpWg%3D" }
 
     it 'creates a notification' do
       expect {
