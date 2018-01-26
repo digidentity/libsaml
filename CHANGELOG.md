@@ -1,3 +1,6 @@
+### 3.1.1
+* Allow specifying NameFormat & FriendlyName at Saml::Assertion#add_attribute, thanks @nov
+
 ### 3.0.9
 * Added `Scoping` element to an `AuthnRequest`
 
