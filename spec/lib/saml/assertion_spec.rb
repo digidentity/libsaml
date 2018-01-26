@@ -202,6 +202,24 @@ describe Saml::Assertion do
       end
     end
 
+    context 'with an attribute_options added' do
+      it 'adds them to the attribute' do
+        assertion.add_attribute(
+          'key', 'value', {
+            type: 'xsi:string'
+          }, {
+            friendly_name: 'eduPersonPrincipalName',
+            format: 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri'
+          }
+        )
+
+        aggregate_failures do
+          expect(assertion.attribute_statement.attributes.first.friendly_name).to eq 'eduPersonPrincipalName'
+          expect(assertion.attribute_statement.attributes.first.format).to eq 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri'
+        end
+      end
+    end
+
     context 'when there are multiple attribute statements' do
       before { assertion.attribute_statements = [Saml::Elements::AttributeStatement.new, Saml::Elements::AttributeStatement.new] }
 
