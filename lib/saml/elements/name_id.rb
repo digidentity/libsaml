@@ -9,6 +9,7 @@ module Saml
 
       attribute :format, String, :tag => "Format"
       attribute :name_qualifier, String, :tag => "NameQualifier"
+      attribute :sp_name_qualifier, String, :tag => "SPNameQualifier"
 
       content :value, String
     end
