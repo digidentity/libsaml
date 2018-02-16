@@ -1,4 +1,7 @@
 ### 3.1.1
+* NameId#SPNameQualifier and AttributeValue#NameId for Shibboleth support, thanks @nov
+
+### 3.1.1
 * Allow specifying NameFormat & FriendlyName at Saml::Assertion#add_attribute, thanks @nov
 
 ### 3.0.9
