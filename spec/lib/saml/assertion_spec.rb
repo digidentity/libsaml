@@ -236,6 +236,37 @@ describe Saml::Assertion do
         end
       end
     end
+
+    context 'when Saml::Elements::NameId is given as value' do
+      it 'adds them to the attribute' do
+        assertion.add_attribute(
+          'urn:oid:1.3.6.1.4.1.5923.1.1.1.10',
+          Saml::Elements::NameId.new(
+            name_qualifier: 'idp.example.com',
+            sp_name_qualifier: 'idp.example.com',
+            value: SecureRandom.hex(16)
+          )
+        )
+
+        aggregate_failures do
+          expect(assertion.attribute_statements.first.attributes.first.attribute_values.first.name_id).to be_instance_of Saml::Elements::NameId
+          expect(assertion.attribute_statements.first.attributes.first.attribute_values.first.content).to be_blank
+        end
+      end
+    end
+
+    context 'when Array is given as value' do
+      it 'adds them to the attribute' do
+        assertion.add_attribute(
+          'urn:oid:1.3.6.1.4.1.5923.1.5.1.1',
+          ['group1', 'group2']
+        )
+
+        aggregate_failures do
+          expect(assertion.attribute_statements.first.attributes.first.attribute_values.count).to eq 2
+        end
+      end
+    end
   end
 
   describe 'fetch_attribute' do
