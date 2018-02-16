@@ -16,6 +16,7 @@ module Saml
       attribute :type, String, tag: 'xsi:type'
 
       content :content, String
+      has_one :name_id, Saml::Elements::NameId
     end
   end
 end

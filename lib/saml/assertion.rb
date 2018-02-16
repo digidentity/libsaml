@@ -59,12 +59,19 @@ module Saml
       @provider ||= Saml.provider(issuer)
     end
 
-    def add_attribute(key, value, value_attributes = {}, attribute_options = {})
+    def add_attribute(key, value_or_values, value_attributes = {}, attribute_options = {})
       self.attribute_statement ||= Saml::Elements::AttributeStatement.new
       self.attribute_statement.attributes ||= []
-      attribute_value = Saml::Elements::AttributeValue.new(value_attributes.merge(content: value))
+      attribute_values = case value_or_values
+      when Saml::Elements::NameId
+        [Saml::Elements::AttributeValue.new(value_attributes.merge(name_id: value_or_values))]
+      else
+        Array(value_or_values).collect do |value|
+          Saml::Elements::AttributeValue.new(value_attributes.merge(content: value))
+        end
+      end
       self.attribute_statement.attributes << Saml::Elements::Attribute.new(
-        attribute_options.merge(name: key, attribute_value: attribute_value)
+        attribute_options.merge(name: key, attribute_values: attribute_values)
       )
     end
 
