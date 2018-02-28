@@ -18,10 +18,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency "activesupport", ">= 4.2"
   s.add_dependency "activemodel", ">= 4.2"
-  s.add_dependency "xmlmapper", '~> 0.7.2'
-  s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8'
-  s.add_dependency "xmldsig", '>= 0.5.1', '< 0.7.0'
-  s.add_dependency "xmlenc", '>= 0.6.9', '< 0.7.0'
+  s.add_dependency "xmlmapper", '~> 0.7.3'
+  s.add_dependency 'nokogiri', '~> 1.8', '>= 1.8.2'
+  s.add_dependency "xmldsig", '>= 0.5.1', '< 0.8.0'
+  s.add_dependency "xmlenc", '>= 0.6.9', '< 0.8.0'
 
   s.add_development_dependency "coveralls", "~> 0.7"
 end
