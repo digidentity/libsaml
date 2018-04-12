@@ -200,6 +200,7 @@ module Saml
     require 'saml/elements/idp_entry'
     require 'saml/elements/idp_list'
     require 'saml/elements/scoping'
+    require 'saml/elements/name_id_policy'
   end
 
   module Rails

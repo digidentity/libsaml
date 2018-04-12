@@ -15,6 +15,7 @@ module Saml
 
     has_one :requested_authn_context, Saml::Elements::RequestedAuthnContext
     has_one :scoping, Saml::Elements::Scoping
+    has_one :name_id_policy, Saml::Elements::NameIdPolicy
 
     validates :force_authn, :inclusion => [true, false, nil]
     validates :assertion_consumer_service_index, :numericality => true, :if => lambda { |val|
@@ -26,6 +27,14 @@ module Saml
     def assertion_url
       return assertion_consumer_service_url if assertion_consumer_service_url
       provider.assertion_consumer_service_url(assertion_consumer_service_index) if assertion_consumer_service_index
+    end
+
+    def initialize(*args)
+      options = args.extract_options!
+      name_id_format = options.delete(:name_id_format)
+      allow_create = options.delete(:allow_create) || true
+      super(*(args << options))
+      @name_id_policy = Saml::Elements::NameIdPolicy.new(format: name_id_format, allow_create: allow_create) unless name_id_format.nil?
     end
 
     private
