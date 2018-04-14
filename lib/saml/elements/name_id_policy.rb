@@ -3,7 +3,7 @@ module Saml
     class NameIdPolicy
       include Saml::Base
 
-      tag 'NameIdPolicy'
+      tag 'NameIDPolicy'
       namespace 'samlp'
 
       attribute :allow_create, Boolean, tag: "AllowCreate"
