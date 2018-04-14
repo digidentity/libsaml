@@ -104,6 +104,18 @@ describe Saml::AuthnRequest do
     end
   end
 
+  describe "NameIDPolicy element test on AuthnRequest" do
+    let(:authn_request_xml) { File.read(File.join('spec', 'fixtures', 'authn_request_with_name_id_policy.xml')) }
+    let(:authn_request) { Saml::AuthnRequest.parse(authn_request_xml) }
+    let(:new_authn_request_xml) { authn_request.to_xml }
+    let(:new_authn_request) { Saml::AuthnRequest.parse(new_authn_request_xml) }
+
+    it "NameIDPolicy element should have correct values" do
+      new_authn_request.name_id_policy.allow_create.should == true
+      new_authn_request.name_id_policy.format.should == 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'
+    end
+  end
+
   describe "#assertion_url" do
 
     it "returns the url as specified" do
@@ -117,4 +129,5 @@ describe Saml::AuthnRequest do
     end
 
   end
+
 end
