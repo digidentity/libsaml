@@ -15,6 +15,7 @@ module Saml
 
     has_one :requested_authn_context, Saml::Elements::RequestedAuthnContext
     has_one :scoping, Saml::Elements::Scoping
+    has_one :name_id_policy, Saml::Elements::NameIdPolicy
 
     validates :force_authn, :inclusion => [true, false, nil]
     validates :assertion_consumer_service_index, :numericality => true, :if => lambda { |val|

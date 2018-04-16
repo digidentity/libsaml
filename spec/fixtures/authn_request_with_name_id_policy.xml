@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<samlp:AuthnRequest xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" AssertionConsumerServiceIndex="1" Version="2.0"
+                    ID="_c392374de287c092408062878fbc23edf9bb3508" ProviderName="Provider" ForceAuthn="false"
+                    IssueInstant="2011-08-31T08:30:56+02:00"
+                    Destination="http://test.url/sso">
+  <saml:Issuer>https://sp.example.com</saml:Issuer>
+  <samlp:NameIDPolicy AllowCreate="true" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+  <samlp:RequestedAuthnContext Comparison="minimum">
+    <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+  </samlp:RequestedAuthnContext>
+  <samlp:Scoping>
+    <samlp:IDPList>
+      <samlp:IDPEntry ProviderID="provider-id-1" Name="Provider name 1" Loc="https://idp1.example.com"/>
+      <samlp:IDPEntry ProviderID="provider-id-2" Name="Provider name 2" Loc="https://idp2.example.com"/>
+    </samlp:IDPList>
+  </samlp:Scoping>
+</samlp:AuthnRequest>
