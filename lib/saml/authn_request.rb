@@ -29,14 +29,6 @@ module Saml
       provider.assertion_consumer_service_url(assertion_consumer_service_index) if assertion_consumer_service_index
     end
 
-    def initialize(*args)
-      options = args.extract_options!
-      name_id_format = options.delete(:name_id_format)
-      allow_create = options.delete(:allow_create) || true
-      super(*(args << options))
-      @name_id_policy = Saml::Elements::NameIdPolicy.new(format: name_id_format, allow_create: allow_create) unless name_id_format.nil?
-    end
-
     private
 
     def check_assertion_consumer_service
