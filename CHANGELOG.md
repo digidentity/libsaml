@@ -1,5 +1,11 @@
-### 3.1.1
-* NameId#SPNameQualifier and AttributeValue#NameId for Shibboleth support, thanks @nov
+### 3.2.2
+* Add support for `NameIDPolicy` in `AuthnRequest`, thanks @pzgz
+
+### 3.2.1
+* Update dependencies as a fix for CWE-287
+
+### 3.1.2
+* `NameId#SPNameQualifier` and `AttributeValue#NameId` for Shibboleth support, thanks @nov
 
 ### 3.1.1
 * Allow specifying NameFormat & FriendlyName at Saml::Assertion#add_attribute, thanks @nov
