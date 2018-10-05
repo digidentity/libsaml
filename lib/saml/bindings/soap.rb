@@ -29,7 +29,16 @@ module Saml
           notify('receive_message', raw_xml)
           message = Saml.parse_message(raw_xml, type)
 
-          Saml::Util.verify_xml(message, raw_xml)
+          skip_signature_verification = (
+            message.is_a?(Saml::AuthnRequest) &&
+            !message.provider.authn_requests_signed?
+          )
+
+          if skip_signature_verification
+            message
+          else
+            Saml::Util.verify_xml(message, raw_xml)
+          end
         end
       end
     end
