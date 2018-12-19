@@ -287,6 +287,20 @@ describe Saml::Util do
         Saml::Util.verify_xml(response, signed_xml)
       end
 
+      it 'verifies all the signatures in the file with its corresponding key name' do
+        xml = File.read(File.join('spec', 'fixtures', 'artifact_response_with_authn_request_signed_with_multiple_certificates.xml'))
+        response = Saml::ArtifactResponse.parse(xml, single: true)
+
+        aggregate_failures do
+          expect(response.issuer).to eq 'https://sp.example.com'
+          expect(response.signature.key_name).to eq '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+          expect(response.authn_request.issuer).to eq 'https://sp.example.com'
+          expect(response.authn_request.signature.key_name).to eq '64df07ee8485e04608afd614829f932da3ac6a7c'
+        end
+
+        Saml::Util.verify_xml(response, xml).should be_a(Saml::ArtifactResponse)
+      end
+
       it 'returns the signed message type' do
         malicious_response = Saml::Response.new(issuer: 'hacked')
         malicious_xml      = "<hack>#{signed_xml}#{malicious_response.to_xml}</hack>"

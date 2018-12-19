@@ -17,6 +17,14 @@
         </ds:X509Data>
       </ds:KeyInfo>
     </md:KeyDescriptor>
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo>
+        <ds:KeyName>64df07ee8485e04608afd614829f932da3ac6a7c</ds:KeyName>
+        <ds:X509Data>
+          <ds:X509Certificate>MIIC8DCCAdgCCQDIeirYLf884jANBgkqhkiG9w0BAQsFADA6MQswCQYDVQQGEwJOTDENMAsGA1UECgwEVGVzdDENMAsGA1UECwwEVGVzdDENMAsGA1UEAwwEVGVzdDAeFw0xODEyMTgwOTU3NTRaFw0xOTEyMTgwOTU3NTRaMDoxCzAJBgNVBAYTAk5MMQ0wCwYDVQQKDARUZXN0MQ0wCwYDVQQLDARUZXN0MQ0wCwYDVQQDDARUZXN0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzirkIhHFoPH3k93pv3ngnltQlV+UJQxsMDNJdKBojMJZlhInWbWb+NpMJxb9f/r6czgTb4F+fiyOzlJ7457C4JNWLQiXG2NzzEKI9JBZcKOsI7rRYaDAM2mtWbKHGqLabZo1oJ892CnrB7A8BF8tD3HM8cMd6yyRletXC8jk7CbYBd6B7blb9Dg8ACUEpCGVqG2mvzvluz1WkulhJJ9Tm+RAaQ8mQRN8LUNXjlb0DWqzjzQqs4aIZ6heU+8MAOl/UoWGLA9G7Ug9eYdNTlo4wZ1R+0qlfY8T411bz1srbb3R+oDJQNv7e0qzKCAD5QA5t3KTCJe3MqY8hMRpeZapLwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAn3Shxrbj/woSCDJphwSlazaHZ7MXUeVLA1HJhbgUBmqOj7xBUWfoRshJLPM8vgYgc6ncTBeYdXkPn5Sx5jSTjtH3sJyVud9ksZ/gwQAWuKEUBZvgOpaUUjHTnp7uL/g0OedRqBKPtyo1H+EmqGvumRsXHQXkX1q2ZVmQs/CUjfzNAJHLOQFoUPIIZsltthpdVokSOR9bp8OQLWwoV+Y2l82Ndqjc7003TP9tvBJZ15b6InL8Z1GA18j0E95ur0cPdam1UuXXBEtqbcUj8wr4BKm5eNI06syfSAsGKM/fY+AFmhxLtrF9y+HR6h514PrtMvzaKLhYwb9GUZq5RXxSC</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
     <md:KeyDescriptor use="encryption">
       <ds:KeyInfo>
         <ds:KeyName>22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8</ds:KeyName>
