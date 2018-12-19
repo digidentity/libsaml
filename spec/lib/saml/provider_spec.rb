@@ -189,13 +189,16 @@ describe Saml::Provider do
 
     it 'returns all key descriptors with the specified use'  do
       aggregate_failures do
-        expect(key_descriptors.count).to eq 2
+        expect(key_descriptors.count).to eq 3
         expect(key_descriptors.first).to be_a Saml::Elements::KeyDescriptor
         expect(key_descriptors.first.key_info.key_name).to eq '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
         expect(key_descriptors.first.use).to eq 'signing'
         expect(key_descriptors.second).to be_a Saml::Elements::KeyDescriptor
         expect(key_descriptors.second.key_info.key_name).to eq '82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
         expect(key_descriptors.second.use).to eq 'signing'
+        expect(key_descriptors.third).to be_a Saml::Elements::KeyDescriptor
+        expect(key_descriptors.third.key_info.key_name).to eq '64df07ee8485e04608afd614829f932da3ac6a7c'
+        expect(key_descriptors.third.use).to eq 'signing'
       end
     end
   end

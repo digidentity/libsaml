@@ -115,7 +115,10 @@ module Saml
         document = Xmldsig::SignedDocument.new(raw_body)
 
         signature_valid = document.validate do |signature, data, signature_algorithm|
-          message.provider.verify(signature_algorithm, signature, data, message.signature.key_name)
+          node = document.signatures.find { |s| s.signature_value == signature }.signature.at_xpath('descendant::ds:KeyName', Xmldsig::NAMESPACES)
+          key_name = node.present? ? node.content : nil
+
+          message.provider.verify(signature_algorithm, signature, data, key_name)
         end
 
         fail Saml::Errors::SignatureInvalid unless signature_valid
