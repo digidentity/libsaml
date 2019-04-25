@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Saml::ComplexTypes::SubjectQueryAbstractType do
-  subject { FactoryGirl.build(:subject_query_abstract_type_dummy) }
+  subject { FactoryBot.build(:subject_query_abstract_type_dummy) }
 
   describe "Required fields" do
     [:_id, :version, :issue_instant, :subject].each do |field|

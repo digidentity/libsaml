@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::ContactPerson do
-  let(:contact_person) { FactoryGirl.build(:contact_person) }
+  let(:contact_person) { FactoryBot.build(:contact_person) }
 
   describe "Required fields" do
     [:contact_type, :email_addresses, :telephone_numbers].each do |field|

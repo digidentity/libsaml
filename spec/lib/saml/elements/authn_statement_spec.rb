@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::AuthnStatement do
-  let(:authn_statement) { FactoryGirl.build(:authn_statement) }
+  let(:authn_statement) { FactoryBot.build(:authn_statement) }
 
   describe "Required fields" do
     [:authn_instant, :authn_context].each do |field|

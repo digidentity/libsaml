@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::ComplexTypes::RoleDescriptorType do
-  let(:role_descriptor) { FactoryGirl.build(:role_descriptor_type_dummy) }
+  let(:role_descriptor) { FactoryBot.build(:role_descriptor_type_dummy) }
 
   describe 'required fields' do
     [:protocol_support_enumeration].each do |field|
@@ -48,15 +48,15 @@ describe Saml::ComplexTypes::RoleDescriptorType do
   end
 
   describe '#find_key_descriptor' do
-    let(:key_descriptor_1) { FactoryGirl.build :key_descriptor, use: 'encryption' }
+    let(:key_descriptor_1) { FactoryBot.build :key_descriptor, use: 'encryption' }
 
     let(:key_descriptor_2) do
-      key_descriptor                   = FactoryGirl.build :key_descriptor, use: 'signing'
+      key_descriptor                   = FactoryBot.build :key_descriptor, use: 'signing'
       key_descriptor.key_info.key_name = 'key'
       key_descriptor
     end
 
-    let(:key_descriptor_3) { FactoryGirl.build :key_descriptor }
+    let(:key_descriptor_3) { FactoryBot.build :key_descriptor }
 
     before do
       role_descriptor.key_descriptors = [key_descriptor_1, key_descriptor_2]
@@ -86,7 +86,7 @@ describe Saml::ComplexTypes::RoleDescriptorType do
 
     context "when the key descriptors did not set use or key name" do
       let(:key_descriptor) do
-        key_descriptor = FactoryGirl.build :key_descriptor
+        key_descriptor = FactoryBot.build :key_descriptor
         key_descriptor.key_info.key_name = nil
         key_descriptor
       end
@@ -102,7 +102,7 @@ describe Saml::ComplexTypes::RoleDescriptorType do
 
     context "when the key descriptors did not set key name but the message contains it" do
       let(:key_descriptor) do
-        key_descriptor = FactoryGirl.build :key_descriptor, use: 'signing'
+        key_descriptor = FactoryBot.build :key_descriptor, use: 'signing'
         key_descriptor.key_info.key_name = nil
         key_descriptor
       end
@@ -118,11 +118,11 @@ describe Saml::ComplexTypes::RoleDescriptorType do
   end
 
   describe '#find_key_descriptors_by_use' do
-    let(:key_descriptor_1) { FactoryGirl.build :key_descriptor }
-    let(:key_descriptor_2) { FactoryGirl.build :key_descriptor, use: 'signing' }
-    let(:key_descriptor_3) { FactoryGirl.build :key_descriptor, use: 'encryption' }
+    let(:key_descriptor_1) { FactoryBot.build :key_descriptor }
+    let(:key_descriptor_2) { FactoryBot.build :key_descriptor, use: 'signing' }
+    let(:key_descriptor_3) { FactoryBot.build :key_descriptor, use: 'encryption' }
     let(:key_descriptor_4) do
-      key_descriptor                   = FactoryGirl.build :key_descriptor, use: 'encryption'
+      key_descriptor                   = FactoryBot.build :key_descriptor, use: 'encryption'
       key_descriptor.key_info.key_name = 'key'
       key_descriptor
     end

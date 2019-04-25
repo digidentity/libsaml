@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::KeyDescriptor do
-  let(:key_descriptor) { FactoryGirl.build(:key_descriptor) }
+  let(:key_descriptor) { FactoryBot.build(:key_descriptor) }
 
   describe "certificate" do
     it "does not raise an error if the certificate is invalid" do
@@ -13,8 +13,8 @@ describe Saml::Elements::KeyDescriptor do
     describe "Base64 encoding format" do
       let(:pem_certificate)         { File.read('spec/fixtures/certificate.pem') }
       let(:der_certificate)         { File.read('spec/fixtures/certificate.der') }
-      let(:key_descriptor_with_pem) { FactoryGirl.build(:key_descriptor, certificate: pem_certificate) }
-      let(:key_descriptor_with_der) { FactoryGirl.build(:key_descriptor, certificate: der_certificate) }
+      let(:key_descriptor_with_pem) { FactoryBot.build(:key_descriptor, certificate: pem_certificate) }
+      let(:key_descriptor_with_der) { FactoryBot.build(:key_descriptor, certificate: der_certificate) }
 
       it "supports a encoded certificate (such as: .pem)" do
         expect(key_descriptor_with_pem.certificate.to_text).to eql key_descriptor.certificate.to_text

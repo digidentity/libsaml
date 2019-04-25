@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::SubjectLocality do
-  let(:subject_locality) { FactoryGirl.build(:subject_locality) }
+  let(:subject_locality) { FactoryBot.build(:subject_locality) }
 
   describe "Optional fields" do
     [:address].each do |field|

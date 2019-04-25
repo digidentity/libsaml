@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Assertion do
-  let(:assertion) { FactoryGirl.build(:assertion) }
+  let(:assertion) { FactoryBot.build(:assertion) }
 
   describe "Required fields" do
     [:_id, :version, :issue_instant, :issuer].each do |field|
@@ -32,8 +32,8 @@ describe Saml::Assertion do
   end
 
   describe '#attribute_statement' do
-    let(:attribute_statement_1) { FactoryGirl.build(:attribute_statement) }
-    let(:attribute_statement_2) { FactoryGirl.build(:attribute_statement) }
+    let(:attribute_statement_1) { FactoryBot.build(:attribute_statement) }
+    let(:attribute_statement_2) { FactoryBot.build(:attribute_statement) }
 
     context 'when there are attribute statements' do
       before { subject.attribute_statements = [attribute_statement_1, attribute_statement_2] }
@@ -61,8 +61,8 @@ describe Saml::Assertion do
   end
 
   describe '#attribute_statement=' do
-    let(:attribute_statement_1) { FactoryGirl.build(:attribute_statement) }
-    let(:attribute_statement_2) { FactoryGirl.build(:attribute_statement) }
+    let(:attribute_statement_1) { FactoryBot.build(:attribute_statement) }
+    let(:attribute_statement_2) { FactoryBot.build(:attribute_statement) }
 
     before { subject.attribute_statements = [attribute_statement_1] }
 
@@ -308,13 +308,13 @@ describe Saml::Assertion do
     end
 
     context 'when there are multiple attribute statements' do
-      let(:attribute_1) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_1' }
-      let(:attribute_2) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_2' }
-      let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
-      let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
+      let(:attribute_1) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_1' }
+      let(:attribute_2) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_2' }
+      let(:attribute_3) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_3' }
+      let(:attribute_4) { FactoryBot.build :attribute, name: 'another_key', attribute_value: 'value_4' }
 
-      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
-      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
+      let(:attribute_statement_1) { FactoryBot.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryBot.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
 
       before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
 
@@ -343,13 +343,13 @@ describe Saml::Assertion do
     end
 
     context 'when there are multiple attribute statements' do
-      let(:attribute_1) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_1' }
-      let(:attribute_2) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_2' }
-      let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
-      let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
+      let(:attribute_1) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_1' }
+      let(:attribute_2) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_2' }
+      let(:attribute_3) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_3' }
+      let(:attribute_4) { FactoryBot.build :attribute, name: 'another_key', attribute_value: 'value_4' }
 
-      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
-      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
+      let(:attribute_statement_1) { FactoryBot.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryBot.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
 
       before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
 

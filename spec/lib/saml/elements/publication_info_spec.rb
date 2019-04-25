@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::PublicationInfo do
-  let(:publication_info) { FactoryGirl.build(:publication_info) }
+  let(:publication_info) { FactoryBot.build(:publication_info) }
 
   it "has a tag" do
     described_class.tag_name.should eq "PublicationInfo"

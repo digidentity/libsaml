@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Saml::Elements::AttributeConsumingService do
-  let(:attribute_consuming_service) { FactoryGirl.build :attribute_consuming_service }
+  let(:attribute_consuming_service) { FactoryBot.build :attribute_consuming_service }
 
   describe "Required fields" do
     [:index].each do |field|

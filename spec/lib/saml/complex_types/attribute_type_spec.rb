@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Saml::ComplexTypes::AttributeType do
-  let(:attribute_type) { FactoryGirl.build(:attribute_type_dummy) }
+  let(:attribute_type) { FactoryBot.build(:attribute_type_dummy) }
 
   describe "Required fields" do
     [:name].each do |field|
@@ -62,7 +62,7 @@ describe Saml::ComplexTypes::AttributeType do
   end
 
   describe '#attribute_value=' do
-    let(:attribute_value) { FactoryGirl.build(:attribute_value, content: 'foobar') }
+    let(:attribute_value) { FactoryBot.build(:attribute_value, content: 'foobar') }
 
     before { attribute_type.attribute_values = [attribute_value] }
 

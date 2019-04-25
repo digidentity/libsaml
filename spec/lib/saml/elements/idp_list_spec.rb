@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::IdpList do
-  let(:idp_list) { FactoryGirl.build :idp_list }
+  let(:idp_list) { FactoryBot.build :idp_list }
 
   describe 'required fields' do
     [:idp_entries].each do |field|

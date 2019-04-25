@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::EntitiesDescriptor do
-  let(:entities_descriptor) { FactoryGirl.build(:entities_descriptor) }
+  let(:entities_descriptor) { FactoryBot.build(:entities_descriptor) }
 
   describe "Optional fields" do
     [:name, :valid_until, :cache_duration, :signature].each do |field|

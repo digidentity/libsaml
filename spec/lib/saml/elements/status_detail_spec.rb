@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::StatusDetail do
-  let(:status_detail) { FactoryGirl.build(:status_detail) }
+  let(:status_detail) { FactoryBot.build(:status_detail) }
 
   describe "status_value" do
     describe "parse" do

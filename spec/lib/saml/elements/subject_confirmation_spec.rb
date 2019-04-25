@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::SubjectConfirmation do
-  let(:subject_confirmation) { FactoryGirl.build(:subject_confirmation) }
+  let(:subject_confirmation) { FactoryBot.build(:subject_confirmation) }
 
   describe "Required fields" do
     [:_method].each do |field|

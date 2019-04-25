@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Saml::Elements::AttributeValue do
 
-  subject { FactoryGirl.build(:attribute_value) }
+  subject { FactoryBot.build(:attribute_value) }
 
   describe 'optional fields' do
     [:encrypted_id, :type, :content].each do |field|

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::Scoping do
-  let(:idp_entry) { FactoryGirl.build :scoping }
+  let(:idp_entry) { FactoryBot.build :scoping }
 
   describe 'optional fields' do
     [:idp_list].each do |field|

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::Subject do
-  let(:subject) { FactoryGirl.build(:subject) }
+  let(:subject) { FactoryBot.build(:subject) }
 
   describe '#check_identifier' do
     context 'when no identifier is set' do
@@ -17,8 +17,8 @@ describe Saml::Elements::Subject do
 
     context 'when multiple identifiers are set' do
       before do
-        subject._name_id     = FactoryGirl.build(:name_id)
-        subject.encrypted_id = FactoryGirl.build(:encrypted_id)
+        subject._name_id     = FactoryBot.build(:name_id)
+        subject.encrypted_id = FactoryBot.build(:encrypted_id)
       end
 
       it 'adds an error on identifiers' do
@@ -28,7 +28,7 @@ describe Saml::Elements::Subject do
 
     context 'when one identifiers is set' do
       before do
-        subject._name_id     = FactoryGirl.build(:name_id)
+        subject._name_id     = FactoryBot.build(:name_id)
         subject.encrypted_id = nil
       end
 
@@ -99,8 +99,8 @@ describe Saml::Elements::Subject do
   end
 
   describe '#subject_confirmation' do
-    let(:subject_confirmation_1) { FactoryGirl.build(:subject_confirmation) }
-    let(:subject_confirmation_2) { FactoryGirl.build(:subject_confirmation) }
+    let(:subject_confirmation_1) { FactoryBot.build(:subject_confirmation) }
+    let(:subject_confirmation_2) { FactoryBot.build(:subject_confirmation) }
 
     before { subject.subject_confirmations = [subject_confirmation_1, subject_confirmation_2] }
 
@@ -110,8 +110,8 @@ describe Saml::Elements::Subject do
   end
 
   describe '#subject_confirmation=' do
-    let(:subject_confirmation_1) { FactoryGirl.build(:subject_confirmation) }
-    let(:subject_confirmation_2) { FactoryGirl.build(:subject_confirmation) }
+    let(:subject_confirmation_1) { FactoryBot.build(:subject_confirmation) }
+    let(:subject_confirmation_2) { FactoryBot.build(:subject_confirmation) }
 
     before { subject.subject_confirmations = [subject_confirmation_1] }
 

@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Saml::ComplexTypes::LocalizedNameType do
-  let(:localized_name_type) { FactoryGirl.build(:localized_name_type_dummy) }
+  let(:localized_name_type) { FactoryBot.build(:localized_name_type_dummy) }
 
   describe "Required fields" do
     [:language].each do |field|

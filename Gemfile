@@ -11,7 +11,7 @@ gem 'jquery-rails', '>= 3.0.0'
 group :test, :development do
   gem 'rspec-rails', '~> 3.1'
   gem 'simplecov'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails', '4.11.1'
   gem 'rspec-collection_matchers', '~> 1.0'
 end
 

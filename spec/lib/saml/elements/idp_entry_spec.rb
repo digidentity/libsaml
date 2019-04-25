@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::IdpEntry do
-  let(:idp_entry) { FactoryGirl.build :idp_entry }
+  let(:idp_entry) { FactoryBot.build :idp_entry }
 
   describe 'optional fields' do
     [:name, :loc].each do |field|

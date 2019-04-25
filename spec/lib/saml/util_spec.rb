@@ -12,7 +12,7 @@ end
 describe Saml::Util do
   let(:service_provider) { ServiceProvider.new }
   let(:signed_message) { 'signed xml' }
-  let(:message) { FactoryGirl.build :authn_request, issuer: service_provider.entity_id }
+  let(:message) { FactoryBot.build :authn_request, issuer: service_provider.entity_id }
 
   describe 'authn_request' do
     describe '.sign_xml' do
@@ -99,7 +99,7 @@ describe Saml::Util do
   end
 
   describe 'assertion' do
-    let(:assertion) { FactoryGirl.build :assertion, issuer: service_provider.entity_id }
+    let(:assertion) { FactoryBot.build :assertion, issuer: service_provider.entity_id }
     let(:signed_assertion) { 'signed xml' }
 
     describe '.sign_xml' do

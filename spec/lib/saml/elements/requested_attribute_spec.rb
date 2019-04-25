@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Saml::Elements::RequestedAttribute do
-  let(:requested_attribute) { FactoryGirl.build :requested_attribute }
+  let(:requested_attribute) { FactoryBot.build :requested_attribute }
 
   it "includes the complex type AttributeType" do
     described_class.ancestors.should include Saml::ComplexTypes::AttributeType

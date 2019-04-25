@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::ComplexTypes::SSODescriptorType do
-  let(:sso_descriptor) { FactoryGirl.build(:sso_descriptor_type_dummy) }
+  let(:sso_descriptor) { FactoryBot.build(:sso_descriptor_type_dummy) }
 
   describe 'Optional fields' do
     [:artifact_resolution_services, :single_logout_services, :name_id_formats].each do |field|

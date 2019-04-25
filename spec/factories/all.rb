@@ -1,4 +1,4 @@
-require 'factory_girl'
+require 'factory_bot'
 
 class RequestAbstractTypeDummy
   include Saml::ComplexTypes::RequestAbstractType
@@ -50,7 +50,7 @@ class StatementDummy
   element :authorization, String, tag: 'Authorization', namespace: :'xacml-saml'
 end
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :request_abstract_type_dummy, :class => RequestAbstractTypeDummy do
     _id "_#{Time.now.to_i}"
     version "2.0"
@@ -68,8 +68,8 @@ FactoryGirl.define do
   end
 
   factory :status, :class => Saml::Elements::Status do
-    status_code FactoryGirl.build(:status_code)
-    status_detail FactoryGirl.build(:status_detail)
+    status_code FactoryBot.build(:status_code)
+    status_detail FactoryBot.build(:status_detail)
   end
 
   factory :status_response_type_dummy, :class => StatusResponseTypeDummy do
@@ -77,7 +77,7 @@ FactoryGirl.define do
     version "2.0"
     issue_instant { Time.now }
     in_response_to "_#{Time.now.to_i}"
-    status FactoryGirl.build(:status)
+    status FactoryBot.build(:status)
   end
 
   factory :role_descriptor_type_dummy, :class => RoleDescriptorTypeDummy do
@@ -137,7 +137,7 @@ FactoryGirl.define do
 
   factory :authn_statement, :class => Saml::Elements::AuthnStatement do
     authn_instant { Time.now }
-    authn_context FactoryGirl.build(:authn_context)
+    authn_context FactoryBot.build(:authn_context)
   end
 
   factory :requested_attribute, :class => Saml::Elements::RequestedAttribute do
@@ -156,7 +156,7 @@ FactoryGirl.define do
   end
 
   factory :attribute_statement, :class => Saml::Elements::AttributeStatement do
-    attributes [ FactoryGirl.build(:attribute) ]
+    attributes [ FactoryBot.build(:attribute) ]
   end
 
   factory :subject_locality, :class => Saml::Elements::SubjectLocality do
@@ -172,7 +172,7 @@ FactoryGirl.define do
     force_authn false
     assertion_consumer_service_index 0
     provider_name "provider name"
-    requested_authn_context FactoryGirl.build(:requested_authn_context)
+    requested_authn_context FactoryBot.build(:requested_authn_context)
   end
 
   factory :response, :class => Saml::Response, :parent => :status_response_type_dummy do
@@ -199,7 +199,7 @@ FactoryGirl.define do
   end
 
   factory :entities_descriptor, :class => Saml::Elements::EntitiesDescriptor do
-    entity_descriptors [FactoryGirl.build(:entity_descriptor)]
+    entity_descriptors [FactoryBot.build(:entity_descriptor)]
     entities_descriptors ["entities_descriptor"]
   end
 
@@ -225,7 +225,7 @@ FactoryGirl.define do
     _id "_#{Time.now.to_i}"
     version "2.0"
     issue_instant { Time.now }
-    subject FactoryGirl.build(:subject)
+    subject FactoryBot.build(:subject)
   end
 
   factory :attribute_query_type_dummy, :class => AttributeQueryTypeDummy do
@@ -235,7 +235,7 @@ FactoryGirl.define do
   end
 
   factory :advice_type_dummy, class: AdviceTypeDummy do
-    assertions { [FactoryGirl.build(:assertion)] }
+    assertions { [FactoryBot.build(:assertion)] }
   end
 
   factory :name_id, class: Saml::Elements::NameId do

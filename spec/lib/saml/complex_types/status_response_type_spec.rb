@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::ComplexTypes::StatusResponseType do
-  let(:status_response_type) { FactoryGirl.build(:status_response_type_dummy) }
+  let(:status_response_type) { FactoryBot.build(:status_response_type_dummy) }
 
   describe "Required fields" do
     [:_id, :version, :issue_instant, :in_response_to, :status].each do |field|
@@ -62,7 +62,7 @@ describe Saml::ComplexTypes::StatusResponseType do
 
   describe '#status_detail' do
     context 'when initialized with a status detail' do
-      let(:status_response_type) { StatusResponseTypeDummy.new(status_detail: FactoryGirl.build(:status_detail)) }
+      let(:status_response_type) { StatusResponseTypeDummy.new(status_detail: FactoryBot.build(:status_detail)) }
 
       it 'adds a status detail to the status' do
         expect(status_response_type.status.status_detail).to be_a(Saml::Elements::StatusDetail)

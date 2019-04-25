@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::EntityDescriptor do
-  let(:entity_descriptor) { FactoryGirl.build(:entity_descriptor) }
+  let(:entity_descriptor) { FactoryBot.build(:entity_descriptor) }
 
   describe "Required fields" do
     [:entity_id].each do |field|

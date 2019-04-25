@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::Organization do
-  let(:organization) { FactoryGirl.build(:organization) }
+  let(:organization) { FactoryBot.build(:organization) }
 
   describe "Required fields" do
     [:organization_names, :organization_display_names, :organization_urls].each do |field|

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::StatusCode do
-  let(:status_code) { FactoryGirl.build(:status_code) }
+  let(:status_code) { FactoryBot.build(:status_code) }
 
   describe "Required fields" do
     [:value].each do |field|

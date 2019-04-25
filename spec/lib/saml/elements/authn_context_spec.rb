@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::AuthnContext do
-  let(:authn_context) { FactoryGirl.build(:authn_context) }
+  let(:authn_context) { FactoryBot.build(:authn_context) }
 
   describe "Optional fields" do
     [:authn_context_class_ref, :authenticating_authorities].each do |field|
