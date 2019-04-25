@@ -16,7 +16,7 @@ module Saml
           @signature_method        = SignatureMethod.new
           super(*args)
           options    = args.extract_options!
-          @reference ||= Reference.new(:uri => options.delete(:uri), :digest_value => options.delete(:digest_value))
+          @reference ||= Reference.new(uri: options.delete(:uri), digest_value: options.delete(:digest_value))
         end
       end
     end

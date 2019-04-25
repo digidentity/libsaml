@@ -11,16 +11,16 @@ module Saml
       register_namespace 'saml', Saml::SAML_NAMESPACE
       namespace 'saml'
 
-      attribute :_method, String, :tag => 'Method'
+      attribute :_method, String, tag: 'Method'
 
       has_one :subject_confirmation_data, Saml::Elements::SubjectConfirmationData
 
-      validates :_method, :presence => true
+      validates :_method, presence: true
 
       def initialize(*args)
         options                    = args.extract_options!
-        @subject_confirmation_data = Saml::Elements::SubjectConfirmationData.new(:recipient      => options.delete(:recipient),
-                                                                                 :in_response_to => options.delete(:in_response_to))
+        @subject_confirmation_data = Saml::Elements::SubjectConfirmationData.new(recipient: options.delete(:recipient),
+                                                                                 in_response_to: options.delete(:in_response_to))
         super(*(args << options))
         @_method ||= Methods::BEARER
       end

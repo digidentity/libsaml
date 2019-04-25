@@ -14,7 +14,7 @@ describe Saml::Elements::AttributeValue do
 
   describe '#parse' do
     let(:attribute_xml) { File.read(File.join('spec','fixtures','attribute.xml')) }
-    let(:attribute_value) { Saml::Elements::AttributeValue.parse(attribute_xml, :single => true) }
+    let(:attribute_value) { Saml::Elements::AttributeValue.parse(attribute_xml, single: true) }
 
     it 'should create a Attribute' do
       expect(attribute_value).to be_a Saml::Elements::AttributeValue

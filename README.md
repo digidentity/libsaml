@@ -100,7 +100,7 @@ class SamlController < ApplicationController
     provider = Saml.provider("my:very:original:entityid")
     destination = provider.single_sign_on_service_url(Saml::ProtocolBinding::HTTP_POST)
 
-    authn_request = Saml::AuthnRequest.new(:destination => destination)
+    authn_request = Saml::AuthnRequest.new(destination: destination)
 
     session[:authn_request_id] = authn_request._id
 

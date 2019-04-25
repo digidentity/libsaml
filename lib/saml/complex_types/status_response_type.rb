@@ -8,10 +8,10 @@ module Saml
       include RequestAbstractType
 
       included do
-        attribute :in_response_to, String, :tag => 'InResponseTo'
+        attribute :in_response_to, String, tag: 'InResponseTo'
         has_one :status, Saml::Elements::Status
 
-        validates :in_response_to, :status, :presence => true
+        validates :in_response_to, :status, presence: true
       end
 
       def initialize(*args)

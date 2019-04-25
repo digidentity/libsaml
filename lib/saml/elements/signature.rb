@@ -18,13 +18,13 @@ module Saml
       namespace 'ds'
 
       has_one :signed_info, SignedInfo
-      element :signature_value, String, :tag => "SignatureValue", :state_when_nil => true
+      element :signature_value, String, tag: "SignatureValue", state_when_nil: true
       has_one :key_info, KeyInfo
 
       def initialize(*args)
         super(*args)
         options      = args.extract_options!
-        @signed_info ||= SignedInfo.new(:uri => options.delete(:uri), :digest_value => options.delete(:digest_value))
+        @signed_info ||= SignedInfo.new(uri: options.delete(:uri), digest_value: options.delete(:digest_value))
       end
 
       def key_name

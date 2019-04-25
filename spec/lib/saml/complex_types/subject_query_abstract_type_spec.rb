@@ -35,7 +35,7 @@ describe Saml::ComplexTypes::SubjectQueryAbstractType do
 
   describe "parse" do
     let(:xml) { File.read(File.join('spec', 'fixtures', 'attribute_query.xml')) }
-    subject { Saml::Elements::AttributeQuery.parse(xml, :single => true) }
+    subject { Saml::Elements::AttributeQuery.parse(xml, single: true) }
 
     it "should parse the AttributeQuery" do
       expect(subject).to be_a(Saml::Elements::AttributeQuery)

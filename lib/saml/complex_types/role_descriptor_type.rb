@@ -9,15 +9,15 @@ module Saml
 
         PROTOCOL_SUPPORT_ENUMERATION = 'urn:oasis:names:tc:SAML:2.0:protocol' unless defined?(PROTOCOL_SUPPORT_ENUMERATION)
 
-        attribute :_id, String, :tag => 'ID'
-        attribute :valid_until, Time, :tag => 'validUntil'
-        attribute :cache_duration, String, :tag => 'cacheDuration'
-        attribute :protocol_support_enumeration, String, :tag => 'protocolSupportEnumeration'
-        attribute :error_url, String, :tag => 'errorURL'
+        attribute :_id, String, tag: 'ID'
+        attribute :valid_until, Time, tag: 'validUntil'
+        attribute :cache_duration, String, tag: 'cacheDuration'
+        attribute :protocol_support_enumeration, String, tag: 'protocolSupportEnumeration'
+        attribute :error_url, String, tag: 'errorURL'
 
         has_many :key_descriptors, Saml::Elements::KeyDescriptor
 
-        validates :protocol_support_enumeration, :presence => true, :inclusion => [PROTOCOL_SUPPORT_ENUMERATION]
+        validates :protocol_support_enumeration, presence: true, inclusion: [PROTOCOL_SUPPORT_ENUMERATION]
       end
 
       def initialize(*args)

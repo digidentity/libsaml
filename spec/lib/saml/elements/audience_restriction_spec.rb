@@ -47,7 +47,7 @@ describe Saml::Elements::AudienceRestriction do
 
   describe '#audience=' do
     let(:audience_restriction_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, :single => true) }
+    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, single: true) }
 
     it 'replaces the audience elements with the given element' do
       aggregate_failures do
@@ -65,7 +65,7 @@ describe Saml::Elements::AudienceRestriction do
 
   describe "#parse" do
     let(:audience_restriction_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, :single => true) }
+    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, single: true) }
 
     it "should create an AudienceRestriction" do
       expect(audience_restriction).to be_a(Saml::Elements::AudienceRestriction)

@@ -31,8 +31,8 @@ describe Saml::Elements::StatusCode do
   end
 
   describe "substatus" do
-    let(:status) { Saml::Elements::StatusCode.new(:value            => "urn:oasis:names:tc:SAML:2.0:status:Requester",
-                                                  :sub_status_value => "urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext") }
+    let(:status) { Saml::Elements::StatusCode.new(value: "urn:oasis:names:tc:SAML:2.0:status:Requester",
+                                                  sub_status_value: "urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext") }
     it "should allow a substatus" do
       expect(status.sub_status_code).not_to be_blank
     end
@@ -40,7 +40,7 @@ describe Saml::Elements::StatusCode do
 
   describe "parse" do
     let(:status_code_xml) { File.read(File.join('spec', 'fixtures', 'logout_response.xml')) }
-    let(:status_code) { Saml::Elements::StatusCode.parse(status_code_xml, :single => true) }
+    let(:status_code) { Saml::Elements::StatusCode.parse(status_code_xml, single: true) }
 
     it "should parse the StatusCode" do
       expect(status_code).to be_a(Saml::Elements::StatusCode)

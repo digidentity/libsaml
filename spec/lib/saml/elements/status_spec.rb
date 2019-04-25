@@ -18,7 +18,7 @@ describe Saml::Elements::Status do
 
   describe "parse" do
     let(:status_xml) { File.read(File.join('spec','fixtures','logout_response.xml')) }
-    let(:status) { Saml::Elements::Status.parse(status_xml, :single => true) }
+    let(:status) { Saml::Elements::Status.parse(status_xml, single: true) }
 
     it "should parse the Status" do
       expect(status).to be_a(Saml::Elements::Status)

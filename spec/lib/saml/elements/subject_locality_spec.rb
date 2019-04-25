@@ -20,7 +20,7 @@ describe Saml::Elements::SubjectLocality do
 
   describe "parse" do
     let(:subject_locality_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:subject_locality) { Saml::Elements::SubjectLocality.parse(subject_locality_xml, :single => true) }
+    let(:subject_locality) { Saml::Elements::SubjectLocality.parse(subject_locality_xml, single: true) }
 
     it "should parse the SubjectLocality" do
       expect(subject_locality).to be_a(Saml::Elements::SubjectLocality)

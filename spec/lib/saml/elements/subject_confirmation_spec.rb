@@ -18,7 +18,7 @@ describe Saml::Elements::SubjectConfirmation do
 
   describe "#parse" do
     let(:subject_confirmation_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:subject_confirmation) { Saml::Elements::SubjectConfirmation.parse(subject_confirmation_xml, :single => true) }
+    let(:subject_confirmation) { Saml::Elements::SubjectConfirmation.parse(subject_confirmation_xml, single: true) }
 
     it "should create a SubjectConfirmation" do
       expect(subject_confirmation).to be_a(Saml::Elements::SubjectConfirmation)
@@ -35,8 +35,8 @@ describe Saml::Elements::SubjectConfirmation do
 
   describe "initialize" do
     let(:subject_confirmation) do
-      Saml::Elements::SubjectConfirmation.new(:recipient      => "recipient",
-                                              :in_response_to => "in_response_to")
+      Saml::Elements::SubjectConfirmation.new(recipient: "recipient",
+                                              in_response_to: "in_response_to")
     end
 
     it "should set the audience restriction if audience is present" do

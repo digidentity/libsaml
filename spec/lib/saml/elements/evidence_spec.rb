@@ -21,7 +21,7 @@ describe Saml::Elements::Evidence do
 
  describe "parse" do
     let(:xml) { File.read(File.join('spec', 'fixtures', 'evidence.xml')) }
-    subject { Saml::Elements::Evidence.parse(xml, :single => true) }
+    subject { Saml::Elements::Evidence.parse(xml, single: true) }
 
     it "should parse the AttributeQuery" do
       expect(subject).to be_a(Saml::Elements::Evidence)

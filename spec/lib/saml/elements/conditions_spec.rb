@@ -21,7 +21,7 @@ describe Saml::Elements::Conditions do
 
   describe "parse" do
     let(:conditions_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:conditions) { Saml::Elements::Conditions.parse(conditions_xml, :single => true) }
+    let(:conditions) { Saml::Elements::Conditions.parse(conditions_xml, single: true) }
 
     it "should parse the StatusCode" do
       expect(conditions).to be_a(Saml::Elements::Conditions)
@@ -43,7 +43,7 @@ describe Saml::Elements::Conditions do
   describe "initialize" do
 
     it "should set the audience restriction if audience is present" do
-      condition = Saml::Elements::Conditions.new(:audience => "audience")
+      condition = Saml::Elements::Conditions.new(audience: "audience")
       expect(condition.audience_restriction.audience).to eq("audience")
     end
 

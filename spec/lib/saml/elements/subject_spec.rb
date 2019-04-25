@@ -123,7 +123,7 @@ describe Saml::Elements::Subject do
 
   describe "#parse" do
     let(:subject_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:subject) { Saml::Elements::Subject.parse(subject_xml, :single => true) }
+    let(:subject) { Saml::Elements::Subject.parse(subject_xml, single: true) }
 
     it "should create a Subject" do
       expect(subject).to be_a(Saml::Elements::Subject)

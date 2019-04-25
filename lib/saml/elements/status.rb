@@ -11,7 +11,7 @@ module Saml
 
       element :status_message, String, tag: 'StatusMessage'
 
-      validates :status_code, :presence => true
+      validates :status_code, presence: true
 
     end
   end

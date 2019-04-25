@@ -25,7 +25,7 @@ describe Saml::Response do
 
   describe "parse" do
     let(:response_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:response) { Saml::Response.parse(response_xml, :single => true) }
+    let(:response) { Saml::Response.parse(response_xml, single: true) }
 
     it "should parse the Response" do
       expect(response).to be_a(Saml::Response)
@@ -53,8 +53,8 @@ describe Saml::Response do
 
   describe 'authn_failed?' do
     it 'returns true if sub status is AUTHN_FAILED' do
-      status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
-                                                                                                  :sub_status_value => Saml::SubStatusCodes::AUTHN_FAILED))
+      status          = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER,
+                                                                                                  sub_status_value: Saml::SubStatusCodes::AUTHN_FAILED))
       response.status = status
       expect(response.authn_failed?).to be true
     end
@@ -66,8 +66,8 @@ describe Saml::Response do
 
   describe 'no_authn_context?' do
     it 'returns true if sub status is NO_AUTHN_CONTEXT' do
-      status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
-                                                                                                  :sub_status_value => Saml::SubStatusCodes::NO_AUTHN_CONTEXT))
+      status          = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER,
+                                                                                                  sub_status_value: Saml::SubStatusCodes::NO_AUTHN_CONTEXT))
       response.status = status
       expect(response.no_authn_context?).to be true
     end
@@ -79,8 +79,8 @@ describe Saml::Response do
 
   describe 'request_denied?' do
     it 'returns true if sub status is AUTHN_FAILED' do
-      status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
-                                                                                                  :sub_status_value => Saml::SubStatusCodes::REQUEST_DENIED))
+      status          = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER,
+                                                                                                  sub_status_value: Saml::SubStatusCodes::REQUEST_DENIED))
       response.status = status
       expect(response.request_denied?).to be true
     end

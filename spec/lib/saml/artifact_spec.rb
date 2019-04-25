@@ -69,7 +69,7 @@ describe Saml::Artifact, "with hex encoded attributes" do
 
   describe "#parse" do
     let(:artifact_xml) { File.read(File.join('spec','fixtures','artifact_resolve.xml')) }
-    let(:artifact) { Saml::Artifact.parse(artifact_xml, :single => true) }
+    let(:artifact) { Saml::Artifact.parse(artifact_xml, single: true) }
 
     it "should create an Artifact" do
       expect(artifact).to be_a(Saml::Artifact)

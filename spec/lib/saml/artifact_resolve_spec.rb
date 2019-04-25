@@ -35,7 +35,7 @@ describe Saml::ArtifactResolve do
   describe "#parse" do
 
     let(:artifact_resolve_xml) { File.read(File.join('spec','fixtures','artifact_resolve.xml')) }
-    let(:artifact_resolve) { Saml::ArtifactResolve.parse(artifact_resolve_xml, :single => true) }
+    let(:artifact_resolve) { Saml::ArtifactResolve.parse(artifact_resolve_xml, single: true) }
 
     it "should create an ArtifactResolve" do
       expect(artifact_resolve).to be_a(Saml::ArtifactResolve)
@@ -48,7 +48,7 @@ describe Saml::ArtifactResolve do
 
   describe ".to_xml" do
     let(:artifact_resolve_xml) { File.read(File.join('spec','fixtures','artifact_resolve.xml')) }
-    let(:artifact_resolve) { Saml::ArtifactResolve.parse(artifact_resolve_xml, :single => true) }
+    let(:artifact_resolve) { Saml::ArtifactResolve.parse(artifact_resolve_xml, single: true) }
     let(:new_artifact_resolve_xml) { artifact_resolve.to_xml }
     let(:new_artifact_resolve) { Saml::ArtifactResolve.parse(new_artifact_resolve_xml) }
 

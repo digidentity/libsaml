@@ -33,7 +33,7 @@ describe Saml::ComplexTypes::AttributeType do
 
   describe "#parse" do
     let(:attribute_type_xml) { File.read(File.join('spec','fixtures','attribute.xml')) }
-    let(:attribute_type) { Saml::Elements::Attribute.parse(attribute_type_xml, :single => true) }
+    let(:attribute_type) { Saml::Elements::Attribute.parse(attribute_type_xml, single: true) }
 
     it "should create an Attribute" do
       expect(attribute_type).to be_a(Saml::Elements::Attribute)
@@ -45,7 +45,7 @@ describe Saml::ComplexTypes::AttributeType do
 
     context 'with the attributes extension' do
       let(:attribute_xml) { File.read(File.join('spec','fixtures','attribute_with_attributes_extension.xml')) }
-      let(:attribute) { Saml::Elements::Attribute.parse(attribute_xml, :single => true) }
+      let(:attribute) { Saml::Elements::Attribute.parse(attribute_xml, single: true) }
 
       it "should create an Attribute" do
         expect(attribute).to be_a(Saml::Elements::Attribute)

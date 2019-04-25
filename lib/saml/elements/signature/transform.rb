@@ -7,7 +7,7 @@ module Saml
         tag "Transform"
         namespace 'ds'
 
-        attribute :algorithm, String, :tag => "Algorithm"
+        attribute :algorithm, String, tag: "Algorithm"
         has_one :inclusive_namespaces, InclusiveNamespaces
 
         def inclusive_namespaces

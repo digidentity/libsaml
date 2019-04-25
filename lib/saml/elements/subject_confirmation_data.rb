@@ -7,11 +7,11 @@ module Saml
       register_namespace 'saml', Saml::SAML_NAMESPACE
       namespace 'saml'
 
-      attribute :not_on_or_after, Time, :tag => "NotOnOrAfter", :on_save => lambda { |val| val.utc.xmlschema }
-      attribute :recipient, String, :tag => "Recipient"
-      attribute :in_response_to, String, :tag => "InResponseTo"
+      attribute :not_on_or_after, Time, tag: "NotOnOrAfter", on_save: lambda { |val| val.utc.xmlschema }
+      attribute :recipient, String, tag: "Recipient"
+      attribute :in_response_to, String, tag: "InResponseTo"
 
-      validates :not_on_or_after, :in_response_to, :recipient, :presence => true
+      validates :not_on_or_after, :in_response_to, :recipient, presence: true
 
       def initialize(*args)
         options = args.extract_options!

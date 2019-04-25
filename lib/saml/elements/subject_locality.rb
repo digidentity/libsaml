@@ -6,7 +6,7 @@ module Saml
       tag "SubjectLocality"
       namespace 'saml'
 
-      attribute :address, String, :tag => "Address"
+      attribute :address, String, tag: "Address"
     end
   end
 end

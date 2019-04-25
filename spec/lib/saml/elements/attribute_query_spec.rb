@@ -40,7 +40,7 @@ describe Saml::Elements::AttributeQuery do
 
   describe "parse" do
     let(:attribute_query_xml) { File.read(File.join('spec', 'fixtures', 'attribute_query.xml')) }
-    let(:attribute_query) { Saml::Elements::AttributeQuery.parse(attribute_query_xml, :single => true) }
+    let(:attribute_query) { Saml::Elements::AttributeQuery.parse(attribute_query_xml, single: true) }
 
     it "should parse the AttributeQuery" do
       expect(attribute_query).to be_a(Saml::Elements::AttributeQuery)

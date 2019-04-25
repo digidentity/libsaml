@@ -9,11 +9,11 @@ module Saml
       namespace 'ds'
       tag 'KeyInfo'
 
-      element :key_name, String, :namespace => 'ds', :tag => "KeyName"
+      element :key_name, String, namespace: 'ds', tag: "KeyName"
 
       has_one :x509Data, X509Data
 
-      validates :x509Data, :presence => true
+      validates :x509Data, presence: true
 
       def initialize(cert = nil)
         if cert

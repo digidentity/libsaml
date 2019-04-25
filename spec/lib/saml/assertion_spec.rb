@@ -74,7 +74,7 @@ describe Saml::Assertion do
 
   describe "parse" do
     let(:assertion_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:assertion) { Saml::Assertion.parse(assertion_xml, :single => true) }
+    let(:assertion) { Saml::Assertion.parse(assertion_xml, single: true) }
 
     it "should parse the Assertion" do
       expect(assertion).to be_a(Saml::Assertion)
@@ -135,22 +135,22 @@ describe Saml::Assertion do
 
   describe ".initialize" do
     it "should set the subject name id if name_id specified" do
-      assertion = Saml::Assertion.new(:name_id => "subject")
+      assertion = Saml::Assertion.new(name_id: "subject")
       expect(assertion.subject.name_id).to eq("subject")
     end
 
     it "should set the audience if the audience is specified" do
-      assertion = Saml::Assertion.new(:audience => "audience")
+      assertion = Saml::Assertion.new(audience: "audience")
       expect(assertion.conditions.audience_restriction.audience).to eq("audience")
     end
 
     it "should set the address if the specified" do
-      assertion = Saml::Assertion.new(:address => "127.0.0.1")
+      assertion = Saml::Assertion.new(address: "127.0.0.1")
       expect(assertion.authn_statement.subject_locality.address).to eq("127.0.0.1")
     end
 
     it "should set the address if the specified" do
-      assertion = Saml::Assertion.new(:authn_context_class_ref => "authn_context")
+      assertion = Saml::Assertion.new(authn_context_class_ref: "authn_context")
       expect(assertion.authn_statement.authn_context.authn_context_class_ref).to eq("authn_context")
     end
 

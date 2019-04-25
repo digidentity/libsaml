@@ -3,7 +3,7 @@ require "spec_helper"
 describe Saml::Elements::ServiceName do
 
   let(:value)        { "Service Name" }
-  let(:service_name) { described_class.new(:value => value) }
+  let(:service_name) { described_class.new(value: value) }
 
   describe ".to_xml" do
     it "should generate xml" do

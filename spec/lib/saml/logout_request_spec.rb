@@ -59,7 +59,7 @@ describe Saml::LogoutRequest do
 
   describe ".to_xml" do
     let(:logout_request_xml) { File.read(File.join('spec','fixtures','logout_request.xml')) }
-    let(:logout_request) { Saml::LogoutRequest.parse(logout_request_xml, :single => true) }
+    let(:logout_request) { Saml::LogoutRequest.parse(logout_request_xml, single: true) }
     let(:new_logout_request_xml) { logout_request.to_xml }
     let(:new_logout_request) { Saml::LogoutRequest.parse(new_logout_request_xml) }
 

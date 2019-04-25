@@ -24,7 +24,7 @@ describe Saml::ArtifactResponse do
   end
 
   describe "parse" do
-    let(:artifact_response) { Saml::ArtifactResponse.parse(artifact_response_xml, :single => true) }
+    let(:artifact_response) { Saml::ArtifactResponse.parse(artifact_response_xml, single: true) }
 
     context "when it contains a response" do
       let(:artifact_response_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
@@ -64,7 +64,7 @@ describe Saml::ArtifactResponse do
   end
 
   describe ".to_xml" do
-    let(:artifact_response) { Saml::ArtifactResponse.parse(artifact_response_xml, :single => true) }
+    let(:artifact_response) { Saml::ArtifactResponse.parse(artifact_response_xml, single: true) }
     let(:new_artifact_response_xml) { artifact_response.to_xml }
     let(:new_artifact_response) { Saml::ArtifactResponse.parse(new_artifact_response_xml) }
 

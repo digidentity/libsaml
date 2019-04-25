@@ -18,7 +18,7 @@ describe Saml::Elements::AuthnContext do
 
   describe "parse" do
     let(:authn_context_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:authn_context) { Saml::Elements::AuthnContext.parse(authn_context_xml, :single => true) }
+    let(:authn_context) { Saml::Elements::AuthnContext.parse(authn_context_xml, single: true) }
 
     it "should parse the AuthnContext" do
       expect(authn_context).to be_a(Saml::Elements::AuthnContext)

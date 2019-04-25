@@ -33,7 +33,7 @@ describe Saml::Elements::AuthnStatement do
 
   describe "parse" do
     let(:authn_statement_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:authn_statement) { Saml::Elements::AuthnStatement.parse(authn_statement_xml, :single => true) }
+    let(:authn_statement) { Saml::Elements::AuthnStatement.parse(authn_statement_xml, single: true) }
 
     it "should parse the AuthnStatement" do
       expect(authn_statement).to be_a(Saml::Elements::AuthnStatement)
@@ -58,12 +58,12 @@ describe Saml::Elements::AuthnStatement do
 
   describe "initialize" do
     it "should set the subject locality" do
-      authn_statement = Saml::Elements::AuthnStatement.new(:address => "127.0.0.1")
+      authn_statement = Saml::Elements::AuthnStatement.new(address: "127.0.0.1")
       expect(authn_statement.subject_locality.address).to eq("127.0.0.1")
     end
 
     it "should set the authn_context" do
-      authn_statement = Saml::Elements::AuthnStatement.new(:authn_context_class_ref => "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")
+      authn_statement = Saml::Elements::AuthnStatement.new(authn_context_class_ref: "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")
       expect(authn_statement.authn_context.authn_context_class_ref).to eq("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")
     end
   end

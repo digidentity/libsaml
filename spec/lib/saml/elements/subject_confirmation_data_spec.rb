@@ -18,7 +18,7 @@ describe Saml::Elements::SubjectConfirmationData do
 
   describe "#parse" do
     let(:subject_confirmation_data_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:subject_confirmation_data) { Saml::Elements::SubjectConfirmationData.parse(subject_confirmation_data_xml, :single => true) }
+    let(:subject_confirmation_data) { Saml::Elements::SubjectConfirmationData.parse(subject_confirmation_data_xml, single: true) }
 
     it "should create a SubjectConfirmation" do
       expect(subject_confirmation_data).to be_a(Saml::Elements::SubjectConfirmationData)

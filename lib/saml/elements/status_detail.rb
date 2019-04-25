@@ -6,7 +6,7 @@ module Saml
       tag "StatusDetail"
       namespace 'samlp'
 
-      element :status_value, String, :tag => 'StatusValue'
+      element :status_value, String, tag: 'StatusValue'
 
       def initialize(*args)
         options          = args.extract_options!

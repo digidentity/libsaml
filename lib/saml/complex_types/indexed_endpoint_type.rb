@@ -5,10 +5,10 @@ module Saml
       include EndpointType
 
       included do
-        attribute :index, Integer, :tag => "index"
-        attribute :is_default, XmlMapper::Boolean, :tag => "isDefault"
+        attribute :index, Integer, tag: "index"
+        attribute :is_default, XmlMapper::Boolean, tag: "isDefault"
 
-        validates :index, :presence => true
+        validates :index, presence: true
       end
     end
   end

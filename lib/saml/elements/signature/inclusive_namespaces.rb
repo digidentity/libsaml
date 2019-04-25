@@ -8,7 +8,7 @@ module Saml
         namespace 'ec'
         tag 'InclusiveNamespaces'
 
-        attribute :prefix_list, String, :tag => "PrefixList"
+        attribute :prefix_list, String, tag: "PrefixList"
 
         def initialize(*args)
           @prefix_list = Saml::Config.inclusive_namespaces_prefix_list

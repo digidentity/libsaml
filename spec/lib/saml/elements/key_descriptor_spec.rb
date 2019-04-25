@@ -6,7 +6,7 @@ describe Saml::Elements::KeyDescriptor do
   describe "certificate" do
     it "does not raise an error if the certificate is invalid" do
       expect {
-        described_class.new(:certificate => "invalid")
+        described_class.new(certificate: "invalid")
       }.not_to raise_error
     end
 

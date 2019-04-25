@@ -18,7 +18,7 @@ describe Saml::ComplexTypes::LocalizedNameType do
 
   describe "#parse" do
     let(:localized_name_type_xml) { File.read(File.join('spec','fixtures','metadata', 'identity_provider.xml')) }
-    let(:localized_name_type) { Saml::Elements::OrganizationName.parse(localized_name_type_xml, :single => true) }
+    let(:localized_name_type) { Saml::Elements::OrganizationName.parse(localized_name_type_xml, single: true) }
 
     it "should create a OrganizationName" do
       expect(localized_name_type).to be_a(Saml::Elements::OrganizationName)

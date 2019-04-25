@@ -34,8 +34,8 @@ module Saml
       builder = Nokogiri::XML::Builder.new
       body    = self.to_xml(builder)
 
-      builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8")
-      builder.Envelope(:'xmlns:soapenv' => "http://schemas.xmlsoap.org/soap/envelope/") do |xml|
+      builder = Nokogiri::XML::Builder.new(encoding: "UTF-8")
+      builder.Envelope('xmlns:soapenv': "http://schemas.xmlsoap.org/soap/envelope/") do |xml|
         xml.parent.namespace = xml.parent.namespace_definitions.find { |n| n.prefix == 'soapenv' }
 
         if header_options = options[:header]

@@ -9,11 +9,11 @@ module Saml
       tag 'EntityDescriptor'
       namespace 'md'
 
-      attribute :_id, String, :tag => 'ID'
-      attribute :name, String, :tag => "Name"
-      attribute :entity_id, String, :tag => "entityID"
-      attribute :valid_until, Time, :tag => "validUntil"
-      attribute :cache_duration, String, :tag => "cacheDuration"
+      attribute :_id, String, tag: 'ID'
+      attribute :name, String, tag: "Name"
+      attribute :entity_id, String, tag: "entityID"
+      attribute :valid_until, Time, tag: "validUntil"
+      attribute :cache_duration, String, tag: "cacheDuration"
 
       has_one :signature, Saml::Elements::Signature
 
@@ -26,7 +26,7 @@ module Saml
       has_one :organization, Saml::Elements::Organization
       has_many :contact_persons, Saml::Elements::ContactPerson
 
-      validates :entity_id, :presence => true
+      validates :entity_id, presence: true
 
       def initialize(*args)
         super(*args)

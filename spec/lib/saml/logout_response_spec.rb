@@ -16,8 +16,8 @@ describe Saml::LogoutResponse do
 
   describe 'partial_logout?' do
     it 'returns true if sub status is PARTIAL_LOGOUT' do
-      status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
-                                                                                                  :sub_status_value => Saml::SubStatusCodes::PARTIAL_LOGOUT))
+      status          = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER,
+                                                                                                  sub_status_value: Saml::SubStatusCodes::PARTIAL_LOGOUT))
       response.status = status
       expect(response.partial_logout?).to be_truthy
     end

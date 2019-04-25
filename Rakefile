@@ -29,4 +29,4 @@ RSpec::Core::RakeTask.new(:core) do |spec|
   spec.rspec_opts = ['--backtrace']
 end
 
-task :default => [:core]
+task default: [:core]

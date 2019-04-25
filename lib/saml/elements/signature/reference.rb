@@ -8,10 +8,10 @@ module Saml
         register_namespace 'ds', Saml::XML_DSIG_NAMESPACE
         namespace 'ds'
 
-        attribute :uri, String, :tag => "URI"
+        attribute :uri, String, tag: "URI"
         element :transforms, Transforms
         element :digest_method, DigestMethod
-        element :digest_value, String, :tag => "DigestValue", :state_when_nil => true
+        element :digest_value, String, tag: "DigestValue", state_when_nil: true
 
         def initialize(*args)
           @transforms    = Transforms.new
