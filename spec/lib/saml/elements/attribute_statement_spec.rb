@@ -14,41 +14,41 @@ describe Saml::Elements::AttributeStatement do
   describe "Optional fields" do
     [:attributes, :encrypted_attributes].each do |field|
       it "should have the #{field} field" do
-        attribute_statement.should respond_to(field)
+        expect(attribute_statement).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         attribute_statement.send("#{field}=", nil)
-        attribute_statement.should be_valid
+        expect(attribute_statement).to be_valid
         attribute_statement.send("#{field}=", "")
-        attribute_statement.should be_valid
+        expect(attribute_statement).to be_valid
       end
     end
   end
 
   describe '#parse' do
     it 'should create a AttributeStatement' do
-      attribute_statement.should be_a(Saml::Elements::AttributeStatement)
+      expect(attribute_statement).to be_a(Saml::Elements::AttributeStatement)
     end
 
     it 'should parse attribute' do
-      attribute_statement.attributes.first.should be_a(Saml::Elements::Attribute)
+      expect(attribute_statement.attributes.first).to be_a(Saml::Elements::Attribute)
     end
 
     it 'should parse encrypted attributes' do
-      attribute_statement.encrypted_attributes.first.should be_a Saml::Elements::EncryptedAttribute
+      expect(attribute_statement.encrypted_attributes.first).to be_a Saml::Elements::EncryptedAttribute
     end
   end
 
   describe '#fetch_attribute' do
     it 'returns the attribute value content' do
-      attribute_statement.fetch_attribute('urn:ServiceID').should == '1'
+      expect(attribute_statement.fetch_attribute('urn:ServiceID')).to eq('1')
     end
   end
 
   describe '#fetch_attribute_value' do
     it 'returns the attribute value' do
-      attribute_statement.fetch_attribute_value('urn:ServiceID').content.should == '1'
+      expect(attribute_statement.fetch_attribute_value('urn:ServiceID').content).to eq('1')
     end
   end
 end

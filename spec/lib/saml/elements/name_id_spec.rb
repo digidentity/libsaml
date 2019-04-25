@@ -3,22 +3,22 @@ require "spec_helper"
 describe Saml::Elements::NameId do
 
   it "has a tag" do
-    described_class.tag_name.should eq "NameID"
+    expect(described_class.tag_name).to eq "NameID"
   end
 
   it "has a namespace" do
-    described_class.namespace.should eq "saml"
+    expect(described_class.namespace).to eq "saml"
   end
 
   describe "optional fields" do
     [:format, :name_qualifier].each do |field|
       it "responds the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "allows #{field} to blank" do
         subject.send("#{field}=", nil)
-        subject.should be_valid
+        expect(subject).to be_valid
       end
     end
   end

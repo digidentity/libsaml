@@ -29,12 +29,12 @@ describe Saml::Elements::KeyDescriptor do
   describe "Required fields" do
     [:certificate].each do |field|
       it "should have the #{field} field" do
-        key_descriptor.should respond_to(field)
+        expect(key_descriptor).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         key_descriptor.send("#{field}=", nil)
-        key_descriptor.should_not be_valid
+        expect(key_descriptor).not_to be_valid
       end
     end
   end
@@ -42,12 +42,12 @@ describe Saml::Elements::KeyDescriptor do
   describe "Optional fields" do
     [:use].each do |field|
       it "should have the #{field} field" do
-        key_descriptor.should respond_to(field)
+        expect(key_descriptor).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         key_descriptor.send("#{field}=", nil)
-        key_descriptor.should be_valid
+        expect(key_descriptor).to be_valid
       end
     end
   end

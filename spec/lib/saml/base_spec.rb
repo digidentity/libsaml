@@ -42,7 +42,7 @@ describe BaseDummy do
     end
 
     it 'sets the from_xml flag' do
-      BaseDummy.parse('<tag></tag>', single: true).from_xml?.should be true
+      expect(BaseDummy.parse('<tag></tag>', single: true).from_xml?).to be true
     end
 
     it 'raises an error if the message cannot be parsed' do
@@ -58,7 +58,7 @@ describe BaseDummy do
     end
 
     it 'raises an error when a method does not exist' do
-      ActiveSupport::XmlMini_REXML.should_receive(:parse).and_raise(NoMethodError)
+      expect(ActiveSupport::XmlMini_REXML).to receive(:parse).and_raise(NoMethodError)
       expect {
         BaseDummy.parse('unknown')
       }.to raise_error(Saml::Errors::UnparseableMessage)

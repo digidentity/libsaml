@@ -6,12 +6,12 @@ describe Saml::Elements::EntityDescriptor do
   describe "Required fields" do
     [:entity_id].each do |field|
       it "should have the #{field} field" do
-        entity_descriptor.should respond_to(field)
+        expect(entity_descriptor).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         entity_descriptor.send("#{field}=", nil)
-        entity_descriptor.should_not be_valid
+        expect(entity_descriptor).not_to be_valid
       end
     end
   end
@@ -20,12 +20,12 @@ describe Saml::Elements::EntityDescriptor do
     [:valid_until, :cache_duration, :name, :extensions, :organization, :contact_persons,
      :sp_sso_descriptor, :idp_sso_descriptor, :attribute_authority_descriptor].each do |field|
       it "should have the #{field} field" do
-        entity_descriptor.should respond_to(field)
+        expect(entity_descriptor).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         entity_descriptor.send("#{field}=", nil)
-        entity_descriptor.should be_valid
+        expect(entity_descriptor).to be_valid
       end
     end
 
@@ -33,7 +33,7 @@ describe Saml::Elements::EntityDescriptor do
       let(:xml)     { File.read('spec/fixtures/provider_with_cache_duration.xml') }
 
       it "casts the cache_duration to a String" do
-        described_class.parse(xml, single: true).cache_duration.should be_a String
+        expect(described_class.parse(xml, single: true).cache_duration).to be_a String
       end
     end
   end

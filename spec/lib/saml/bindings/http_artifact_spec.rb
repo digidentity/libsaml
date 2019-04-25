@@ -19,7 +19,7 @@ describe Saml::Bindings::HTTPArtifact do
   describe ".create_response_xml" do
 
     it "signs the response xml" do
-      Saml::ArtifactResponse.parse(response_xml, single: true).signature.signature_value.should_not be_empty
+      expect(Saml::ArtifactResponse.parse(response_xml, single: true).signature.signature_value).not_to be_empty
     end
 
     it 'creates a notification' do
@@ -29,11 +29,11 @@ describe Saml::Bindings::HTTPArtifact do
 
   describe '.create_response' do
     it 'returns the response xml' do
-      response[:xml].should == response_xml
+      expect(response[:xml]).to eq(response_xml)
     end
 
     it 'returns the content type' do
-      response[:content_type].should == "text/xml"
+      expect(response[:content_type]).to eq("text/xml")
     end
   end
 
@@ -41,13 +41,13 @@ describe Saml::Bindings::HTTPArtifact do
     context "with relay state" do
       it "creates a artifact url given a location and an artifact" do
         url = described_class.create_url("http://www.example.com/artifact", artifact, relay_state: "http://relay.example.com")
-        url.should == "http://www.example.com/artifact?SAMLart=#{CGI.escape(artifact.to_s)}&RelayState=#{CGI.escape("http://relay.example.com")}"
+        expect(url).to eq("http://www.example.com/artifact?SAMLart=#{CGI.escape(artifact.to_s)}&RelayState=#{CGI.escape("http://relay.example.com")}")
       end
     end
     context "without relay state" do
       it "creates a artifact url given a location and an artifact" do
         url = described_class.create_url("http://www.example.com/artifact?param=value", artifact)
-        url.should == "http://www.example.com/artifact?param=value&SAMLart=#{CGI.escape(artifact.to_s)}"
+        expect(url).to eq("http://www.example.com/artifact?param=value&SAMLart=#{CGI.escape(artifact.to_s)}")
       end
     end
   end
@@ -62,15 +62,15 @@ describe Saml::Bindings::HTTPArtifact do
     let(:message) { described_class.receive_message(request) }
 
     it "returns an artifact resolve" do
-      message.should be_a(Saml::ArtifactResolve)
+      expect(message).to be_a(Saml::ArtifactResolve)
     end
 
     it "verifies the signature in the artifact resolve" do
-      message.errors[:signature].should == []
+      expect(message.errors[:signature]).to eq([])
     end
 
     it "adds an error if the signature is invalid" do
-      Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
+      allow_any_instance_of(Saml::BasicProvider).to receive(:verify).and_return(false)
       expect { message }.to raise_error(Saml::Errors::SignatureInvalid)
     end
 
@@ -85,7 +85,7 @@ describe Saml::Bindings::HTTPArtifact do
 
     context 'notifications' do
       it 'creates a notification' do
-        Net::HTTP.any_instance.should_receive(:request) do |request|
+        expect_any_instance_of(Net::HTTP).to receive(:request) do |request|
           @request = request
           double(:response, code: "200", body: response_xml)
         end
@@ -98,7 +98,7 @@ describe Saml::Bindings::HTTPArtifact do
 
     context "with valid response" do
       before :each do
-        Net::HTTP.any_instance.should_receive(:request) do |request|
+        expect_any_instance_of(Net::HTTP).to receive(:request) do |request|
           @request = request
           double(:response, code: "200", body: response_xml)
         end
@@ -107,36 +107,36 @@ describe Saml::Bindings::HTTPArtifact do
 
       it "creates a signed artifact_resolve message" do
         artifact_resolve = Saml::ArtifactResolve.parse(@request.body, single: true)
-        artifact_resolve.should be_a(Saml::ArtifactResolve)
+        expect(artifact_resolve).to be_a(Saml::ArtifactResolve)
       end
 
       it "signs the artifact resolve" do
         artifact_resolve = Saml::ArtifactResolve.parse(@request.body, single: true)
-        artifact_resolve.signature.signature_value.should_not be_blank
+        expect(artifact_resolve.signature.signature_value).not_to be_blank
       end
 
       it "sends the artifact_resolve to the identity provider" do
         uri = URI.parse(identity_provider.artifact_resolution_service_url)
-        Net::HTTP.should_receive(:new).with(uri.host, uri.port, :ENV, nil, nil, nil).and_return double.as_null_object
+        expect(Net::HTTP).to receive(:new).with(uri.host, uri.port, :ENV, nil, nil, nil).and_return double.as_null_object
         described_class.resolve(request, identity_provider.artifact_resolution_service_url)
-        @request.path.should == "/sso/resolve_artifact"
+        expect(@request.path).to eq("/sso/resolve_artifact")
       end
 
       it "returns the response" do
-        @artifact_response.should be_a(Saml::Response)
+        expect(@artifact_response).to be_a(Saml::Response)
       end
     end
 
     context "with invalid response" do
       before :each do
-        Net::HTTP.any_instance.should_receive(:request) do |request|
+        expect_any_instance_of(Net::HTTP).to receive(:request) do |request|
           @request = request
           double(:response, code: "200", body: response_xml)
         end
       end
 
       it "adds an error if the signature is invalid" do
-        Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
+        expect(Saml::Util).to receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
         expect {
           described_class.resolve(request, identity_provider.artifact_resolution_service_url)
         }.to raise_error(Saml::Errors::SignatureInvalid)

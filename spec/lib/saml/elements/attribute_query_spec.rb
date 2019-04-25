@@ -5,12 +5,12 @@ describe Saml::Elements::AttributeQuery do
   describe "Required fields" do
     [:_id, :version, :issue_instant, :subject].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         subject.send("#{field}=", nil)
-        subject.should_not be_valid
+        expect(subject).not_to be_valid
       end
     end
   end
@@ -18,24 +18,24 @@ describe Saml::Elements::AttributeQuery do
   describe "Optional fields" do
     [:destination, :issuer, :attributes].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         subject.send("#{field}=", nil)
         subject.valid?
-        subject.errors.entries.should == []
+        expect(subject.errors.entries).to eq([])
         subject.send("#{field}=", "")
         subject.valid?
-        subject.errors.entries.should == []
+        expect(subject.errors.entries).to eq([])
       end
     end
   end
 
   it "includes the complex type AttributeQueryType" do
-    described_class.ancestors.should include Saml::ComplexTypes::AttributeQueryType
-    described_class.ancestors.should include Saml::ComplexTypes::SubjectQueryAbstractType
-    described_class.ancestors.should include Saml::ComplexTypes::RequestAbstractType
+    expect(described_class.ancestors).to include Saml::ComplexTypes::AttributeQueryType
+    expect(described_class.ancestors).to include Saml::ComplexTypes::SubjectQueryAbstractType
+    expect(described_class.ancestors).to include Saml::ComplexTypes::RequestAbstractType
   end
 
   describe "parse" do

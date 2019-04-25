@@ -6,12 +6,12 @@ describe Saml::ComplexTypes::RoleDescriptorType do
   describe 'required fields' do
     [:protocol_support_enumeration].each do |field|
       it "should have the #{field} field" do
-        role_descriptor.should respond_to(field)
+        expect(role_descriptor).to respond_to(field)
       end
 
       it 'should check the presence of #{field}' do
         role_descriptor.send("#{field}=", nil)
-        role_descriptor.should_not be_valid
+        expect(role_descriptor).not_to be_valid
       end
     end
   end
@@ -19,12 +19,12 @@ describe Saml::ComplexTypes::RoleDescriptorType do
   describe 'optional fields' do
     [:_id, :valid_until, :cache_duration, :error_url, :key_descriptors].each do |field|
       it "should have the #{field} field" do
-        role_descriptor.should respond_to(field)
+        expect(role_descriptor).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         role_descriptor.send("#{field}=", nil)
-        role_descriptor.should be_valid
+        expect(role_descriptor).to be_valid
       end
     end
 
@@ -33,15 +33,15 @@ describe Saml::ComplexTypes::RoleDescriptorType do
 
       context 'casts the cache_duration to a String' do
         it 'sp_sso_descriptor' do
-          Saml::Elements::SPSSODescriptor.parse(xml, single: true).cache_duration.should be_a String
+          expect(Saml::Elements::SPSSODescriptor.parse(xml, single: true).cache_duration).to be_a String
         end
 
         it 'idp_sso_descriptor' do
-          Saml::Elements::IDPSSODescriptor.parse(xml, single: true).cache_duration.should be_a String
+          expect(Saml::Elements::IDPSSODescriptor.parse(xml, single: true).cache_duration).to be_a String
         end
 
         it 'attribute_authority_descriptor' do
-          Saml::Elements::AttributeAuthorityDescriptor.parse(xml, single: true).cache_duration.should be_a String
+          expect(Saml::Elements::AttributeAuthorityDescriptor.parse(xml, single: true).cache_duration).to be_a String
         end
       end
     end
@@ -64,13 +64,13 @@ describe Saml::ComplexTypes::RoleDescriptorType do
 
     context 'when a key name is specified' do
       it 'finds the key descriptor by the specified key name and use' do
-        role_descriptor.find_key_descriptor('key', 'signing').should be_a Saml::Elements::KeyDescriptor
+        expect(role_descriptor.find_key_descriptor('key', 'signing')).to be_a Saml::Elements::KeyDescriptor
       end
     end
 
     context 'when a key name is not specified' do
       it 'finds the key descriptor by use' do
-        role_descriptor.find_key_descriptor(nil, 'encryption').should be_a Saml::Elements::KeyDescriptor
+        expect(role_descriptor.find_key_descriptor(nil, 'encryption')).to be_a Saml::Elements::KeyDescriptor
       end
 
       context 'when use is not specified' do
@@ -79,7 +79,7 @@ describe Saml::ComplexTypes::RoleDescriptorType do
         end
 
         it 'finds the default key descriptor' do
-          role_descriptor.find_key_descriptor(nil, 'signing').should be_a Saml::Elements::KeyDescriptor
+          expect(role_descriptor.find_key_descriptor(nil, 'signing')).to be_a Saml::Elements::KeyDescriptor
         end
       end
     end
@@ -96,7 +96,7 @@ describe Saml::ComplexTypes::RoleDescriptorType do
       end
 
       it "returns the first key descriptor even if use and keyname are requested" do
-        role_descriptor.find_key_descriptor('key', 'signing').should eq key_descriptor
+        expect(role_descriptor.find_key_descriptor('key', 'signing')).to eq key_descriptor
       end
     end
 
@@ -112,7 +112,7 @@ describe Saml::ComplexTypes::RoleDescriptorType do
       end
 
       it "returns the first key descriptor even if use and keyname are requested" do
-        role_descriptor.find_key_descriptor('key', 'signing').should eq key_descriptor
+        expect(role_descriptor.find_key_descriptor('key', 'signing')).to eq key_descriptor
       end
     end
   end

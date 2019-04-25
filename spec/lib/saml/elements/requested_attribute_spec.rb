@@ -4,13 +4,13 @@ describe Saml::Elements::RequestedAttribute do
   let(:requested_attribute) { FactoryBot.build :requested_attribute }
 
   it "includes the complex type AttributeType" do
-    described_class.ancestors.should include Saml::ComplexTypes::AttributeType
+    expect(described_class.ancestors).to include Saml::ComplexTypes::AttributeType
   end
 
   describe "Optional fields" do
     [:is_required].each do |field|
       it "should have the #{field} field" do
-        requested_attribute.should respond_to(field)
+        expect(requested_attribute).to respond_to(field)
       end
     end
   end

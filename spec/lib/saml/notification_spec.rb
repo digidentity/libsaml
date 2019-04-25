@@ -25,28 +25,28 @@ describe Saml::Notification do
     let(:payload) { @result.try(:last) }
 
     it 'it allows a method to be wrapped with a notification' do
-      subject.notify_on.should == [:class_method, :instance_method]
+      expect(subject.notify_on).to eq [:class_method, :instance_method]
     end
 
     it 'creates a notification when a wrapped instance method is called' do
       ActiveSupport::Notifications.subscribed callback, 'instance_method.notification_dummy.saml' do
         NotificationDummy.new.instance_method('instance_method')
       end
-      payload.should == 'instance_method'
+      expect(payload).to eq 'instance_method'
     end
 
     it 'creates a notification when a wrapped class method is called' do
       ActiveSupport::Notifications.subscribed callback, 'class_method.notification_dummy.saml' do
         NotificationDummy.class_method('class_method')
       end
-      payload.should == 'class_method'
+      expect(payload).to eq 'class_method'
     end
 
     it 'does not create a notification when a normal method is called' do
       ActiveSupport::Notifications.subscribed callback do
         NotificationDummy.new.without_notification('without_notification')
       end
-      payload.should be_blank
+      expect(payload).to be_blank
     end
 
   end

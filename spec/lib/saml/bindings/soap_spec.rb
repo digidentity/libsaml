@@ -11,7 +11,7 @@ describe Saml::Bindings::SOAP do
 
   describe ".create_response_xml" do
     it "signs the response xml" do
-      Saml::LogoutResponse.parse(response_xml, single: true).signature.signature_value.should_not be_empty
+      expect(Saml::LogoutResponse.parse(response_xml, single: true).signature.signature_value).not_to be_empty
     end
 
     it 'creates a notification' do
@@ -25,7 +25,7 @@ describe Saml::Bindings::SOAP do
 
     it 'creates a notification' do
       expect {
-        Net::HTTP.any_instance.should_receive(:request) do |request|
+        expect_any_instance_of(Net::HTTP).to receive(:request) do |request|
           @request = request
           double(:response, code: "200", body: response_xml)
         end
@@ -35,7 +35,7 @@ describe Saml::Bindings::SOAP do
 
     context "with valid response" do
       before :each do
-        Net::HTTP.any_instance.should_receive(:request) do |request|
+        expect_any_instance_of(Net::HTTP).to receive(:request) do |request|
           @request = request
           double(:response, code: "200", body: response_xml)
         end
@@ -44,40 +44,40 @@ describe Saml::Bindings::SOAP do
 
       it "creates a signed logout_request message" do
         logout_request = Saml::LogoutRequest.parse(@request.body, single: true)
-        logout_request.should be_a(Saml::LogoutRequest)
+        expect(logout_request).to be_a(Saml::LogoutRequest)
       end
 
       it "signs the artifact resolve" do
         logout_request = Saml::LogoutRequest.parse(@request.body, single: true)
-        logout_request.signature.signature_value.should_not be_blank
+        expect(logout_request.signature.signature_value).not_to be_blank
       end
 
       it "verifies the signature in the artifact response" do
-        @logout_response.errors[:signature].should == []
+        expect(@logout_response.errors[:signature]).to eq([])
       end
 
       it "sends the logout_request to the request destination" do
         uri = URI.parse(logout_request.destination)
-        Net::HTTP.should_receive(:new).with(uri.host, uri.port, :ENV, nil, nil, nil).and_return double.as_null_object
+        expect(Net::HTTP).to receive(:new).with(uri.host, uri.port, :ENV, nil, nil, nil).and_return double.as_null_object
         described_class.post_message(logout_request, :logout_response)
-        @request.path.should == "/logout"
+        expect(@request.path).to eq("/logout")
       end
 
       it "returns the logout_response" do
-        @logout_response.should be_a(Saml::LogoutResponse)
+        expect(@logout_response).to be_a(Saml::LogoutResponse)
       end
     end
 
     context "with invalid signature" do
       before :each do
-        Net::HTTP.any_instance.should_receive(:request) do |request|
+        expect_any_instance_of(Net::HTTP).to receive(:request) do |request|
           @request = request
           double(:request, code: "200", body: response_xml)
         end
       end
 
       it "adds an error if the signature is invalid" do
-        Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
+        expect(Saml::Util).to receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
         expect {
           described_class.post_message(logout_request, :logout_response)
         }.to raise_error(Saml::Errors::SignatureInvalid)
@@ -91,17 +91,17 @@ describe Saml::Bindings::SOAP do
 
     context "with valid signature" do
       it "returns a logout request" do
-        response.should be_a(Saml::LogoutRequest)
+        expect(response).to be_a(Saml::LogoutRequest)
       end
 
       it "verifies the signature in the artifact response" do
-        response.errors[:signature].should == []
+        expect(response.errors[:signature]).to eq([])
       end
     end
 
     context "with invalid signature" do
       it "adds an error if the signature is invalid" do
-        Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
+        expect(Saml::Util).to receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
         expect {
           response
         }.to raise_error(Saml::Errors::SignatureInvalid)

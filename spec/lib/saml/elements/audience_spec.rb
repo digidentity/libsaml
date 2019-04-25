@@ -7,7 +7,7 @@ describe Saml::Elements::Audience do
 
   describe '.to_xml' do
     it "should generate xml" do
-      subject.to_xml.should eq "<?xml version=\"1.0\"?>\n<Audience>Audience</Audience>\n"
+      expect(subject.to_xml).to eq "<?xml version=\"1.0\"?>\n<Audience>Audience</Audience>\n"
     end
   end
 

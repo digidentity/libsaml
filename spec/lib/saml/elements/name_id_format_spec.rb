@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Saml::Elements::NameIdFormat do
 
   it 'has a tag' do
-    described_class.tag_name.should eq 'NameIDFormat'
+    expect(described_class.tag_name).to eq 'NameIDFormat'
   end
 
   it 'has a namespace' do
-    described_class.namespace.should eq 'md'
+    expect(described_class.namespace).to eq 'md'
   end
 
 end

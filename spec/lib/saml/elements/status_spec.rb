@@ -6,12 +6,12 @@ describe Saml::Elements::Status do
   describe "Required fields" do
     [:status_code].each do |field|
       it "should have the #{field} field" do
-        status.should respond_to(field)
+        expect(status).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         status.send("#{field}=", nil)
-        status.should_not be_valid
+        expect(status).not_to be_valid
       end
     end
   end
@@ -21,15 +21,15 @@ describe Saml::Elements::Status do
     let(:status) { Saml::Elements::Status.parse(status_xml, :single => true) }
 
     it "should parse the Status" do
-      status.should be_a(Saml::Elements::Status)
+      expect(status).to be_a(Saml::Elements::Status)
     end
 
     it "should parse the StatusCode" do
-      status.status_code.should be_a(Saml::Elements::StatusCode)
+      expect(status.status_code).to be_a(Saml::Elements::StatusCode)
     end
 
     it "should parse the StatusDetail" do
-      status.status_detail.should be_a(Saml::Elements::StatusDetail)
+      expect(status.status_detail).to be_a(Saml::Elements::StatusDetail)
     end
 
     it 'should parse the StatusMessage' do

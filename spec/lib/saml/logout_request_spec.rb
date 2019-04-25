@@ -4,7 +4,7 @@ describe Saml::LogoutRequest do
   let(:logout_request) { build(:logout_request) }
 
   it "Should be a RequestAbstractType" do
-    Saml::LogoutRequest.ancestors.should include Saml::ComplexTypes::RequestAbstractType
+    expect(Saml::LogoutRequest.ancestors).to include Saml::ComplexTypes::RequestAbstractType
   end
 
   it 'responds to xml_value' do
@@ -14,14 +14,14 @@ describe Saml::LogoutRequest do
   describe "Optional fields" do
     [:not_on_or_after, :session_index].each do |field|
       it "should have the #{field} field" do
-        logout_request.should respond_to(field)
+        expect(logout_request).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         logout_request.send("#{field}=", nil)
-        logout_request.should be_valid
+        expect(logout_request).to be_valid
         logout_request.send("#{field}=", "")
-        logout_request.should be_valid
+        expect(logout_request).to be_valid
       end
     end
   end
@@ -29,12 +29,12 @@ describe Saml::LogoutRequest do
   describe "Required fields" do
     [:name_id].each do |field|
       it "should have the #{field} field" do
-        logout_request.should respond_to(field)
+        expect(logout_request).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         logout_request.send("#{field}=", nil)
-        logout_request.should_not be_valid
+        expect(logout_request).not_to be_valid
       end
     end
   end
@@ -45,15 +45,15 @@ describe Saml::LogoutRequest do
     let(:logout_request) { Saml::LogoutRequest.parse(logout_request_xml) }
 
     it "should create an LogoutRequest" do
-      logout_request.should be_a(Saml::LogoutRequest)
+      expect(logout_request).to be_a(Saml::LogoutRequest)
     end
 
     it "should parse name_id" do
-      logout_request.name_id.should == "s00000000:123456789"
+      expect(logout_request.name_id).to eq("s00000000:123456789")
     end
 
     it "should parse session_index" do
-      logout_request.session_index.should == "123456789123456789123456789123456789"
+      expect(logout_request.session_index).to eq("123456789123456789123456789123456789")
     end
   end
 
@@ -64,7 +64,7 @@ describe Saml::LogoutRequest do
     let(:new_logout_request) { Saml::LogoutRequest.parse(new_logout_request_xml) }
 
     it "should generate a parseable XML document" do
-      new_logout_request.should be_a(Saml::LogoutRequest)
+      expect(new_logout_request).to be_a(Saml::LogoutRequest)
     end
   end
 end

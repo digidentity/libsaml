@@ -7,7 +7,7 @@ describe Saml::Elements::ServiceName do
 
   describe ".to_xml" do
     it "should generate xml" do
-      service_name.to_xml.should eq "<?xml version=\"1.0\"?>\n<md:ServiceName xmlns:md=\"urn:oasis:names:tc:SAML:2.0:metadata\">#{value}</md:ServiceName>\n"
+      expect(service_name.to_xml).to eq "<?xml version=\"1.0\"?>\n<md:ServiceName xmlns:md=\"urn:oasis:names:tc:SAML:2.0:metadata\">#{value}</md:ServiceName>\n"
     end
   end
 

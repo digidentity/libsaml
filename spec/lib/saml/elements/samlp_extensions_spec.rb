@@ -7,22 +7,22 @@ describe Saml::Elements::SAMLPExtensions do
   end
 
   it "has a tag" do
-    described_class.tag_name.should eq "Extensions"
+    expect(described_class.tag_name).to eq "Extensions"
   end
 
   it "has a namespace" do
-    described_class.namespace.should eq "samlp"
+    expect(described_class.namespace).to eq "samlp"
   end
 
   describe "optional fields" do
     [:attributes].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         subject.send("#{field}=", nil)
-        subject.should be_valid
+        expect(subject).to be_valid
       end
     end
   end

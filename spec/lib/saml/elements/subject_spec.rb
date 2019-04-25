@@ -56,12 +56,12 @@ describe Saml::Elements::Subject do
   describe "Required fields" do
     [:subject_confirmations].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         subject.send("#{field}=", nil)
-        subject.should have(1).error_on(field)
+        expect(subject).to have(1).error_on(field)
       end
     end
   end
@@ -126,15 +126,15 @@ describe Saml::Elements::Subject do
     let(:subject) { Saml::Elements::Subject.parse(subject_xml, :single => true) }
 
     it "should create a Subject" do
-      subject.should be_a(Saml::Elements::Subject)
+      expect(subject).to be_a(Saml::Elements::Subject)
     end
 
     it "should parse name_id" do
-      subject.name_id.should == "s00000000:123456789"
+      expect(subject.name_id).to eq("s00000000:123456789")
     end
 
     it "should parse name_id_format" do
-      subject.name_id_format.should == "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+      expect(subject.name_id_format).to eq("urn:oasis:names:tc:SAML:2.0:nameid-format:persistent")
     end
   end
 end

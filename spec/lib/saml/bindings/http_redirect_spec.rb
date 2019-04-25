@@ -29,7 +29,7 @@ describe Saml::Bindings::HTTPRedirect do
     end
 
     it "parses the url from the destination" do
-      url.should start_with("http://example.com/sso")
+      expect(url).to start_with("http://example.com/sso")
     end
 
     it "uses the correct delimiter when there are existing parameters in the destination URL" do
@@ -45,7 +45,7 @@ describe Saml::Bindings::HTTPRedirect do
 
     context "with a request message" do
       it "adds the object param" do
-        params["SAMLRequest"].should == CGI.escape(described_class.new(authn_request).send(:encoded_message))
+        expect(params["SAMLRequest"]).to eq(CGI.escape(described_class.new(authn_request).send(:encoded_message)))
       end
     end
 
@@ -57,24 +57,24 @@ describe Saml::Bindings::HTTPRedirect do
       end
 
       it "adds the object param" do
-        params["SAMLResponse"].should == CGI.escape(described_class.new(logout_response).send(:encoded_message))
+        expect(params["SAMLResponse"]).to eq(CGI.escape(described_class.new(logout_response).send(:encoded_message)))
       end
     end
 
     it "adds the relay state" do
-      params["RelayState"].should == CGI.escape("https//example.com/relay")
+      expect(params["RelayState"]).to eq(CGI.escape("https//example.com/relay"))
     end
 
     it "adds the signature algorithm" do
-      params["SigAlg"].should == CGI.escape("http://www.w3.org/2000/09/xmldsig#rsa-sha1")
+      expect(params["SigAlg"]).to eq(CGI.escape("http://www.w3.org/2000/09/xmldsig#rsa-sha1"))
     end
 
     # NOTE The xmlmapper gem will order XML namespaces differently under JRuby and MRI
     it "adds the signature" do
       if RUBY_ENGINE == 'jruby'
-        params["Signature"].should == sha1_signature_jruby
+        expect(params["Signature"]).to eq(sha1_signature_jruby)
       else
-        params["Signature"].should == sha1_signature_mri
+        expect(params["Signature"]).to eq(sha1_signature_mri)
       end
     end
 
@@ -86,15 +86,15 @@ describe Saml::Bindings::HTTPRedirect do
       end
 
       it "sets the signature algorithm" do
-        params["SigAlg"].should == CGI.escape("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256")
+        expect(params["SigAlg"]).to eq(CGI.escape("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"))
       end
 
       # NOTE The xmlmapper gem will order XML namespaces differently under JRuby and MRI
       it "calculates the signature with sha256" do
         if RUBY_ENGINE == 'jruby'
-          params["Signature"].should == sha256_signature_jruby
+          expect(params["Signature"]).to eq(sha256_signature_jruby)
         else
-          params["Signature"].should == sha256_signature_mri
+          expect(params["Signature"]).to eq(sha256_signature_mri)
         end
       end
 
@@ -110,9 +110,9 @@ describe Saml::Bindings::HTTPRedirect do
 
       it "uses the block to create the signature" do
         if RUBY_ENGINE == 'jruby'
-          params["Signature"].should == sha1_signature_jruby
+          expect(params["Signature"]).to eq(sha1_signature_jruby)
         else
-          params["Signature"].should == sha1_signature_mri
+          expect(params["Signature"]).to eq(sha1_signature_mri)
         end
       end
     end
@@ -129,19 +129,19 @@ describe Saml::Bindings::HTTPRedirect do
 
     it 'creates a notification' do
       expect {
-        described_class.receive_message(request, type: :authn_request).should be_a(Saml::AuthnRequest)
+        expect(described_class.receive_message(request, type: :authn_request)).to be_a(Saml::AuthnRequest)
       }.to notify_with('receive_message')
     end
 
     context "with signature" do
       it "verifies the params with a certificate" do
-        described_class.receive_message(request, type: :authn_request).should be_a(Saml::AuthnRequest)
+        expect(described_class.receive_message(request, type: :authn_request)).to be_a(Saml::AuthnRequest)
       end
 
       it "raises SignatureInvalid if verification fails" do
-        Saml::BasicProvider.any_instance.stub(:verify).and_return(false)
+        allow_any_instance_of(Saml::BasicProvider).to receive(:verify).and_return(false)
         expect {
-          described_class.receive_message(request, type: :authn_request).should be_nil
+          expect(described_class.receive_message(request, type: :authn_request)).to be_nil
         }.to raise_error(Saml::Errors::SignatureInvalid)
       end
     end
@@ -152,12 +152,12 @@ describe Saml::Bindings::HTTPRedirect do
       end
 
       it "raises no SignatureInvalid when AuthnRequestsSigned == false" do
-        Saml::BasicProvider.any_instance.stub(:authn_requests_signed?).and_return(false)
-        described_class.receive_message(request, type: :authn_request).should be_a(Saml::AuthnRequest)
+        allow_any_instance_of(Saml::BasicProvider).to receive(:authn_requests_signed?).and_return(false)
+        expect(described_class.receive_message(request, type: :authn_request)).to be_a(Saml::AuthnRequest)
       end
 
       it "raises no SignatureMissing when AuthnRequestsSigned == true" do
-        Saml::BasicProvider.any_instance.stub(:authn_requests_signed?).and_return(true)
+        allow_any_instance_of(Saml::BasicProvider).to receive(:authn_requests_signed?).and_return(true)
         expect { described_class.receive_message(request, type: :authn_request) }.to raise_error(Saml::Errors::SignatureMissing)
       end
 
@@ -173,7 +173,7 @@ describe Saml::Bindings::HTTPRedirect do
         end
 
         it 'parses the message correctly' do
-          described_class.receive_message(response, type: :logout_response).should be_a(Saml::LogoutResponse)
+          expect(described_class.receive_message(response, type: :logout_response)).to be_a(Saml::LogoutResponse)
         end
       end
     end

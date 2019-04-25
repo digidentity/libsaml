@@ -49,14 +49,14 @@ describe Saml do
 
     it 'returns the default registered store' do
       Thread.current['saml_current_store'] = nil
-      Saml::Config.stub(:registered_stores).and_return({default: 'default_store'})
-      Saml::Config.stub(:default_store).and_return :default
+      allow(Saml::Config).to receive(:registered_stores).and_return({default: 'default_store'})
+      allow(Saml::Config).to receive(:default_store).and_return :default
       expect(Saml.current_store).to be == 'default_store'
     end
 
     it 'raises an error if the store is not set and nothing is registered' do
       Thread.current['saml_current_store'] = nil
-      Saml::Config.stub(:registered_stores).and_return({})
+      allow(Saml::Config).to receive(:registered_stores).and_return({})
       expect { Saml.current_store }.to raise_error(Saml::Errors::InvalidStore)
     end
   end
@@ -69,12 +69,12 @@ describe Saml do
     end
 
     it 'returns the provider' do
-      Saml.current_store.should_receive(:find_by_entity_id).and_return('provider')
-      Saml.provider('entity_id').should == 'provider'
+      allow(Saml.current_store).to receive(:find_by_entity_id).and_return('provider')
+      expect(Saml.provider('entity_id')).to eq 'provider'
     end
 
     it 'raises an error if the provider is not found' do
-      Saml.current_store.should_receive(:find_by_entity_id).and_return(nil)
+      allow(Saml.current_store).to receive(:find_by_entity_id).and_return(nil)
       expect {
         Saml.provider('entity_id')
       }.to raise_error(Saml::Errors::InvalidProvider)
@@ -87,7 +87,7 @@ describe Saml do
     context "with default types" do
       [:authn_request, :response, :logout_request, :logout_response, :artifact_resolve, :artifact_response].each do |type|
         it "parses messages with type '#{type}'" do
-          "Saml::#{type.to_s.camelize}".constantize.should_receive(:parse).with(message, single: true)
+          expect("Saml::#{type.to_s.camelize}".constantize).to receive(:parse).with(message, single: true)
           Saml.parse_message(message, type)
         end
       end
@@ -104,7 +104,7 @@ describe Saml do
       end
 
       it "parses messages of a custom class, based on type" do
-        type.to_s.camelize.safe_constantize.should_receive(:parse).with(message, single: true)
+        expect(type.to_s.camelize.safe_constantize).to receive(:parse).with(message, single: true)
         Saml.parse_message(message, type)
       end
     end
@@ -113,7 +113,7 @@ describe Saml do
       let(:type) { :bar }
 
       it "returns nil when the class is unknown" do
-        Saml.parse_message(message, type).should be_nil
+        expect(Saml.parse_message(message, type)).to be_nil
       end
     end
   end
