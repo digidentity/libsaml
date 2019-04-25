@@ -38,7 +38,6 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |c|
     c.yield_receiver_to_any_instance_implementation_blocks = false
-    c.syntax = [:should, :expect]
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
