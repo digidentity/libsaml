@@ -1,3 +1,17 @@
+### 3.4.0
+* Stop using old ruby Hash Rocket syntax
+* Use FactoryBot gem instead of FactoryGirl
+* Remove Nokogiri gem version limitations
+* Only allow 'expect' RSpec syntax
+* Travis CI: remove JRuby 9.1.5.0 and add Ruby 2.5.3 and 2.6.3
+
+### 3.3.0
+* Added support to verify all signatures in a SAML message by using the corresponding KeyName
+* instead of the KeyName of the first signature it finds in a SAML message.
+
+### 3.2.3
+* Allow non-signed AuthnRequest for O365 ECP use-case, thanks @nov
+
 ### 3.2.2
 * Add support for `NameIDPolicy` in `AuthnRequest`, thanks @pzgz
 
