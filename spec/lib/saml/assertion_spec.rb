@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 describe Saml::Assertion do
-  let(:assertion) { FactoryGirl.build(:assertion) }
+  let(:assertion) { FactoryBot.build(:assertion) }
 
   describe "Required fields" do
     [:_id, :version, :issue_instant, :issuer].each do |field|
       it "should have the #{field} field" do
-        assertion.should respond_to(field)
+        expect(assertion).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         assertion.send("#{field}=", nil)
-        assertion.should_not be_valid
+        expect(assertion).not_to be_valid
       end
     end
   end
@@ -19,21 +19,21 @@ describe Saml::Assertion do
   describe "Optional fields" do
     [:subject, :conditions, :authn_statement, :attribute_statement, :advice].each do |field|
       it "should have the #{field} field" do
-        assertion.should respond_to(field)
+        expect(assertion).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         assertion.send("#{field}=", nil)
-        assertion.should be_valid
+        expect(assertion).to be_valid
         assertion.send("#{field}=", "")
-        assertion.should be_valid
+        expect(assertion).to be_valid
       end
     end
   end
 
   describe '#attribute_statement' do
-    let(:attribute_statement_1) { FactoryGirl.build(:attribute_statement) }
-    let(:attribute_statement_2) { FactoryGirl.build(:attribute_statement) }
+    let(:attribute_statement_1) { FactoryBot.build(:attribute_statement) }
+    let(:attribute_statement_2) { FactoryBot.build(:attribute_statement) }
 
     context 'when there are attribute statements' do
       before { subject.attribute_statements = [attribute_statement_1, attribute_statement_2] }
@@ -61,8 +61,8 @@ describe Saml::Assertion do
   end
 
   describe '#attribute_statement=' do
-    let(:attribute_statement_1) { FactoryGirl.build(:attribute_statement) }
-    let(:attribute_statement_2) { FactoryGirl.build(:attribute_statement) }
+    let(:attribute_statement_1) { FactoryBot.build(:attribute_statement) }
+    let(:attribute_statement_2) { FactoryBot.build(:attribute_statement) }
 
     before { subject.attribute_statements = [attribute_statement_1] }
 
@@ -74,30 +74,30 @@ describe Saml::Assertion do
 
   describe "parse" do
     let(:assertion_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:assertion) { Saml::Assertion.parse(assertion_xml, :single => true) }
+    let(:assertion) { Saml::Assertion.parse(assertion_xml, single: true) }
 
     it "should parse the Assertion" do
-      assertion.should be_a(Saml::Assertion)
+      expect(assertion).to be_a(Saml::Assertion)
     end
 
     it "should parse the id" do
-      assertion._id.should == "_93af655219464fb403b34436cfb0c5cb1d9a5502"
+      expect(assertion._id).to eq("_93af655219464fb403b34436cfb0c5cb1d9a5502")
     end
 
     it "should parse the version" do
-      assertion.version.should == "2.0"
+      expect(assertion.version).to eq("2.0")
     end
 
     it "should parse the issuer" do
-      assertion.issuer.should == "Provider"
+      expect(assertion.issuer).to eq("Provider")
     end
 
     it "should parse Subject" do
-      assertion.subject.should be_a(Saml::Elements::Subject)
+      expect(assertion.subject).to be_a(Saml::Elements::Subject)
     end
 
     it "should parse Conditions" do
-      assertion.conditions.should be_a(Saml::Elements::Conditions)
+      expect(assertion.conditions).to be_a(Saml::Elements::Conditions)
     end
 
     it "should parse Advice" do
@@ -129,29 +129,29 @@ describe Saml::Assertion do
   describe "provider" do
     it "returns the provider based on the issuer" do
       assertion = Saml::Assertion.new(issuer: "https://sp.example.com")
-      assertion.provider.should == Saml.provider("https://sp.example.com")
+      expect(assertion.provider).to eq(Saml.provider("https://sp.example.com"))
     end
   end
 
   describe ".initialize" do
     it "should set the subject name id if name_id specified" do
-      assertion = Saml::Assertion.new(:name_id => "subject")
-      assertion.subject.name_id.should == "subject"
+      assertion = Saml::Assertion.new(name_id: "subject")
+      expect(assertion.subject.name_id).to eq("subject")
     end
 
     it "should set the audience if the audience is specified" do
-      assertion = Saml::Assertion.new(:audience => "audience")
-      assertion.conditions.audience_restriction.audience.should == "audience"
+      assertion = Saml::Assertion.new(audience: "audience")
+      expect(assertion.conditions.audience_restriction.audience).to eq("audience")
     end
 
     it "should set the address if the specified" do
-      assertion = Saml::Assertion.new(:address => "127.0.0.1")
-      assertion.authn_statement.subject_locality.address.should == "127.0.0.1"
+      assertion = Saml::Assertion.new(address: "127.0.0.1")
+      expect(assertion.authn_statement.subject_locality.address).to eq("127.0.0.1")
     end
 
     it "should set the address if the specified" do
-      assertion = Saml::Assertion.new(:authn_context_class_ref => "authn_context")
-      assertion.authn_statement.authn_context.authn_context_class_ref.should == "authn_context"
+      assertion = Saml::Assertion.new(authn_context_class_ref: "authn_context")
+      expect(assertion.authn_statement.authn_context.authn_context_class_ref).to eq("authn_context")
     end
 
     context 'subject is specified' do
@@ -167,14 +167,14 @@ describe Saml::Assertion do
   describe "IssueInstant" do
     it "should not be valid if the issue instant is too old" do
       assertion.issue_instant = Time.now - Saml::Config.max_issue_instant_offset.minutes
-      assertion.should have(1).errors_on(:issue_instant)
+      expect(assertion).to have(1).errors_on(:issue_instant)
     end
   end
 
   describe "Version" do
     it "should not be valid if the version is not allowed" do
       assertion.version = "invalid"
-      assertion.should have(1).errors_on(:version)
+      expect(assertion).to have(1).errors_on(:version)
     end
   end
 
@@ -273,11 +273,11 @@ describe Saml::Assertion do
     it 'returns the attribute from the attribute statement' do
       assertion.add_attribute('key', 'value')
       assertion.add_attribute('key2', 'value2')
-      assertion.fetch_attribute('key2').should == 'value2'
+      expect(assertion.fetch_attribute('key2')).to eq('value2')
     end
 
     it 'returns nil if attribute is not present' do
-      assertion.fetch_attribute('not_present').should == nil
+      expect(assertion.fetch_attribute('not_present')).to eq(nil)
     end
   end
 
@@ -285,11 +285,11 @@ describe Saml::Assertion do
     it 'returns the attribute from the attribute statement' do
       assertion.add_attribute('key', 'value')
       assertion.add_attribute('key2', 'value2')
-      assertion.fetch_attribute_value('key2').content.should == 'value2'
+      expect(assertion.fetch_attribute_value('key2').content).to eq('value2')
     end
 
     it 'returns nil if attribute is not present' do
-      assertion.fetch_attribute_value('not_present').should == nil
+      expect(assertion.fetch_attribute_value('not_present')).to eq(nil)
     end
   end
 
@@ -308,13 +308,13 @@ describe Saml::Assertion do
     end
 
     context 'when there are multiple attribute statements' do
-      let(:attribute_1) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_1' }
-      let(:attribute_2) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_2' }
-      let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
-      let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
+      let(:attribute_1) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_1' }
+      let(:attribute_2) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_2' }
+      let(:attribute_3) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_3' }
+      let(:attribute_4) { FactoryBot.build :attribute, name: 'another_key', attribute_value: 'value_4' }
 
-      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
-      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
+      let(:attribute_statement_1) { FactoryBot.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryBot.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
 
       before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
 
@@ -343,13 +343,13 @@ describe Saml::Assertion do
     end
 
     context 'when there are multiple attribute statements' do
-      let(:attribute_1) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_1' }
-      let(:attribute_2) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_2' }
-      let(:attribute_3) { FactoryGirl.build :attribute, name: 'key', attribute_value: 'value_3' }
-      let(:attribute_4) { FactoryGirl.build :attribute, name: 'another_key', attribute_value: 'value_4' }
+      let(:attribute_1) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_1' }
+      let(:attribute_2) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_2' }
+      let(:attribute_3) { FactoryBot.build :attribute, name: 'key', attribute_value: 'value_3' }
+      let(:attribute_4) { FactoryBot.build :attribute, name: 'another_key', attribute_value: 'value_4' }
 
-      let(:attribute_statement_1) { FactoryGirl.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
-      let(:attribute_statement_2) { FactoryGirl.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
+      let(:attribute_statement_1) { FactoryBot.build :attribute_statement, attributes: [ attribute_1, attribute_2 ] }
+      let(:attribute_statement_2) { FactoryBot.build :attribute_statement, attributes: [ attribute_3, attribute_4 ] }
 
       before { assertion.attribute_statements = [attribute_statement_1, attribute_statement_2] }
 

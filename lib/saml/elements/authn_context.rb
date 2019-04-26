@@ -5,11 +5,11 @@ module Saml
 
       tag "AuthnContext"
       namespace 'saml'
-      element :authn_context_class_ref, String, :tag => "AuthnContextClassRef"
+      element :authn_context_class_ref, String, tag: "AuthnContextClassRef"
 
       has_many :authenticating_authorities, ::Saml::Elements::AuthenticatingAuthority
 
-      validates :authn_context_class_ref, :inclusion => ClassRefs::ALL_CLASS_REFS + [nil]
+      validates :authn_context_class_ref, inclusion: ClassRefs::ALL_CLASS_REFS + [nil]
     end
   end
 end

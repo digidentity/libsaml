@@ -8,7 +8,7 @@ module Saml
         register_namespace "saml", Saml::SAML_NAMESPACE
         register_namespace 'ext',  Saml::ATTR_EXT_NAMESPACE
 
-        attribute :name, String, :tag => 'Name'
+        attribute :name, String, tag: 'Name'
         attribute :format, String, tag: 'NameFormat'
         attribute :friendly_name, String, tag: 'FriendlyName'
 
@@ -17,7 +17,7 @@ module Saml
 
         has_many :attribute_values, Saml::Elements::AttributeValue
 
-        validates :name, :presence => true
+        validates :name, presence: true
       end
 
       def initialize(*args)

@@ -11,11 +11,11 @@ module Saml
     tag 'Assertion'
     namespace 'saml'
 
-    attribute :_id, String, :tag => 'ID'
-    attribute :version, String, :tag => 'Version'
-    attribute :issue_instant, Time, :tag => 'IssueInstant', :on_save => lambda { |val| val.utc.xmlschema }
+    attribute :_id, String, tag: 'ID'
+    attribute :version, String, tag: 'Version'
+    attribute :issue_instant, Time, tag: 'IssueInstant', on_save: lambda { |val| val.utc.xmlschema }
 
-    element :issuer, String, :namespace => 'saml', :tag => 'Issuer'
+    element :issuer, String, namespace: 'saml', tag: 'Issuer'
 
     has_one   :signature, Saml::Elements::Signature, xpath: './'
     has_one   :subject, Saml::Elements::Subject, xpath: './'
@@ -25,28 +25,28 @@ module Saml
     has_many  :authn_statement, Saml::Elements::AuthnStatement, xpath: './'
     has_many  :attribute_statements, Saml::Elements::AttributeStatement, xpath: './'
 
-    validates :_id, :version, :issue_instant, :issuer, :presence => true
+    validates :_id, :version, :issue_instant, :issuer, presence: true
 
     validates :version, inclusion: %w(2.0)
-    validate :check_issue_instant, :if => lambda { |val| val.issue_instant.present? }
+    validate :check_issue_instant, if: lambda { |val| val.issue_instant.present? }
 
     def initialize(*args)
       options          = args.extract_options!
       if options[:subject].present?
         @subject = options.delete(:subject)
       else
-        @subject         = Saml::Elements::Subject.new(:name_id        => options.delete(:name_id),
-                                                       :name_id_format => options.delete(:name_id_format),
-                                                       :recipient      => options.delete(:recipient),
-                                                       :in_response_to => options.delete(:in_response_to))
+        @subject         = Saml::Elements::Subject.new(name_id: options.delete(:name_id),
+                                                       name_id_format: options.delete(:name_id_format),
+                                                       recipient: options.delete(:recipient),
+                                                       in_response_to: options.delete(:in_response_to))
       end
 
-      @conditions      = Saml::Elements::Conditions.new(:audience => options.delete(:audience))
+      @conditions      = Saml::Elements::Conditions.new(audience: options.delete(:audience))
       authn_instant    = options.delete(:authn_instant) || Time.now
-      @authn_statement = Saml::Elements::AuthnStatement.new(:authn_instant           => authn_instant,
-                                                            :address                 => options.delete(:address),
-                                                            :authn_context_class_ref => options.delete(:authn_context_class_ref),
-                                                            :session_index           => options.delete(:session_index))
+      @authn_statement = Saml::Elements::AuthnStatement.new(authn_instant: authn_instant,
+                                                            address: options.delete(:address),
+                                                            authn_context_class_ref: options.delete(:authn_context_class_ref),
+                                                            session_index: options.delete(:session_index))
       super(*(args << options))
       @_id           ||= Saml.generate_id
       @issue_instant ||= Time.now

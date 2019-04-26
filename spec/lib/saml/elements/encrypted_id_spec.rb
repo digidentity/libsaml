@@ -8,12 +8,12 @@ describe Saml::Elements::EncryptedID do
   describe "Required fields" do
     [:encrypted_data].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         subject.send("#{field}=", nil)
-        subject.should_not be_valid
+        expect(subject).not_to be_valid
       end
     end
   end
@@ -21,14 +21,14 @@ describe Saml::Elements::EncryptedID do
   describe "Optional fields" do
     [:encrypted_keys].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         subject.send("#{field}=", nil)
-        subject.should be_valid
+        expect(subject).to be_valid
         subject.send("#{field}=", "")
-        subject.should be_valid
+        expect(subject).to be_valid
       end
     end
   end

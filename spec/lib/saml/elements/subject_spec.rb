@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::Elements::Subject do
-  let(:subject) { FactoryGirl.build(:subject) }
+  let(:subject) { FactoryBot.build(:subject) }
 
   describe '#check_identifier' do
     context 'when no identifier is set' do
@@ -17,8 +17,8 @@ describe Saml::Elements::Subject do
 
     context 'when multiple identifiers are set' do
       before do
-        subject._name_id     = FactoryGirl.build(:name_id)
-        subject.encrypted_id = FactoryGirl.build(:encrypted_id)
+        subject._name_id     = FactoryBot.build(:name_id)
+        subject.encrypted_id = FactoryBot.build(:encrypted_id)
       end
 
       it 'adds an error on identifiers' do
@@ -28,7 +28,7 @@ describe Saml::Elements::Subject do
 
     context 'when one identifiers is set' do
       before do
-        subject._name_id     = FactoryGirl.build(:name_id)
+        subject._name_id     = FactoryBot.build(:name_id)
         subject.encrypted_id = nil
       end
 
@@ -56,12 +56,12 @@ describe Saml::Elements::Subject do
   describe "Required fields" do
     [:subject_confirmations].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         subject.send("#{field}=", nil)
-        subject.should have(1).error_on(field)
+        expect(subject).to have(1).error_on(field)
       end
     end
   end
@@ -99,8 +99,8 @@ describe Saml::Elements::Subject do
   end
 
   describe '#subject_confirmation' do
-    let(:subject_confirmation_1) { FactoryGirl.build(:subject_confirmation) }
-    let(:subject_confirmation_2) { FactoryGirl.build(:subject_confirmation) }
+    let(:subject_confirmation_1) { FactoryBot.build(:subject_confirmation) }
+    let(:subject_confirmation_2) { FactoryBot.build(:subject_confirmation) }
 
     before { subject.subject_confirmations = [subject_confirmation_1, subject_confirmation_2] }
 
@@ -110,8 +110,8 @@ describe Saml::Elements::Subject do
   end
 
   describe '#subject_confirmation=' do
-    let(:subject_confirmation_1) { FactoryGirl.build(:subject_confirmation) }
-    let(:subject_confirmation_2) { FactoryGirl.build(:subject_confirmation) }
+    let(:subject_confirmation_1) { FactoryBot.build(:subject_confirmation) }
+    let(:subject_confirmation_2) { FactoryBot.build(:subject_confirmation) }
 
     before { subject.subject_confirmations = [subject_confirmation_1] }
 
@@ -123,18 +123,18 @@ describe Saml::Elements::Subject do
 
   describe "#parse" do
     let(:subject_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:subject) { Saml::Elements::Subject.parse(subject_xml, :single => true) }
+    let(:subject) { Saml::Elements::Subject.parse(subject_xml, single: true) }
 
     it "should create a Subject" do
-      subject.should be_a(Saml::Elements::Subject)
+      expect(subject).to be_a(Saml::Elements::Subject)
     end
 
     it "should parse name_id" do
-      subject.name_id.should == "s00000000:123456789"
+      expect(subject.name_id).to eq("s00000000:123456789")
     end
 
     it "should parse name_id_format" do
-      subject.name_id_format.should == "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+      expect(subject.name_id_format).to eq("urn:oasis:names:tc:SAML:2.0:nameid-format:persistent")
     end
   end
 end

@@ -5,7 +5,7 @@ module Saml
     tag "ArtifactResolve"
     has_one :artifact, Saml::Artifact
 
-    validates :artifact, :presence => true
+    validates :artifact, presence: true
 
     def initialize(*args)
       options   = args.extract_options!

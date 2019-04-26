@@ -7,7 +7,7 @@ module Saml
         tag "CanonicalizationMethod"
         namespace 'ds'
 
-        attribute :algorithm, String, :tag => "Algorithm"
+        attribute :algorithm, String, tag: "Algorithm"
 
         def initialize(*args)
           @algorithm = "http://www.w3.org/2001/10/xml-exc-c14n#"

@@ -5,30 +5,30 @@ describe Saml::Response do
   let(:response) { build(:response) }
 
   it "Should be a StatusResponseType" do
-    Saml::Response.ancestors.should include Saml::ComplexTypes::StatusResponseType
+    expect(Saml::Response.ancestors).to include Saml::ComplexTypes::StatusResponseType
   end
 
   describe "Optional fields" do
     [:assertion].each do |field|
       it "should have the #{field} field" do
-        response.should respond_to(field)
+        expect(response).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         response.send("#{field}=", nil)
-        response.errors.entries.should == [] #be_valid
+        expect(response.errors.entries).to eq([]) #be_valid
         response.send("#{field}=", "")
-        response.errors.entries.should == [] #be_valid
+        expect(response.errors.entries).to eq([]) #be_valid
       end
     end
   end
 
   describe "parse" do
     let(:response_xml) { File.read(File.join('spec', 'fixtures', 'artifact_response.xml')) }
-    let(:response) { Saml::Response.parse(response_xml, :single => true) }
+    let(:response) { Saml::Response.parse(response_xml, single: true) }
 
     it "should parse the Response" do
-      response.should be_a(Saml::Response)
+      expect(response).to be_a(Saml::Response)
     end
 
     it 'parses Assertion elements' do
@@ -39,54 +39,54 @@ describe Saml::Response do
     end
 
     it "should parse multiple assertions" do
-      response.assertions.first.should be_a(Saml::Assertion)
+      expect(response.assertions.first).to be_a(Saml::Assertion)
     end
 
     it "should parse the encrypted assertion" do
-      response.encrypted_assertion.should be_a(Saml::Elements::EncryptedAssertion)
+      expect(response.encrypted_assertion).to be_a(Saml::Elements::EncryptedAssertion)
     end
 
     it "should parse multiple encrypted assertions" do
-      response.encrypted_assertions.first.should be_a(Saml::Elements::EncryptedAssertion)
+      expect(response.encrypted_assertions.first).to be_a(Saml::Elements::EncryptedAssertion)
     end
   end
 
   describe 'authn_failed?' do
     it 'returns true if sub status is AUTHN_FAILED' do
-      status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
-                                                                                                  :sub_status_value => Saml::SubStatusCodes::AUTHN_FAILED))
+      status          = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER,
+                                                                                                  sub_status_value: Saml::SubStatusCodes::AUTHN_FAILED))
       response.status = status
-      response.authn_failed?.should be true
+      expect(response.authn_failed?).to be true
     end
 
     it 'returns false if sub status is not AUTHN_FAILED' do
-      response.authn_failed?.should be false
+      expect(response.authn_failed?).to be false
     end
   end
 
   describe 'no_authn_context?' do
     it 'returns true if sub status is NO_AUTHN_CONTEXT' do
-      status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
-                                                                                                  :sub_status_value => Saml::SubStatusCodes::NO_AUTHN_CONTEXT))
+      status          = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER,
+                                                                                                  sub_status_value: Saml::SubStatusCodes::NO_AUTHN_CONTEXT))
       response.status = status
-      response.no_authn_context?.should be true
+      expect(response.no_authn_context?).to be true
     end
 
     it 'returns false if sub status is not no_authn_context' do
-      response.no_authn_context?.should be false
+      expect(response.no_authn_context?).to be false
     end
   end
 
   describe 'request_denied?' do
     it 'returns true if sub status is AUTHN_FAILED' do
-      status          = Saml::Elements::Status.new(:status_code => Saml::Elements::StatusCode.new(:value            => Saml::TopLevelCodes::RESPONDER,
-                                                                                                  :sub_status_value => Saml::SubStatusCodes::REQUEST_DENIED))
+      status          = Saml::Elements::Status.new(status_code: Saml::Elements::StatusCode.new(value: Saml::TopLevelCodes::RESPONDER,
+                                                                                                  sub_status_value: Saml::SubStatusCodes::REQUEST_DENIED))
       response.status = status
-      response.request_denied?.should be true
+      expect(response.request_denied?).to be true
     end
 
     it 'returns false if sub status is not AUTHN_FAILED' do
-      response.request_denied?.should be false
+      expect(response.request_denied?).to be false
     end
   end
 
@@ -135,7 +135,7 @@ describe Saml::Response do
     end
 
     it 'only adds 1 assertion' do
-      response.assertions.count.should == 1
+      expect(response.assertions.count).to eq(1)
     end
   end
 
@@ -149,7 +149,7 @@ describe Saml::Response do
       expect {
         response.encrypt_assertions(response.provider.certificate)
       }.to change(response.assertions, :count).by(-1)
-      response.encrypted_assertions.count.should == 1
+      expect(response.encrypted_assertions.count).to eq(1)
     end
   end
 
@@ -173,12 +173,12 @@ describe Saml::Response do
     let(:response) { Saml::Response.new(encrypted_assertion: Saml::Elements::EncryptedAssertion.new) }
 
     it 'should have one encrypted assertion' do
-      response.encrypted_assertions.count.should == 1
+      expect(response.encrypted_assertions.count).to eq(1)
     end
 
     it 'adds an extra encrypted assertion' do
       response.encrypted_assertions << Saml::Elements::EncryptedAssertion.new
-      response.encrypted_assertions.count.should == 2
+      expect(response.encrypted_assertions.count).to eq(2)
     end
   end
 

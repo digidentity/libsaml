@@ -7,9 +7,9 @@ module Saml
         tag 'X509Data'
         namespace 'ds'
 
-        element :x509certificate, String, :tag => "X509Certificate", :on_save => lambda { |c| c.present? ? Base64.encode64(c.to_der) : "" }
+        element :x509certificate, String, tag: "X509Certificate", on_save: lambda { |c| c.present? ? Base64.encode64(c.to_der) : "" }
 
-        validates :x509certificate, :presence => true
+        validates :x509certificate, presence: true
 
         def initialize(cert = nil)
           self.x509certificate = cert

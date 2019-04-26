@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Saml::ComplexTypes::AdviceType do
-  subject { FactoryGirl.build(:advice_type_dummy) }
+  subject { FactoryBot.build(:advice_type_dummy) }
 
   describe 'optional fields' do
     [:assertion_id_refs, :assertions].each do |field|

@@ -38,7 +38,6 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |c|
     c.yield_receiver_to_any_instance_implementation_blocks = false
-    c.syntax = [:should, :expect]
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
@@ -56,6 +55,6 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
   config.order = 'random'
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.raise_errors_for_deprecations!
 end

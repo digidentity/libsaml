@@ -3,10 +3,10 @@ require "spec_helper"
 describe Saml::Elements::SessionIndex do
 
   it "has a tag" do
-    described_class.tag_name.should eq "SessionIndex"
+    expect(described_class.tag_name).to eq "SessionIndex"
   end
 
   it "has a namespace" do
-    described_class.namespace.should eq "samlp"
+    expect(described_class.namespace).to eq "samlp"
   end
 end

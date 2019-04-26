@@ -14,12 +14,12 @@ module Saml
       tag 'KeyDescriptor'
       namespace 'md'
 
-      attribute :use, String, :tag => "use"
+      attribute :use, String, tag: "use"
 
       has_one :key_info, KeyInfo
 
-      validates :use, :inclusion => UseTypes::ALL
-      validates :certificate, :presence => true
+      validates :use, inclusion: UseTypes::ALL
+      validates :certificate, presence: true
 
       def certificate
         key_info.try(:x509Data).try(:x509certificate)

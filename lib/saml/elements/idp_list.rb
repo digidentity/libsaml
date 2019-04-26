@@ -8,7 +8,7 @@ module Saml
 
       has_many :idp_entries, Saml::Elements::IdpEntry
 
-      validates :idp_entries, :presence => true
+      validates :idp_entries, presence: true
 
       def initialize(*args)
         super(*args)

@@ -17,12 +17,12 @@ module Saml
       tag 'RequestedAuthnContext'
       namespace 'samlp'
 
-      attribute :comparison, String, :tag => "Comparison"
+      attribute :comparison, String, tag: "Comparison"
 
-      has_many :authn_context_class_refs, String, :namespace => "saml", :tag => "AuthnContextClassRef"
+      has_many :authn_context_class_refs, String, namespace: "saml", tag: "AuthnContextClassRef"
 
-      validates :authn_context_class_ref, :presence => true, :inclusion => ALL_CLASS_REFS
-      validates :comparison, :inclusion => ComparisonTypes::ALL
+      validates :authn_context_class_ref, presence: true, inclusion: ALL_CLASS_REFS
+      validates :comparison, inclusion: ComparisonTypes::ALL
 
       def authn_context_class_ref
         authn_context_class_refs.first if authn_context_class_refs

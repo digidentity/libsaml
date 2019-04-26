@@ -5,20 +5,20 @@ module Saml
     attr_accessor :xml_value
 
     tag 'AuthnRequest'
-    attribute :force_authn, Boolean, :tag => "ForceAuthn"
-    attribute :is_passive, Boolean, :tag => "IsPassive"
-    attribute :assertion_consumer_service_index, Integer, :tag => "AssertionConsumerServiceIndex"
-    attribute :assertion_consumer_service_url, String, :tag => "AssertionConsumerServiceURL"
-    attribute :attribute_consuming_service_index, Integer, :tag => "AttributeConsumingServiceIndex"
-    attribute :protocol_binding, String, :tag => "ProtocolBinding"
-    attribute :provider_name, String, :tag => "ProviderName"
+    attribute :force_authn, Boolean, tag: "ForceAuthn"
+    attribute :is_passive, Boolean, tag: "IsPassive"
+    attribute :assertion_consumer_service_index, Integer, tag: "AssertionConsumerServiceIndex"
+    attribute :assertion_consumer_service_url, String, tag: "AssertionConsumerServiceURL"
+    attribute :attribute_consuming_service_index, Integer, tag: "AttributeConsumingServiceIndex"
+    attribute :protocol_binding, String, tag: "ProtocolBinding"
+    attribute :provider_name, String, tag: "ProviderName"
 
     has_one :requested_authn_context, Saml::Elements::RequestedAuthnContext
     has_one :scoping, Saml::Elements::Scoping
     has_one :name_id_policy, Saml::Elements::NameIdPolicy
 
-    validates :force_authn, :inclusion => [true, false, nil]
-    validates :assertion_consumer_service_index, :numericality => true, :if => lambda { |val|
+    validates :force_authn, inclusion: [true, false, nil]
+    validates :assertion_consumer_service_index, numericality: true, if: lambda { |val|
       val.assertion_consumer_service_index.present?
     }
 

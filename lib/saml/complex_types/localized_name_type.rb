@@ -5,9 +5,9 @@ module Saml
       include Saml::Base
 
       included do
-        attribute :language, String, :tag => 'xml:lang'
+        attribute :language, String, tag: 'xml:lang'
 
-        validates :language, :presence => true
+        validates :language, presence: true
       end
     end
   end

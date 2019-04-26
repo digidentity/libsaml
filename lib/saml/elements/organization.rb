@@ -10,7 +10,7 @@ module Saml
       has_many :organization_display_names, Saml::Elements::OrganizationDisplayName
       has_many :organization_urls, Saml::Elements::OrganizationUrl
 
-      validates :organization_names, :organization_display_names, :organization_urls, :presence => true
+      validates :organization_names, :organization_display_names, :organization_urls, presence: true
     end
   end
 end

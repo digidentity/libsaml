@@ -1,17 +1,17 @@
 require "spec_helper"
 
 describe Saml::ComplexTypes::AttributeType do
-  let(:attribute_type) { FactoryGirl.build(:attribute_type_dummy) }
+  let(:attribute_type) { FactoryBot.build(:attribute_type_dummy) }
 
   describe "Required fields" do
     [:name].each do |field|
       it "should have the #{field} field" do
-        attribute_type.should respond_to(field)
+        expect(attribute_type).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         attribute_type.send("#{field}=", nil)
-        attribute_type.should_not be_valid
+        expect(attribute_type).not_to be_valid
       end
     end
   end
@@ -19,24 +19,24 @@ describe Saml::ComplexTypes::AttributeType do
   describe "Optional fields" do
     [:format, :friendly_name, :original_issuer, :last_modified, :attribute_values].each do |field|
       it "should have the #{field} field" do
-        attribute_type.should respond_to(field)
+        expect(attribute_type).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         attribute_type.send("#{field}=", nil)
-        attribute_type.errors.entries.should == [] #be_valid
+        expect(attribute_type.errors.entries).to eq([]) #be_valid
         attribute_type.send("#{field}=", "")
-        attribute_type.errors.entries.should == [] #be_valid
+        expect(attribute_type.errors.entries).to eq([]) #be_valid
       end
     end
   end
 
   describe "#parse" do
     let(:attribute_type_xml) { File.read(File.join('spec','fixtures','attribute.xml')) }
-    let(:attribute_type) { Saml::Elements::Attribute.parse(attribute_type_xml, :single => true) }
+    let(:attribute_type) { Saml::Elements::Attribute.parse(attribute_type_xml, single: true) }
 
     it "should create an Attribute" do
-      attribute_type.should be_a(Saml::Elements::Attribute)
+      expect(attribute_type).to be_a(Saml::Elements::Attribute)
     end
 
     it 'should parse all the AttributeValues' do
@@ -45,10 +45,10 @@ describe Saml::ComplexTypes::AttributeType do
 
     context 'with the attributes extension' do
       let(:attribute_xml) { File.read(File.join('spec','fixtures','attribute_with_attributes_extension.xml')) }
-      let(:attribute) { Saml::Elements::Attribute.parse(attribute_xml, :single => true) }
+      let(:attribute) { Saml::Elements::Attribute.parse(attribute_xml, single: true) }
 
       it "should create an Attribute" do
-        attribute.should be_a(Saml::Elements::Attribute)
+        expect(attribute).to be_a(Saml::Elements::Attribute)
       end
 
       it 'knows its values' do
@@ -62,7 +62,7 @@ describe Saml::ComplexTypes::AttributeType do
   end
 
   describe '#attribute_value=' do
-    let(:attribute_value) { FactoryGirl.build(:attribute_value, content: 'foobar') }
+    let(:attribute_value) { FactoryBot.build(:attribute_value, content: 'foobar') }
 
     before { attribute_type.attribute_values = [attribute_value] }
 

@@ -1,17 +1,17 @@
 require "spec_helper"
 
 describe Saml::ComplexTypes::SubjectQueryAbstractType do
-  subject { FactoryGirl.build(:subject_query_abstract_type_dummy) }
+  subject { FactoryBot.build(:subject_query_abstract_type_dummy) }
 
   describe "Required fields" do
     [:_id, :version, :issue_instant, :subject].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should check the presence of #{field}" do
         subject.send("#{field}=", nil)
-        subject.should_not be_valid
+        expect(subject).not_to be_valid
       end
     end
   end
@@ -19,23 +19,23 @@ describe Saml::ComplexTypes::SubjectQueryAbstractType do
   describe "Optional fields" do
     [:destination, :issuer].each do |field|
       it "should have the #{field} field" do
-        subject.should respond_to(field)
+        expect(subject).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         subject.send("#{field}=", nil)
         subject.valid?
-        subject.errors.entries.should == []
+        expect(subject.errors.entries).to eq([])
         subject.send("#{field}=", "")
         subject.valid?
-        subject.errors.entries.should == []
+        expect(subject.errors.entries).to eq([])
       end
     end
   end
 
   describe "parse" do
     let(:xml) { File.read(File.join('spec', 'fixtures', 'attribute_query.xml')) }
-    subject { Saml::Elements::AttributeQuery.parse(xml, :single => true) }
+    subject { Saml::Elements::AttributeQuery.parse(xml, single: true) }
 
     it "should parse the AttributeQuery" do
       expect(subject).to be_a(Saml::Elements::AttributeQuery)

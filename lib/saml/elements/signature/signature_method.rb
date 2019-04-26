@@ -7,7 +7,7 @@ module Saml
         tag "SignatureMethod"
         namespace 'ds'
 
-        attribute :algorithm, String, :tag => "Algorithm"
+        attribute :algorithm, String, tag: "Algorithm"
 
         def initialize(*args)
           @algorithm = Saml::Config.signature_algorithm

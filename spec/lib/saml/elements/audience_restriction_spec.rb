@@ -7,14 +7,14 @@ describe Saml::Elements::AudienceRestriction do
   describe "Optional fields" do
     [:audiences].each do |field|
       it "should have the #{field} field" do
-        audience_restriction.should respond_to(field)
+        expect(audience_restriction).to respond_to(field)
       end
 
       it "should allow #{field} to blank" do
         audience_restriction.send("#{field}=", nil)
-        audience_restriction.should be_valid
+        expect(audience_restriction).to be_valid
         audience_restriction.send("#{field}=", "")
-        audience_restriction.should be_valid
+        expect(audience_restriction).to be_valid
       end
     end
   end
@@ -47,7 +47,7 @@ describe Saml::Elements::AudienceRestriction do
 
   describe '#audience=' do
     let(:audience_restriction_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, :single => true) }
+    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, single: true) }
 
     it 'replaces the audience elements with the given element' do
       aggregate_failures do
@@ -65,10 +65,10 @@ describe Saml::Elements::AudienceRestriction do
 
   describe "#parse" do
     let(:audience_restriction_xml) { File.read(File.join('spec','fixtures','artifact_response.xml')) }
-    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, :single => true) }
+    let(:audience_restriction) { Saml::Elements::AudienceRestriction.parse(audience_restriction_xml, single: true) }
 
     it "should create an AudienceRestriction" do
-      audience_restriction.should be_a(Saml::Elements::AudienceRestriction)
+      expect(audience_restriction).to be_a(Saml::Elements::AudienceRestriction)
     end
 
     it 'parses all the Audience elements' do

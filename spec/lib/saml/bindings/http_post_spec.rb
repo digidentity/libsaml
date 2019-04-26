@@ -12,23 +12,23 @@ describe Saml::Bindings::HTTPPost do
     let(:form_attributes) { described_class.create_form_attributes(response, relay_state: "relay_state") }
 
     it "creates a hash with the destination as url" do
-      form_attributes[:location].should == response.destination
+      expect(form_attributes[:location]).to eq(response.destination)
     end
 
     it "adds the relay_state" do
-      form_attributes[:variables]["RelayState"].should == "relay_state"
+      expect(form_attributes[:variables]["RelayState"]).to eq("relay_state")
     end
 
     it "signs the document" do
       encoded_response = form_attributes[:variables]["SAMLResponse"]
       response         = Saml::Response.parse(Saml::Encoding.decode_64(encoded_response))
 
-     response.signature.signature_value.should be_present
+     expect(response.signature.signature_value).to be_present
     end
 
     it "sets the SAMLRequest variable if the message is a request" do
       form_attributes = described_class.create_form_attributes(Saml::AuthnRequest.new, relay_state: "relay_state")
-      form_attributes[:variables]["SAMLRequest"].should_not be_blank
+      expect(form_attributes[:variables]["SAMLRequest"]).not_to be_blank
     end
 
     it 'creates a notification' do
@@ -46,22 +46,22 @@ describe Saml::Bindings::HTTPPost do
     let(:message) { described_class.receive_message(request, :response) }
 
     it "has no errors when signature is valid" do
-      message.should have(:no).errors_on(:signature)
+      expect(message).to have(:no).errors_on(:signature)
     end
 
     it "it verifies the xml" do
-      Saml::Util.should_receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
+      expect(Saml::Util).to receive(:verify_xml).and_raise(Saml::Errors::SignatureInvalid)
       expect {
         message
       }.to raise_error(Saml::Errors::SignatureInvalid)
     end
 
     it "returns the parsed message" do
-      message.should be_a(Saml::Response)
+      expect(message).to be_a(Saml::Response)
     end
 
     it "sets the actual destination on the message" do
-      message.actual_destination.should == request.url
+      expect(message.actual_destination).to eq(request.url)
     end
 
     it 'creates a notification' do

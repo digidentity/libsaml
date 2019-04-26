@@ -7,7 +7,7 @@ module Saml
         tag "DigestMethod"
         namespace 'ds'
 
-        attribute :algorithm, String, :tag => "Algorithm"
+        attribute :algorithm, String, tag: "Algorithm"
 
         def initialize(*args)
           @algorithm = Saml::Config.digest_algorithm

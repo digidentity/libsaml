@@ -8,7 +8,7 @@ module Saml
       register_namespace "md", Saml::MD_NAMESPACE
       namespace "md"
 
-      attribute :is_required, XmlMapper::Boolean, :tag => "isRequired"
+      attribute :is_required, XmlMapper::Boolean, tag: "isRequired"
     end
   end
 end

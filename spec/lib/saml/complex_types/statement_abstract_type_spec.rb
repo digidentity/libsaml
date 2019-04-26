@@ -10,7 +10,7 @@ describe Saml::ComplexTypes::StatementAbstractType do
   describe '.register_type' do
     it 'registers the type' do
       described_class.register_type 'statement', StatementDummy
-      described_class.types.should == {'statement' => StatementDummy}
+      expect(described_class.types).to eq({'statement' => StatementDummy})
     end
   end
 
@@ -19,7 +19,7 @@ describe Saml::ComplexTypes::StatementAbstractType do
       subject { described_class.parse(statement_abstract_type_xml).first }
 
       it 'returns an instance of StatementAbstractType' do
-        subject.should be_a(described_class)
+        expect(subject).to be_a(described_class)
       end
     end
 
@@ -31,11 +31,11 @@ describe Saml::ComplexTypes::StatementAbstractType do
       subject { described_class.parse(statement_abstract_type_xml).first }
 
       it 'returns an instance of the registered type' do
-        subject.should be_a(StatementDummy)
+        expect(subject).to be_a(StatementDummy)
       end
 
       it 'parses the authorization element' do
-        subject.authorization.should == 'allowed'
+        expect(subject.authorization).to eq('allowed')
       end
     end
   end

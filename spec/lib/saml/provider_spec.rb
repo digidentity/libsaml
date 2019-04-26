@@ -62,81 +62,81 @@ describe Saml::Provider do
 
   describe "#assertion_consumer_service_url" do
     it "returns the url for the given index" do
-      service_provider.assertion_consumer_service_url(0).should == "https://sp.example.com/sso/receive_artifact"
+      expect(service_provider.assertion_consumer_service_url(0)).to eq("https://sp.example.com/sso/receive_artifact")
     end
 
     it "returns the url for the default index" do
-      service_provider.assertion_consumer_service_url.should == "https://sp.example.com/sso/receive_artifact_default"
+      expect(service_provider.assertion_consumer_service_url).to eq("https://sp.example.com/sso/receive_artifact_default")
     end
 
     context "identity and service provider" do
       it "returns the default service provider url" do
-        identity_and_service_provider.assertion_consumer_service_url.should == "https://idpsp.example.com/sp/receive_artifact_default"
+        expect(identity_and_service_provider.assertion_consumer_service_url).to eq("https://idpsp.example.com/sp/receive_artifact_default")
       end
     end
   end
 
   describe "#artifact_resolution_service_url" do
     it "returns the artifact_resolution_service_url" do
-      identity_provider.artifact_resolution_service_url(0).should == "https://idp.example.com/sso/resolve_artifact"
+      expect(identity_provider.artifact_resolution_service_url(0)).to eq("https://idp.example.com/sso/resolve_artifact")
     end
 
     it "returns the url for the default index" do
-      identity_provider.artifact_resolution_service_url.should == "https://idp.example.com/sso/resolve_artifact"
+      expect(identity_provider.artifact_resolution_service_url).to eq("https://idp.example.com/sso/resolve_artifact")
     end
 
     context "identity and service provider" do
       it "returns the default service provider url" do
-        identity_and_service_provider.artifact_resolution_service_url.should == "https://idpsp.example.com/sp/resolve"
+        expect(identity_and_service_provider.artifact_resolution_service_url).to eq("https://idpsp.example.com/sp/resolve")
       end
 
       it "with :sp_descriptor returns the default service provider url" do
-        identity_and_service_provider.artifact_resolution_service_url(nil, :sp_descriptor).should == "https://idpsp.example.com/sp/resolve"
+        expect(identity_and_service_provider.artifact_resolution_service_url(nil, :sp_descriptor)).to eq("https://idpsp.example.com/sp/resolve")
       end
 
       it "with :idp_descriptor returns the default identity provider url" do
-        identity_and_service_provider.artifact_resolution_service_url(nil, :idp_descriptor).should == "https://idpsp.example.com/idp/resolve"
+        expect(identity_and_service_provider.artifact_resolution_service_url(nil, :idp_descriptor)).to eq("https://idpsp.example.com/idp/resolve")
       end
     end
   end
 
   describe "#attribute_consuming_service" do
     it "returns the attribute_consuming_service" do
-      service_provider.attribute_consuming_service(0).should be_a(Saml::Elements::AttributeConsumingService)
+      expect(service_provider.attribute_consuming_service(0)).to be_a(Saml::Elements::AttributeConsumingService)
     end
 
     it "returns the attribute_consuming_service for the default index" do
-      service_provider.attribute_consuming_service.should be_a(Saml::Elements::AttributeConsumingService)
+      expect(service_provider.attribute_consuming_service).to be_a(Saml::Elements::AttributeConsumingService)
     end
   end
 
   describe "#assertion_consumer_service" do
     it "returns the assertion_consumer_service" do
-      service_provider.assertion_consumer_service(0).should be_a(Saml::Elements::SPSSODescriptor::AssertionConsumerService)
+      expect(service_provider.assertion_consumer_service(0)).to be_a(Saml::Elements::SPSSODescriptor::AssertionConsumerService)
     end
 
     it "returns the assertion_consumer_service for the default index" do
-      service_provider.assertion_consumer_service.should be_a Saml::Elements::SPSSODescriptor::AssertionConsumerService
+      expect(service_provider.assertion_consumer_service).to be_a Saml::Elements::SPSSODescriptor::AssertionConsumerService
     end
   end
 
   describe "#attribute_service_url" do
     it "returns the attribute service url for the specified binding" do
-      authority_provider.attribute_service_url(Saml::ProtocolBinding::SOAP).should == "https://idp.example.com/SAML/AA/URI"
+      expect(authority_provider.attribute_service_url(Saml::ProtocolBinding::SOAP)).to eq("https://idp.example.com/SAML/AA/URI")
     end
   end
 
   describe "#assertion_consumer_service_indices" do
     context "when there is an assertion consumer service" do
       it "returns an array with the indices of all assertion consumer services" do
-        service_provider.assertion_consumer_service_indices.should eq [ 0, 1 ]
+        expect(service_provider.assertion_consumer_service_indices).to eq [ 0, 1 ]
       end
     end
 
     context "when there isn't an assertion consumer service" do
       it "returns an empty array" do
         service_provider.entity_descriptor.sp_sso_descriptor.assertion_consumer_services = nil
-        service_provider.assertion_consumer_service_indices.should eq []
+        expect(service_provider.assertion_consumer_service_indices).to eq []
       end
     end
   end
@@ -144,30 +144,30 @@ describe Saml::Provider do
   describe "#certificate" do
     context "when a key name isn't specified" do
       it "returns the first certificate for signing it finds" do
-        service_provider.certificate(nil, "signing").should be_a(OpenSSL::X509::Certificate)
+        expect(service_provider.certificate(nil, "signing")).to be_a(OpenSSL::X509::Certificate)
       end
     end
 
     context "when a key name is specified" do
       it "returns the certificate which contains the specified key name" do
-        service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8").should be_a(OpenSSL::X509::Certificate)
+        expect(service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8")).to be_a(OpenSSL::X509::Certificate)
       end
     end
 
     context "identity and service provider" do
       it "returns the service provider certificate" do
-        identity_and_service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing").should be_a(OpenSSL::X509::Certificate)
-        identity_and_service_provider.certificate("22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing").should be_nil
+        expect(identity_and_service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing")).to be_a(OpenSSL::X509::Certificate)
+        expect(identity_and_service_provider.certificate("22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing")).to be_nil
       end
 
       it "with :sp_descriptor returns the service provider certificate" do
-        identity_and_service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :sp_descriptor).should be_a(OpenSSL::X509::Certificate)
-        identity_and_service_provider.certificate("22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :sp_descriptor).should be_nil
+        expect(identity_and_service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :sp_descriptor)).to be_a(OpenSSL::X509::Certificate)
+        expect(identity_and_service_provider.certificate("22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :sp_descriptor)).to be_nil
       end
 
       it "with :idp_descriptor returns the identity provider certificate" do
-        identity_and_service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :idp_descriptor).should be_nil
-        identity_and_service_provider.certificate("22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :idp_descriptor).should be_a(OpenSSL::X509::Certificate)
+        expect(identity_and_service_provider.certificate("82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :idp_descriptor)).to be_nil
+        expect(identity_and_service_provider.certificate("22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8", "signing", :idp_descriptor)).to be_a(OpenSSL::X509::Certificate)
       end
     end
   end
@@ -205,63 +205,63 @@ describe Saml::Provider do
 
   describe "#sign" do
     it "uses the encryption key to sign" do
-      service_provider.sign("sha256", "test").should == service_provider.encryption_key.sign(OpenSSL::Digest::SHA256.new, "test")
+      expect(service_provider.sign("sha256", "test")).to eq(service_provider.encryption_key.sign(OpenSSL::Digest::SHA256.new, "test"))
     end
 
     it "uses the signing key to sign if present" do
-      service_provider_with_signing_key.sign("sha256", "test").should == service_provider_with_signing_key.signing_key.sign(OpenSSL::Digest::SHA256.new, "test")
+      expect(service_provider_with_signing_key.sign("sha256", "test")).to eq(service_provider_with_signing_key.signing_key.sign(OpenSSL::Digest::SHA256.new, "test"))
     end
   end
 
   describe "#signing_key" do
     it "returns the encryption key if signing key is not present" do
-      service_provider.signing_key.should == service_provider.encryption_key
+      expect(service_provider.signing_key).to eq(service_provider.encryption_key)
     end
 
     it "returns a different key from the encryption key if signing key is present" do
-      service_provider_with_signing_key.signing_key.should_not be_nil
-      service_provider_with_signing_key.signing_key.should_not == service_provider_with_signing_key.encryption_key
+      expect(service_provider_with_signing_key.signing_key).not_to be_nil
+      expect(service_provider_with_signing_key.signing_key).not_to eq(service_provider_with_signing_key.encryption_key)
     end
   end
 
   describe "#single_sign_on_service_url" do
     it "returns the single_sign_on_service_url" do
-      identity_provider.single_sign_on_service_url(Saml::ProtocolBinding::HTTP_REDIRECT).should == "https://idp.example.com/sso/request"
+      expect(identity_provider.single_sign_on_service_url(Saml::ProtocolBinding::HTTP_REDIRECT)).to eq("https://idp.example.com/sso/request")
     end
   end
 
   describe "#single_logout_service_url" do
     it "returns the single_logout_service_url" do
-      identity_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT).should == "https://idp.example.com/sso/logout"
+      expect(identity_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT)).to eq("https://idp.example.com/sso/logout")
     end
 
     context "identity and service provider" do
       it "returns the service provider url" do
-        identity_and_service_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT).should == "https://idpsp.example.com/sp/logout"
+        expect(identity_and_service_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT)).to eq("https://idpsp.example.com/sp/logout")
       end
 
       it "with :sp_descriptor returns the service provider url" do
-        identity_and_service_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT, :sp_descriptor).should == "https://idpsp.example.com/sp/logout"
+        expect(identity_and_service_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT, :sp_descriptor)).to eq("https://idpsp.example.com/sp/logout")
       end
 
       it "with :idp_descriptor returns the identity provider url" do
-        identity_and_service_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT, :idp_descriptor).should == "https://idpsp.example.com/idp/logout"
+        expect(identity_and_service_provider.single_logout_service_url(Saml::ProtocolBinding::HTTP_REDIRECT, :idp_descriptor)).to eq("https://idpsp.example.com/idp/logout")
       end
     end
   end
 
   describe "#type " do
     it "returns service_provider for the service provider" do
-      service_provider.type.should == "service_provider"
+      expect(service_provider.type).to eq("service_provider")
     end
 
     it "returns identity_provider for the identity provider" do
-      identity_provider.type.should == "identity_provider"
+      expect(identity_provider.type).to eq("identity_provider")
     end
 
     context "identity and service provider" do
       it "returns identity_and_service_provider for the identity and service provider" do
-        identity_and_service_provider.type.should == "identity_and_service_provider"
+        expect(identity_and_service_provider.type).to eq("identity_and_service_provider")
       end
     end
   end
@@ -271,34 +271,34 @@ describe Saml::Provider do
 
     context "service provider" do
       subject { service_provider }
-      it { subject.descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
-      it { subject.sp_descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
+      it { expect(subject.descriptor).to be_a(Saml::Elements::SPSSODescriptor) }
+      it { expect(subject.sp_descriptor).to be_a(Saml::Elements::SPSSODescriptor) }
       it { expect{ subject.idp_descriptor }.to raise_error("Cannot find identity provider with entity_id: https://sp.example.com") }
       it { expect{ subject.aa_descriptor }.to raise_error("Cannot find attribute authority provider with entity_id: https://sp.example.com") }
     end
 
     context "identity provider" do
       subject { identity_provider }
-      it { subject.descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      it { expect(subject.descriptor).to be_a(Saml::Elements::IDPSSODescriptor) }
       it { expect{ subject.sp_descriptor}.to raise_error("Cannot find service provider with entity_id: https://idp.example.com") }
-      it { subject.idp_descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      it { expect(subject.idp_descriptor).to be_a(Saml::Elements::IDPSSODescriptor) }
       it { expect{ subject.aa_descriptor }.to raise_error("Cannot find attribute authority provider with entity_id: https://idp.example.com") }
     end
 
     context "identity and service provider" do
       subject { identity_and_service_provider }
-      it { subject.descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
-      it { subject.sp_descriptor.should be_a(Saml::Elements::SPSSODescriptor) }
-      it { subject.idp_descriptor.should be_a(Saml::Elements::IDPSSODescriptor) }
+      it { expect(subject.descriptor).to be_a(Saml::Elements::SPSSODescriptor) }
+      it { expect(subject.sp_descriptor).to be_a(Saml::Elements::SPSSODescriptor) }
+      it { expect(subject.idp_descriptor).to be_a(Saml::Elements::IDPSSODescriptor) }
       it { expect{ subject.aa_descriptor }.to raise_error("Cannot find attribute authority provider with entity_id: https://idpsp.example.com") }
     end
 
     context "authority provider" do
       subject { authority_provider }
-      it { subject.descriptor.should be_a(Saml::Elements::AttributeAuthorityDescriptor) }
+      it { expect(subject.descriptor).to be_a(Saml::Elements::AttributeAuthorityDescriptor) }
       it { expect{ subject.sp_descriptor}.to raise_error("Cannot find service provider with entity_id: https://auth.example.com") }
       it { expect{ subject.idp_descriptor }.to raise_error("Cannot find identity provider with entity_id: https://auth.example.com") }
-      it { subject.aa_descriptor.should be_a(Saml::Elements::AttributeAuthorityDescriptor) }
+      it { expect(subject.aa_descriptor).to be_a(Saml::Elements::AttributeAuthorityDescriptor) }
     end
   end
 end

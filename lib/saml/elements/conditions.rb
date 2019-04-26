@@ -13,7 +13,7 @@ module Saml
 
       def initialize(*args)
         options = args.extract_options!
-        @audience_restriction = Saml::Elements::AudienceRestriction.new(:audience => options.delete(:audience)) if options[:audience]
+        @audience_restriction = Saml::Elements::AudienceRestriction.new(audience: options.delete(:audience)) if options[:audience]
         self.not_before       = Time.now - Saml::Config.max_issue_instant_offset.minutes
         self.not_on_or_after  = Time.now + Saml::Config.max_issue_instant_offset.minutes
         super(*(args << options))

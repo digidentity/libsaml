@@ -6,9 +6,9 @@ module Saml
       tag "StatusCode"
       namespace 'samlp'
 
-      attribute :value, String, :tag => "Value"
+      attribute :value, String, tag: "Value"
 
-      validates :value, :presence => true, :inclusion => SubStatusCodes::ALL
+      validates :value, presence: true, inclusion: SubStatusCodes::ALL
     end
   end
 end
