@@ -18,7 +18,7 @@ module Saml
       namespace 'ds'
 
       has_one :signed_info, SignedInfo
-      element :signature_value, String, tag: "SignatureValue", state_when_nil: true
+      element :signature_value, String, tag: "SignatureValue", namespace: 'ds', state_when_nil: true
       has_one :key_info, KeyInfo
 
       def initialize(*args)

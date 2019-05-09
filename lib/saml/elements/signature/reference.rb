@@ -11,7 +11,7 @@ module Saml
         attribute :uri, String, tag: "URI"
         element :transforms, Transforms
         element :digest_method, DigestMethod
-        element :digest_value, String, tag: "DigestValue", state_when_nil: true
+        element :digest_value, String, tag: "DigestValue", namespace: 'ds', state_when_nil: true
 
         def initialize(*args)
           @transforms    = Transforms.new
