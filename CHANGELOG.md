@@ -1,3 +1,6 @@
+### 3.6.0
+* Added the feature to optionally include SP certificate in encrypted assertions, thanks @nov
+
 ### 3.4.0
 * Stop using old ruby Hash Rocket syntax
 * Use FactoryBot gem instead of FactoryGirl
