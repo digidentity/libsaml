@@ -28,10 +28,10 @@ module Saml
       !success? && status.status_code.unknown_principal?
     end
 
-    def encrypt_assertions(certificate)
+    def encrypt_assertions(certificate, include_certificate: false)
       @encrypted_assertions = []
       assertions.each do |assertion|
-        @encrypted_assertions << Saml::Util.encrypt_assertion(assertion, certificate)
+        @encrypted_assertions << Saml::Util.encrypt_assertion(assertion, certificate, include_certificate: include_certificate)
       end
       assertions.clear
     end
