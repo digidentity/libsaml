@@ -348,6 +348,11 @@ describe Saml::Util do
     context 'with a certificate as param' do
       let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new, service_provider.certificate) }
 
+      it 'adds a key_info w/o key_name to the encrypted assertion' do
+        expect(encrypted_assertion.encrypted_keys.key_info.key_name).to be_nil
+        expect(encrypted_assertion.encrypted_keys.key_info.x509Data.x509certificate).to eq service_provider.certificate
+      end
+
       it 'returns an encrypted assertion object' do
         expect(encrypted_assertion).to be_a Saml::Elements::EncryptedAssertion
       end
@@ -360,10 +365,12 @@ describe Saml::Util do
 
     context 'with a key descriptor as param' do
       let(:key_name) { '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8' }
-      let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new, service_provider.find_key_descriptor(key_name)) }
+      let(:key_descriptor) { service_provider.find_key_descriptor(key_name) }
+      let(:encrypted_assertion) { Saml::Util.encrypt_assertion(Saml::Assertion.new, key_descriptor) }
 
-      it 'adds a key_name to the encrypted assertion' do
+      it 'adds a key_info w/ key_name to the encrypted assertion' do
         expect(encrypted_assertion.encrypted_keys.key_info.key_name).to eq key_name
+        expect(encrypted_assertion.encrypted_keys.key_info.x509Data.x509certificate).to eq key_descriptor.certificate
       end
     end
 

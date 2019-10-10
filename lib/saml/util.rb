@@ -80,8 +80,11 @@ module Saml
         encrypted_key = encrypted_data.encrypt(assertion.to_s)
         encrypted_key.set_encryption_method(algorithm:               'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
                                             digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1')
-        encrypted_key.set_key_name(key_name)
         encrypted_key.encrypt(certificate.public_key)
+
+        key_info = Saml::Elements::KeyInfo.new(certificate.to_pem)
+        key_info.key_name = key_name
+        encrypted_key.key_info = key_info
 
         Saml::Elements::EncryptedAssertion.new(encrypted_data: encrypted_data, encrypted_keys: encrypted_key)
       end
