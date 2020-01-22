@@ -227,6 +227,10 @@ class SamlController < ActionController::Base
 end
 ```
 
+## Caveats
+
+- SAMLResponse and Assertions have to be signed as per the SAML security guidelines (Some IDP's don't do this by default and require special configuration)
+
 ## Contributing
 
 - Fork the project
