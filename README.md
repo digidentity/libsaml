@@ -94,10 +94,10 @@ Now you can make a SAML controller in `app/controllers/saml_controller.rb`:
 ```ruby
 class SamlController < ApplicationController
   extend Saml::Rails::ControllerHelper
-  current_provider "entity_id"
+  current_provider "<sp_entity_id>"
 
   def request_authentication
-    provider = Saml.provider("my:very:original:entityid")
+    provider = Saml.provider("<idp_enity_id>")
     destination = provider.single_sign_on_service_url(Saml::ProtocolBinding::HTTP_POST)
 
     authn_request = Saml::AuthnRequest.new(destination: destination)
@@ -153,7 +153,7 @@ Below is an example of a very primitive IDP Saml Controller
 ```ruby
 class SamlController < ActionController::Base
   extend Saml::Rails::ControllerHelper
-  current_provider "entity_id"
+  current_provider "<idp_entity_id>"
 
   def receive_authn_request
     authn_request = if request.get?
