@@ -5,7 +5,7 @@ module Saml
 
       class << self
         def create_url(request_or_response, options = {})
-          options[:signature_algorithm] ||= 'http://www.w3.org/2000/09/xmldsig#rsa-sha1'
+          options[:signature_algorithm] ||= 'http://www.w3.org/2000/09/xmldsig#rsa-sha1' unless options[:exclude_signature]
           new(request_or_response, options).create_url
         end
 
@@ -42,13 +42,14 @@ module Saml
         end
       end
 
-      attr_accessor :request_or_response, :signature_algorithm, :relay_state, :signature
+      attr_accessor :request_or_response, :signature_algorithm, :relay_state, :signature, :exclude_signature
 
       def initialize(request_or_response, options = {})
         @request_or_response = request_or_response
         @signature_algorithm = options[:signature_algorithm]
         @relay_state         = options[:relay_state]
         @signature           = options[:signature]
+        @exclude_signature   = options[:exclude_signature]
       end
 
       def verify_signature(query)
@@ -61,7 +62,7 @@ module Saml
         url = request_or_response.destination
         delimiter = url.include?('?') ? '&' : '?'
 
-        [url, signed_params].join(delimiter)
+        [url, exclude_signature ? unsigned_params : signed_params].join(delimiter)
       end
 
       private
@@ -107,6 +108,10 @@ module Saml
         encoded_signature = CGI.escape(Saml::Encoding.encode_64(signature))
 
         "#{encoded_params}&Signature=#{encoded_signature}"
+      end
+
+      def unsigned_params
+        encoded_params.to_s
       end
     end
   end

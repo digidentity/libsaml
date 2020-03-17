@@ -115,6 +115,19 @@ describe Saml::Bindings::HTTPRedirect do
           expect(params["Signature"]).to eq(sha1_signature_mri)
         end
       end
+
+      context "with exclude_signature option" do
+        let(:url) do
+          described_class.create_url(authn_request,
+                                     exclude_signature: true
+          )
+        end
+
+        it "not add Signature and SigAlg params" do
+          expect(params["Signature"]).to eq nil
+          expect(params["SigAlg"]).to eq nil
+        end
+      end
     end
   end
 
