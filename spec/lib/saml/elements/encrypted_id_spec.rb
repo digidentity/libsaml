@@ -74,12 +74,31 @@ describe Saml::Elements::EncryptedID do
           expect(encrypted_id.name_id).to be_nil
         end
       end
+
+      context 'decryption' do
+        it "can decrypt a single EncryptedKey with keyname '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'" do
+          aggregate_failures do
+            document = Xmlenc::EncryptedDocument.new(encrypted_id.to_xml).document
+            encrypted_key_node = document.at_xpath("//xenc:EncryptedKey[.//ds:KeyName = '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8']")
+            encrypted_key  = Xmlenc::EncryptedKey.new(encrypted_key_node)
+            data_key       = encrypted_key.decrypt(OpenSSL::PKey::RSA.new(File.read('spec/fixtures/key.pem')))
+            decrypted      = encrypted_key.encrypted_data.decrypt(data_key)
+
+            decrypted_name_id = Saml::Elements::NameId.parse(decrypted, single: true)
+
+            expect(decrypted_name_id).to be_a ::Saml::Elements::NameId
+            expect(decrypted_name_id.value).to eq name_id.value
+          end
+        end
+      end
     end
 
     context 'when multiple key descriptors are given' do
       let(:key_name) { 'some_key_name' }
 
       before { encrypted_id.encrypt(key_descriptors, { id: '_some_id', key_name: key_name }) }
+
+      key_names = ['22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', '82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8']
 
       it 'encrypts the encrypted ID for each given key descriptor' do
         aggregate_failures do
@@ -99,6 +118,25 @@ describe Saml::Elements::EncryptedID do
 
           expect(encrypted_id.encrypted_keys.first.id).not_to eq encrypted_id.encrypted_keys.second.id
           expect(encrypted_id.name_id).to be_nil
+        end
+      end
+
+      context 'decryption' do
+        key_names.each do |key_name|
+          it "can decrypt multiple EncryptedKey's with keyname '#{key_name}'" do
+            aggregate_failures do
+              document = Xmlenc::EncryptedDocument.new(encrypted_id.to_xml).document
+              encrypted_key_node = document.at_xpath("//xenc:EncryptedKey[.//ds:KeyName = '#{key_name}']")
+              encrypted_key  = Xmlenc::EncryptedKey.new(encrypted_key_node)
+              data_key       = encrypted_key.decrypt(OpenSSL::PKey::RSA.new(File.read('spec/fixtures/key.pem')))
+              decrypted      = encrypted_key.encrypted_data.decrypt(data_key)
+
+              decrypted_name_id = Saml::Elements::NameId.parse(decrypted, single: true)
+
+              expect(decrypted_name_id).to be_a ::Saml::Elements::NameId
+              expect(decrypted_name_id.value).to eq name_id.value
+            end
+          end
         end
       end
     end

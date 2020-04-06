@@ -28,16 +28,16 @@ module Saml
 
         if key_descriptors.any?
           if key_descriptors.one?
-            encrypt_for_one_recipient(key_descriptors.first, key_options)
+            encrypt_for_one_key_descriptor(key_descriptors.first, key_options)
           else
-            encrypt_for_multiple_recipients(key_descriptors, key_options)
+            encrypt_for_multiple_key_descriptors(key_descriptors, key_options)
           end
         end
       end
 
       private
 
-      def encrypt_for_one_recipient(key_descriptor, key_options = {})
+      def encrypt_for_one_key_descriptor(key_descriptor, key_options = {})
         self.encrypted_data = Xmlenc::Builder::EncryptedData.new
 
         self.encrypted_data.set_key_retrieval_method Xmlenc::Builder::RetrievalMethod.new(
@@ -60,27 +60,30 @@ module Saml
         self.name_id = nil
       end
 
-      def encrypt_for_multiple_recipients(key_descriptors, key_options = {})
+      def encrypt_for_multiple_key_descriptors(key_descriptors, key_options = {})
         key_name = key_options[:key_name]
         encrypted_keys = []
 
         self.encrypted_data = Xmlenc::Builder::EncryptedData.new
         self.encrypted_data.set_key_name key_name
-        self.encrypted_data.set_encryption_method(
-          algorithm: 'http://www.w3.org/2001/04/xmlenc#aes256-cbc'
-        )
+        self.encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes256-cbc')
+
+        original_encrypted_key = self.encrypted_data.encrypt(name_id_xml, key_options)
 
         key_descriptors.each do |key_descriptor|
-          encrypted_key = self.encrypted_data.encrypt(
-            name_id_xml,
-            key_options.merge(id: "_#{SecureRandom.uuid}", carried_key_name: key_name)
+          encrypted_key_options = key_options.merge(
+            id: "_#{SecureRandom.uuid}",
+            data: original_encrypted_key.data,
+            carried_key_name: key_name
           )
+
+          encrypted_key = Xmlenc::Builder::EncryptedKey.new(encrypted_key_options)
+          encrypted_key.add_data_reference(self.encrypted_data.id)
+          encrypted_key.set_key_name(key_descriptor.key_info.key_name)
           encrypted_key.set_encryption_method(
             algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
             digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1'
           )
-
-          encrypted_key.set_key_name(key_descriptor.key_info.key_name)
           encrypted_key.encrypt(key_descriptor.certificate.public_key)
 
           encrypted_keys << encrypted_key
