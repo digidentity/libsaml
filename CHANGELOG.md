@@ -1,3 +1,9 @@
+### 3.8.0
+* Fix encryption of an EncryptedID for multiple KeyDescriptors
+
+### 3.7.0
+* Make AuthnRequest Signature and SigAlg optional by checking options[:exclude_signature] variable
+
 ### 3.6.0
 * Added the feature to optionally include SP certificate in encrypted assertions, thanks @nov
 
