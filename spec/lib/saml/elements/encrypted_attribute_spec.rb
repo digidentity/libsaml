@@ -63,6 +63,11 @@ describe Saml::Elements::EncryptedAttribute do
 
     let(:encrypt) { subject.encrypt(attribute, encrypted_key_data, encrypted_data_options) }
 
+    it 'calls #encrypt_element' do
+      expect(Saml::Util).to receive(:encrypt_element).with(subject, attribute, encrypted_key_data, encrypted_data_options)
+      encrypt
+    end
+
     it 'builds an encrypted data element' do
       encrypt
       expect(subject.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
@@ -87,15 +92,15 @@ describe Saml::Elements::EncryptedAttribute do
       end
 
       # NOTE The xmlmapper gem will order XML namespaces differently under JRuby and MRI
-      
+
       let(:xml_attribute_jruby) { "<saml:Attribute xmlns:ext=\"urn:oasis:names:tc:SAML:attributes:ext\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"/>" }
       let(:xml_attribute_mri) { '<saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ext="urn:oasis:names:tc:SAML:attributes:ext"/>' }
       it 'encrypts the XML of the passed in attribute' do
         if RUBY_ENGINE == 'jruby'
-          expect_any_instance_of(Xmlenc::Builder::EncryptedData).to receive(:encrypt).with(xml_attribute_jruby, { recipient: 'recipient' }).and_call_original
+          expect_any_instance_of(Xmlenc::Builder::EncryptedData).to receive(:encrypt).with(xml_attribute_jruby, {}).and_call_original
           encrypt
         else
-          expect_any_instance_of(Xmlenc::Builder::EncryptedData).to receive(:encrypt).with(xml_attribute_mri, { recipient: 'recipient' }).and_call_original
+          expect_any_instance_of(Xmlenc::Builder::EncryptedData).to receive(:encrypt).with(xml_attribute_mri, {}).and_call_original
           encrypt
         end
       end

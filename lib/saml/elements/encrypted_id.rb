@@ -47,7 +47,7 @@ module Saml
           algorithm: 'http://www.w3.org/2001/04/xmlenc#aes256-cbc'
         )
 
-        encrypted_key = self.encrypted_data.encrypt(name_id_xml, key_options)
+        encrypted_key = self.encrypted_data.encrypt(Nokogiri::XML(name_id.to_xml).root.to_xml, key_options)
         encrypted_key.set_encryption_method(
           algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
           digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1'
@@ -60,42 +60,18 @@ module Saml
         self.name_id = nil
       end
 
-      def encrypt_for_multiple_key_descriptors(key_descriptors, key_options = {})
-        key_name = key_options[:key_name]
-        encrypted_keys = []
-
-        self.encrypted_data = Xmlenc::Builder::EncryptedData.new
-        self.encrypted_data.set_key_name key_name
-        self.encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes256-cbc')
-
-        original_encrypted_key = self.encrypted_data.encrypt(name_id_xml, key_options)
-
-        key_descriptors.each do |key_descriptor|
-          encrypted_key_options = key_options.merge(
-            id: "_#{SecureRandom.uuid}",
-            data: original_encrypted_key.data,
-            carried_key_name: key_name
-          )
-
-          encrypted_key = Xmlenc::Builder::EncryptedKey.new(encrypted_key_options)
-          encrypted_key.add_data_reference(self.encrypted_data.id)
-          encrypted_key.set_key_name(key_descriptor.key_info.key_name)
-          encrypted_key.set_encryption_method(
-            algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p',
-            digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1'
-          )
-          encrypted_key.encrypt(key_descriptor.certificate.public_key)
-
-          encrypted_keys << encrypted_key
+      def encrypt_for_multiple_key_descriptors(encrypted_key_data, encrypted_data_options = {})
+        if encrypted_data_options[:recipient].present? && encrypted_key_data.first.is_a?(Saml::Elements::KeyDescriptor)
+          encrypted_key_data.map! do |key_descriptor|
+            [ key_descriptor, { recipient: encrypted_data_options[:recipient] } ]
+          end
         end
 
-        self.encrypted_keys = encrypted_keys
+        Saml::Util.encrypt_element(self, name_id, encrypted_key_data, encrypted_data_options)
+
         self.name_id = nil
       end
 
-      def name_id_xml
-        Nokogiri::XML(name_id.to_xml).root.to_xml
-      end
     end
   end
 end

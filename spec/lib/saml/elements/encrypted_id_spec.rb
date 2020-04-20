@@ -53,12 +53,15 @@ describe Saml::Elements::EncryptedID do
 
   describe '#encrypt' do
     let(:name_id)           { Saml::Elements::NameId.new(value: 'NAAM') }
-    let(:entity_descriptor) { Saml::Elements::EntityDescriptor.parse(File.read('spec/fixtures/metadata/service_provider.xml')) }
     let(:encrypted_id)      { Saml::Elements::EncryptedID.new(name_id: name_id) }
+
+    let(:entity_descriptor) { Saml::Elements::EntityDescriptor.parse(File.read('spec/fixtures/metadata/service_provider.xml')) }
     let(:key_descriptors)   { entity_descriptor.sp_sso_descriptor.find_key_descriptors_by_use('encryption') }
+    let(:key_descriptor1)   { entity_descriptor.sp_sso_descriptor.find_key_descriptor('22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', 'encryption') }
+    let(:key_descriptor2)   { entity_descriptor.sp_sso_descriptor.find_key_descriptor('82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', 'encryption') }
 
     context 'when a single key descriptor is given' do
-      before { encrypted_id.encrypt(key_descriptors.first) }
+      before { encrypted_id.encrypt(key_descriptor1) }
 
       it 'encrypts the encrypted ID for the given key descriptor' do
         aggregate_failures do
@@ -95,12 +98,27 @@ describe Saml::Elements::EncryptedID do
 
     context 'when multiple key descriptors are given' do
       let(:key_name) { 'some_key_name' }
+      let(:key_options) { { id: '_some_id', key_name: key_name } }
 
-      before { encrypted_id.encrypt(key_descriptors, { id: '_some_id', key_name: key_name }) }
+      let(:encrypted_key_data) do
+        [
+          [ key_descriptor1, { recipient: 'recipient' } ],
+          [ key_descriptor2, { recipient: 'other_recipient' } ]
+        ]
+      end
+
+      let(:encrypt) { encrypted_id.encrypt(encrypted_key_data, key_options) }
 
       key_names = ['22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', '82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8']
 
+      it 'calls #encrypt_element' do
+        expect(Saml::Util).to receive(:encrypt_element).with(encrypted_id, name_id, encrypted_key_data, key_options)
+        encrypt
+      end
+
       it 'encrypts the encrypted ID for each given key descriptor' do
+        encrypt
+
         aggregate_failures do
           expect(encrypted_id.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
           expect(encrypted_id.encrypted_data.key_info.retrieval_method).to be_nil
@@ -124,6 +142,8 @@ describe Saml::Elements::EncryptedID do
       context 'decryption' do
         key_names.each do |key_name|
           it "can decrypt multiple EncryptedKey's with keyname '#{key_name}'" do
+            encrypt
+
             aggregate_failures do
               document = Xmlenc::EncryptedDocument.new(encrypted_id.to_xml).document
               encrypted_key_node = document.at_xpath("//xenc:EncryptedKey[.//ds:KeyName = '#{key_name}']")
@@ -137,6 +157,24 @@ describe Saml::Elements::EncryptedID do
               expect(decrypted_name_id.value).to eq name_id.value
             end
           end
+        end
+      end
+
+      context 'when only KeyDescriptors are passed as encrypted_key_data and encrypted_data_options contains a recipient' do
+        let(:encrypted_data_options) { { id: '_some_id', key_name: key_name, recipient: 'recipient' } }
+
+        let(:encrypt) { encrypted_id.encrypt(key_descriptors, encrypted_data_options) }
+
+        let(:encrypted_key_data) do
+          [
+            [ key_descriptor1, { recipient: 'recipient' } ],
+            [ key_descriptor2, { recipient: 'recipient' } ]
+          ]
+        end
+
+        it 'calls #encrypt_element by converting the given KeyDescriptors and passing the "recipient"' do
+          expect(Saml::Util).to receive(:encrypt_element).with(encrypted_id, name_id, encrypted_key_data, encrypted_data_options)
+          encrypt
         end
       end
     end
