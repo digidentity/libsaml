@@ -413,6 +413,78 @@ describe Saml::Util do
     end
   end
 
+  describe '.encrypt_element' do
+    let(:name_id)           { Saml::Elements::NameId.new(value: 'NAAM') }
+    let(:encrypted_id)      { Saml::Elements::EncryptedID.new(name_id: name_id) }
+
+    let(:entity_descriptor) { Saml::Elements::EntityDescriptor.parse(File.read('spec/fixtures/metadata/service_provider.xml')) }
+    let(:key_descriptors)   { entity_descriptor.sp_sso_descriptor.find_key_descriptors_by_use('encryption') }
+    let(:key_descriptor1)   { entity_descriptor.sp_sso_descriptor.find_key_descriptor('22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', 'encryption') }
+    let(:key_descriptor2)   { entity_descriptor.sp_sso_descriptor.find_key_descriptor('82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', 'encryption') }
+
+    let(:key_name) { 'some_key_name' }
+    let(:key_options) { { id: '_some_id', key_name: key_name } }
+
+    let(:encrypted_key_data) do
+      [
+        [ key_descriptor1, { recipient: 'recipient' } ],
+        [ key_descriptor2, { recipient: 'other_recipient' } ]
+      ]
+    end
+
+    let(:encrypt_element) { Saml::Util.encrypt_element(encrypted_id, name_id, encrypted_key_data, key_options) }
+
+    key_names = ['22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8', '82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8']
+
+    it 'calls #encrypt_element' do
+      expect(Saml::Util).to receive(:encrypt_element).with(encrypted_id, name_id, encrypted_key_data, key_options)
+      encrypt_element
+    end
+
+    it 'encrypts the encrypted ID for each given key descriptor' do
+      encrypt_element
+
+      aggregate_failures do
+        expect(encrypted_id.encrypted_data).to be_a Xmlenc::Builder::EncryptedData
+        expect(encrypted_id.encrypted_data.key_info.retrieval_method).to be_nil
+        expect(encrypted_id.encrypted_data.key_info.key_name).to eq key_name
+
+        expect(encrypted_id.encrypted_keys.count).to eq 2
+
+        expect(encrypted_id.encrypted_keys.first).to be_a Xmlenc::Builder::EncryptedKey
+        expect(encrypted_id.encrypted_keys.first.key_info.key_name).to eq '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+        expect(encrypted_id.encrypted_keys.first.carried_key_name).to eq key_name
+
+        expect(encrypted_id.encrypted_keys.second).to be_a Xmlenc::Builder::EncryptedKey
+        expect(encrypted_id.encrypted_keys.second.key_info.key_name).to eq '82cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8'
+        expect(encrypted_id.encrypted_keys.second.carried_key_name).to eq key_name
+
+        expect(encrypted_id.encrypted_keys.first.id).not_to eq encrypted_id.encrypted_keys.second.id
+      end
+    end
+
+    context 'decryption' do
+      key_names.each do |key_name|
+        it "can decrypt multiple EncryptedKey's with keyname '#{key_name}'" do
+          encrypt_element
+
+          aggregate_failures do
+            document = Xmlenc::EncryptedDocument.new(encrypted_id.to_xml).document
+            encrypted_key_node = document.at_xpath("//xenc:EncryptedKey[.//ds:KeyName = '#{key_name}']")
+            encrypted_key  = Xmlenc::EncryptedKey.new(encrypted_key_node)
+            data_key       = encrypted_key.decrypt(OpenSSL::PKey::RSA.new(File.read('spec/fixtures/key.pem')))
+            decrypted      = encrypted_key.encrypted_data.decrypt(data_key)
+
+            decrypted_name_id = Saml::Elements::NameId.parse(decrypted, single: true)
+
+            expect(decrypted_name_id).to be_a ::Saml::Elements::NameId
+            expect(decrypted_name_id.value).to eq name_id.value
+          end
+        end
+      end
+    end
+  end
+
   describe '.encrypt_name_id' do
     let(:name_id) { Saml::Elements::NameId.new(value: 'NAAM') }
     let(:key_name) { '22cd8e9f32a7262d2f49f5ccc518ccfbf8441bb8' }

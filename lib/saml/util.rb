@@ -98,6 +98,32 @@ module Saml
         Saml::Assertion.parse(encrypted_document.decrypt(private_key), single: true)
       end
 
+      def encrypt_element(element, target_element, encrypted_key_data, encrypted_data_options)
+        key_name = encrypted_data_options.fetch(:key_name, Saml.generate_id)
+
+        element.encrypted_data = Xmlenc::Builder::EncryptedData.new(encrypted_data_options)
+        element.encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes256-cbc')
+        element.encrypted_data.set_key_name key_name
+
+        original_encrypted_key = element.encrypted_data.encrypt(Nokogiri::XML(target_element.to_xml).root.to_xml, encrypted_data_options)
+
+        encrypted_key_data.each do |key_descriptor, key_options = {}|
+          encrypted_key_options = key_options.merge(id: Saml.generate_id, data: original_encrypted_key.data)
+
+          encrypted_key = Xmlenc::Builder::EncryptedKey.new(encrypted_key_options)
+          encrypted_key.add_data_reference(element.encrypted_data.id)
+          encrypted_key.set_key_name(key_descriptor.key_info.key_name)
+          encrypted_key.carried_key_name = key_name
+          encrypted_key.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p', digest_method_algorithm: 'http://www.w3.org/2000/09/xmldsig#sha1')
+          encrypted_key.encrypt(key_descriptor.certificate.public_key)
+
+          element.encrypted_keys ||= []
+          element.encrypted_keys << encrypted_key
+        end
+
+        element
+      end
+
       def encrypt_name_id(name_id, key_descriptor, key_options = {})
         encrypted_id = Saml::Elements::EncryptedID.new(name_id: name_id)
         encrypt_encrypted_id(encrypted_id, key_descriptor, key_options)

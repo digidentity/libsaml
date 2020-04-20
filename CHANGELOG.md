@@ -1,3 +1,6 @@
+### 3.9.0
+* Encrypt EncryptedID and EncryptedAttributes elements by (re)using the same #encrypt_element method.
+
 ### 3.8.0
 * Fix encryption of an EncryptedID for multiple KeyDescriptors
 
