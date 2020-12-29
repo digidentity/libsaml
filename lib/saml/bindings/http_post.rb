@@ -20,7 +20,12 @@ module Saml
         end
 
         def receive_message(request, type)
-          message             = Saml::Encoding.decode_64(request.params["SAMLRequest"] || request.params["SAMLResponse"])
+          receive_xml = request.params["SAMLRequest"] || request.params["SAMLResponse"]
+          if receive_xml.nil?
+            raise Saml::Errors::InvalidParams, 'require params `SAMLRequest` or `SAMLResponse`'
+          end
+
+          message             = Saml::Encoding.decode_64(receive_xml)
           notify('receive_message', message)
           request_or_response = Saml.parse_message(message, type)
 

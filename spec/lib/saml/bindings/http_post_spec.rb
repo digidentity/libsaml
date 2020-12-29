@@ -69,5 +69,14 @@ describe Saml::Bindings::HTTPPost do
         message
       }.to notify_with('receive_message')
     end
+
+    context 'When both `SAMLRequest` and `SAMLResponse` is nil in request params' do
+      let(:request) { double(:request, params: {}, url: "https://sp.example.com/sso") }
+      let(:message) { described_class.receive_message(request, :response) }
+
+      it 'Raise Saml::Errors::InvalidParams' do
+        expect { message }.to raise_error(Saml::Errors::InvalidParams, 'require params `SAMLRequest` or `SAMLResponse`')
+      end
+    end
   end
 end
