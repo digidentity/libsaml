@@ -114,6 +114,7 @@ describe Saml::Assertion do
     it 'parses AuthnStatement elements' do
       aggregate_failures do
         expect(assertion.authn_statement.size).to eq 1
+        expect(assertion.authn_statement.first.session_not_on_or_after).to eq(Time.parse("2011-09-01T08:51:05Z"))
         expect(assertion.authn_statement.first).to be_a(Saml::Elements::AuthnStatement)
       end
     end

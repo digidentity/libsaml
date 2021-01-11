@@ -8,6 +8,7 @@ module Saml
 
       attribute :authn_instant, Time, tag: "AuthnInstant", on_save: lambda { |val| val.utc.xmlschema }
       attribute :session_index, String, tag: "SessionIndex"
+      attribute :session_not_on_or_after, Time, tag: "SessionNotOnOrAfter", on_save: lambda { |val| val.utc.xmlschema if val.present?}
 
       has_one :subject_locality, Saml::Elements::SubjectLocality, tag: "SubjectLocality"
       has_one :authn_context, Saml::Elements::AuthnContext, tag: "AuthnContext"
