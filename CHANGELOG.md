@@ -1,3 +1,7 @@
+### 3.9.1
+* Add error handling in HTTPPost.receive_message, thanks @soartec-lab
+* Add optional SessionNotOnOrAfter to AuthnStatement, thanks @truongnmt
+
 ### 3.9.0
 * Encrypt EncryptedID and EncryptedAttributes elements by (re)using the same #encrypt_element method.
 
