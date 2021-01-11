@@ -34,6 +34,8 @@ module Saml
     end
     class UnparseableMessage < SamlError
     end
+    class InvalidParams < SamlError
+    end
     class MetadataDownloadFailed < SamlError
     end
     class InvalidStore < SamlError
