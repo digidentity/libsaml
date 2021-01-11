@@ -46,7 +46,8 @@ module Saml
       @authn_statement = Saml::Elements::AuthnStatement.new(authn_instant: authn_instant,
                                                             address: options.delete(:address),
                                                             authn_context_class_ref: options.delete(:authn_context_class_ref),
-                                                            session_index: options.delete(:session_index))
+                                                            session_index: options.delete(:session_index),
+                                                            session_not_on_or_after: options.delete(:session_not_on_or_after))
       super(*(args << options))
       @_id           ||= Saml.generate_id
       @issue_instant ||= Time.now
