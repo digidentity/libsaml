@@ -75,9 +75,6 @@ module Saml
         assertion = assertion.to_xml(nil, nil, false) if assertion.is_a?(Assertion) # create xml without instruct
 
         encrypted_data = Xmlenc::Builder::EncryptedData.new
-        if include_key_retrieval_method && key_name
-          encrypted_data.set_key_retrieval_method (Xmlenc::Builder::RetrievalMethod.new(uri: "##{key_name}"))
-        end
         encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes128-cbc')
 
         encrypted_key = encrypted_data.encrypt(assertion.to_s)
@@ -89,6 +86,11 @@ module Saml
           key_info
         end
         encrypted_key.encrypt(certificate.public_key)
+
+        if include_key_retrieval_method
+          encrypted_key.id = '_' + SecureRandom.uuid
+          encrypted_data.set_key_retrieval_method (Xmlenc::Builder::RetrievalMethod.new(uri: "##{encrypted_key.id}"))
+        end
 
         Saml::Elements::EncryptedAssertion.new(encrypted_data: encrypted_data, encrypted_keys: encrypted_key)
       end
