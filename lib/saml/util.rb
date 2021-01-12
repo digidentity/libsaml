@@ -60,7 +60,7 @@ module Saml
         end
       end
 
-      def encrypt_assertion(assertion, key_descriptor_or_certificate, include_certificate: false)
+      def encrypt_assertion(assertion, key_descriptor_or_certificate, include_certificate: false, include_key_retrieval_method: false)
         case key_descriptor_or_certificate
         when OpenSSL::X509::Certificate
           certificate = key_descriptor_or_certificate
@@ -75,6 +75,9 @@ module Saml
         assertion = assertion.to_xml(nil, nil, false) if assertion.is_a?(Assertion) # create xml without instruct
 
         encrypted_data = Xmlenc::Builder::EncryptedData.new
+        if include_key_retrieval_method && key_name
+          encrypted_data.set_key_retrieval_method (Xmlenc::Builder::RetrievalMethod.new(uri: "##{key_name}"))
+        end
         encrypted_data.set_encryption_method(algorithm: 'http://www.w3.org/2001/04/xmlenc#aes128-cbc')
 
         encrypted_key = encrypted_data.encrypt(assertion.to_s)
