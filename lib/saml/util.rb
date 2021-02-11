@@ -60,7 +60,7 @@ module Saml
         end
       end
 
-      def encrypt_assertion(assertion, key_descriptor_or_certificate, include_certificate: false)
+      def encrypt_assertion(assertion, key_descriptor_or_certificate, include_certificate: false, include_key_retrieval_method: false)
         case key_descriptor_or_certificate
         when OpenSSL::X509::Certificate
           certificate = key_descriptor_or_certificate
@@ -86,6 +86,11 @@ module Saml
           key_info
         end
         encrypted_key.encrypt(certificate.public_key)
+
+        if include_key_retrieval_method
+          encrypted_key.id = '_' + SecureRandom.uuid
+          encrypted_data.set_key_retrieval_method (Xmlenc::Builder::RetrievalMethod.new(uri: "##{encrypted_key.id}"))
+        end
 
         Saml::Elements::EncryptedAssertion.new(encrypted_data: encrypted_data, encrypted_keys: encrypted_key)
       end

@@ -371,6 +371,17 @@ describe Saml::Util do
           expect(encrypted_assertion.encrypted_keys.key_info.x509Data.x509certificate.to_pem).to eq service_provider.certificate.to_pem
         end
       end
+
+      context 'with include_key_retrieval_method option' do
+        let(:encrypted_assertion) do
+          Saml::Util.encrypt_assertion(Saml::Assertion.new, service_provider.certificate, include_key_retrieval_method: true)
+        end
+
+        it 'add key_retrieval_method' do
+          expect(encrypted_assertion.encrypted_keys.id).not_to be_nil
+          expect(encrypted_assertion.encrypted_data.key_info.retrieval_method.uri).to eq "##{encrypted_assertion.encrypted_keys.id}"
+        end
+      end
     end
 
     context 'with a key descriptor as param' do
@@ -391,6 +402,17 @@ describe Saml::Util do
         it 'adds a key_info w/ x509Data w/ key_name to the encrypted assertion' do
           expect(encrypted_assertion.encrypted_keys.key_info.key_name).to eq key_name
           expect(encrypted_assertion.encrypted_keys.key_info.x509Data.x509certificate.to_pem).to eq service_provider.certificate.to_pem
+        end
+      end
+
+      context 'with include_key_retrieval_method option' do
+        let(:encrypted_assertion) do
+          Saml::Util.encrypt_assertion(Saml::Assertion.new, key_descriptor, include_key_retrieval_method: true)
+        end
+
+        it 'add key_retrieval_method' do
+          expect(encrypted_assertion.encrypted_keys.id).not_to be_nil
+          expect(encrypted_assertion.encrypted_data.key_info.retrieval_method.uri).to eq "##{encrypted_assertion.encrypted_keys.id}"
         end
       end
     end
