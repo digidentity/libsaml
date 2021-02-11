@@ -1,3 +1,6 @@
+### 3.9.2
+* Add include_key_retrieval_method to assertion encryption, thanks @nov
+
 ### 3.9.1
 * Add error handling in HTTPPost.receive_message, thanks @soartec-lab
 * Add optional SessionNotOnOrAfter to AuthnStatement, thanks @truongnmt
