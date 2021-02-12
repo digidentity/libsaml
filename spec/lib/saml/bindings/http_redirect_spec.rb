@@ -190,5 +190,13 @@ describe Saml::Bindings::HTTPRedirect do
         end
       end
     end
+
+    context 'When both `SAMLRequest` and `SAMLResponse` is nil in request params' do
+      let(:request) { double(:request, params: {}, url: url) }
+
+      it 'Raise Saml::Errors::InvalidParams' do
+        expect{ described_class.receive_message(request, type: :authn_request) }.to raise_error(Saml::Errors::InvalidParams, 'require params `SAMLRequest` or `SAMLResponse`')
+      end
+    end
   end
 end

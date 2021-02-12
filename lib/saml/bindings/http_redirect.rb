@@ -14,6 +14,11 @@ module Saml
           options[:signature_algorithm] = http_request.params["SigAlg"]
           options[:relay_state]         = http_request.params["RelayState"]
 
+          receive_xml = http_request.params["SAMLRequest"] || http_request.params["SAMLResponse"]
+          if receive_xml.nil?
+            raise Saml::Errors::InvalidParams, 'require params `SAMLRequest` or `SAMLResponse`'
+          end
+          
           request_or_response = parse_request_or_response(options.delete(:type), http_request.params)
 
           redirect_binding = new(request_or_response, options)
