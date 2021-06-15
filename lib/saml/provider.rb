@@ -105,6 +105,8 @@ module Saml
     def digest_method(signature_algorithm)
       digest = signature_algorithm && signature_algorithm =~ /sha(.*?)$/i && $1.to_i
       case digest
+        when 512 then
+          OpenSSL::Digest::SHA512
         when 256 then
           OpenSSL::Digest::SHA256
         else
