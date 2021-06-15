@@ -1,3 +1,7 @@
+### 3.9.3
+* Add error handling in HTTPRedirect.receive_message, thanks @soartec-lab
+* Add support for SHA512 signatures, thanks @chaimsolomon
+
 ### 3.9.2
 * Add include_key_retrieval_method to assertion encryption, thanks @nov
 
