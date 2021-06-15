@@ -1,7 +1,6 @@
-[![Build status](https://travis-ci.org/digidentity/libsaml.png?branch=master)](https://travis-ci.org/digidentity/libsaml)
+[![Build status](https://travis-ci.com/digidentity/libsaml.svg?branch=master)](https://travis-ci.com/digidentity/libsaml)
 [![Coverage status](https://coveralls.io/repos/digidentity/libsaml/badge.png)](https://coveralls.io/r/digidentity/libsaml)
 [![Code climate](https://codeclimate.com/github/digidentity/libsaml.png)](https://codeclimate.com/github/digidentity/libsaml)
-[![Dependency status](https://gemnasium.com/digidentity/libsaml.png)](https://gemnasium.com/digidentity/libsaml)
 
 # libsaml
 
