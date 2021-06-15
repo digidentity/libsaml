@@ -204,12 +204,24 @@ describe Saml::Provider do
   end
 
   describe "#sign" do
-    it "uses the encryption key to sign" do
-      expect(service_provider.sign("sha256", "test")).to eq(service_provider.encryption_key.sign(OpenSSL::Digest::SHA256.new, "test"))
+    context "using sha256" do
+      it "uses the encryption key to sign" do
+        expect(service_provider.sign("sha256", "test")).to eq(service_provider.encryption_key.sign(OpenSSL::Digest::SHA256.new, "test"))
+      end
+
+      it "uses the signing key to sign if present" do
+        expect(service_provider_with_signing_key.sign("sha256", "test")).to eq(service_provider_with_signing_key.signing_key.sign(OpenSSL::Digest::SHA256.new, "test"))
+      end
     end
 
-    it "uses the signing key to sign if present" do
-      expect(service_provider_with_signing_key.sign("sha256", "test")).to eq(service_provider_with_signing_key.signing_key.sign(OpenSSL::Digest::SHA256.new, "test"))
+    context "using sha512" do
+      it "uses the encryption key to sign" do
+        expect(service_provider.sign("sha512", "test")).to eq(service_provider.encryption_key.sign(OpenSSL::Digest::SHA512.new, "test"))
+      end
+
+      it "uses the signing key to sign if present" do
+        expect(service_provider_with_signing_key.sign("sha512", "test")).to eq(service_provider_with_signing_key.signing_key.sign(OpenSSL::Digest::SHA512.new, "test"))
+      end
     end
   end
 
