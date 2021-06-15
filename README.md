@@ -68,6 +68,8 @@ Add the Service Provider configuration file to: `config/metadata/service_provide
 </md:EntityDescriptor>
 ```
 
+Add the Identity Provider configuration file that your IdP should provide as `config/metadata/service_provider.xml`. It should have `IDPSSODescriptor` in it.
+
 Set up an intializer in `config/initializers/saml_config.rb`:
 
 ```ruby
@@ -105,8 +107,6 @@ class SamlController < ApplicationController
     session[:authn_request_id] = authn_request._id
 
     @saml_attributes = Saml::Bindings::HTTPPost.create_form_attributes(authn_request)
-
-    render text: @saml_attributes.to_yaml
   end
 
   def receive_response
@@ -131,6 +131,22 @@ class SamlController < ApplicationController
     end
   end
 end
+```
+
+Add `app/views/saml/request_authentication.html.erb` for the POST binding:
+
+```erbruby
+<!DOCTYPE html>
+<html>
+<body>
+<form method="post" action="<%= @saml_attributes[:location] %>" id="SAMLRequestForm">
+  <input type="hidden" name="SAMLRequest" value="<%= @saml_attributes[:variables]['SAMLRequest'] %>"/><input id="SAMLSubmitButton" type="submit" value="Submit"/>
+</form>
+<script>document.getElementById('SAMLSubmitButton').style.visibility = "hidden";
+document.getElementById('SAMLRequestForm').submit();</script>
+</body>
+</html>
+
 ```
 
 Don't forget to define the routes in `config/routes.rb`:
