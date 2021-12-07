@@ -34,6 +34,22 @@ describe Saml::Bindings::HTTPPost do
     it 'creates a notification' do
       expect { form_attributes }.to notify_with('create_message')
     end
+
+    context 'when skip_signature option given' do
+      let(:form_attributes) do
+        described_class.create_form_attributes(
+          response,
+          relay_state: "relay_state",
+          skip_signature: true
+        )
+      end
+
+      it "does not sign the document" do
+        encoded_response = form_attributes[:variables]["SAMLResponse"]
+        response         = Saml::Response.parse(Saml::Encoding.decode_64(encoded_response))
+        expect(response.signature).not_to be_present
+      end
+    end
   end
 
   describe ".receive_message" do
