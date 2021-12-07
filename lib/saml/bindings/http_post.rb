@@ -7,7 +7,12 @@ module Saml
         def create_form_attributes(message, options = {})
           param = message.is_a?(Saml::ComplexTypes::StatusResponseType) ? "SAMLResponse" : "SAMLRequest"
 
-          xml = notify('create_message', Saml::Util.sign_xml(message))
+          xml = if options[:skip_signature]
+            message.to_xml
+          else
+            Saml::Util.sign_xml(message)
+          end
+          notify('create_message', xml)
 
           variables        = {}
           variables[param] = Saml::Encoding.encode_64(xml)
