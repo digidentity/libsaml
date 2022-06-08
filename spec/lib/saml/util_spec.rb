@@ -279,12 +279,20 @@ describe Saml::Util do
       let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
                                                       Saml::Assertion.new.tap { |a| a.add_signature }]) }
       let(:signed_xml) { Saml::Util.sign_xml(message) }
+      let(:unsigned_response_xml) { message.to_xml }
 
       it 'verifies all the signatures in the file' do
         response = Saml::Response.parse(signed_xml)
 
         expect(response.provider).to receive(:verify).exactly(3).times.and_return(true)
         Saml::Util.verify_xml(response, signed_xml)
+      end
+
+      it 'reject unsigned response including signed assertions' do
+        response = Saml::Response.parse(unsigned_response_xml)
+        expect do
+          Saml::Util.verify_xml(response, unsigned_response_xml)
+        end.to raise_error Saml::Errors::SignatureInvalid
       end
 
       it 'verifies all the signatures in the file with its corresponding key name' do
