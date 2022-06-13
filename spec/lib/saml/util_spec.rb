@@ -288,13 +288,6 @@ describe Saml::Util do
         Saml::Util.verify_xml(response, signed_xml)
       end
 
-      it 'reject unsigned response including signed assertions' do
-        response = Saml::Response.parse(unsigned_response_xml)
-        expect do
-          Saml::Util.verify_xml(response, unsigned_response_xml)
-        end.to raise_error Saml::Errors::SignatureInvalid
-      end
-
       it 'verifies all the signatures in the file with its corresponding key name' do
         xml = File.read(File.join('spec', 'fixtures', 'artifact_response_with_authn_request_signed_with_multiple_certificates.xml'))
         response = Saml::ArtifactResponse.parse(xml, single: true)
@@ -316,6 +309,31 @@ describe Saml::Util do
         response = Saml::Response.parse(malicious_xml, single: true)
 
         expect(Saml::Util.verify_xml(response, malicious_xml)).to be_a(Saml::Response)
+      end
+
+      context 'when response is not signed' do
+        let(:unsigned_assertion) { Saml::Assertion.new }
+        let(:signed_assertion) { Saml::Assertion.parse(Saml::Util.sign_xml(Saml::Assertion.new)) }
+
+        context 'when assertions are signed' do
+          let(:message) { Saml::Response.new(assertions: [signed_assertion, signed_assertion]) }
+          it 'reject unsigned response including signed assertions' do
+            response = Saml::Response.parse(unsigned_response_xml)
+            expect do
+              Saml::Util.verify_xml(response, unsigned_response_xml)
+            end.to raise_error Saml::Errors::SignatureMissing
+          end
+        end
+
+        context 'when assertions are not signed' do
+          let(:message) { Saml::Response.new(assertions: [unsigned_assertion, unsigned_assertion]) }
+          it 'reject unsigned response including signed assertions' do
+            response = Saml::Response.parse(unsigned_response_xml)
+            expect do
+              Saml::Util.verify_xml(response, unsigned_response_xml)
+            end.to raise_error Saml::Errors::SignatureInvalid
+          end
+        end
       end
     end
 
