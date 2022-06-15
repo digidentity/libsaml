@@ -160,6 +160,8 @@ module Saml
 
         signed_node = document.signed_nodes.find { |node| node['ID'] == message._id }
 
+        fail Saml::Errors::SignatureMissing unless signed_node
+
         message.class.parse(signed_node.canonicalize, single: true)
       end
 

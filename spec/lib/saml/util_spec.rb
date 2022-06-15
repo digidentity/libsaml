@@ -279,6 +279,7 @@ describe Saml::Util do
       let(:message) { Saml::Response.new(assertions: [Saml::Assertion.new.tap { |a| a.add_signature },
                                                       Saml::Assertion.new.tap { |a| a.add_signature }]) }
       let(:signed_xml) { Saml::Util.sign_xml(message) }
+      let(:unsigned_response_xml) { message.to_xml }
 
       it 'verifies all the signatures in the file' do
         response = Saml::Response.parse(signed_xml)
@@ -308,6 +309,31 @@ describe Saml::Util do
         response = Saml::Response.parse(malicious_xml, single: true)
 
         expect(Saml::Util.verify_xml(response, malicious_xml)).to be_a(Saml::Response)
+      end
+
+      context 'when response is not signed' do
+        let(:unsigned_assertion) { Saml::Assertion.new }
+        let(:signed_assertion) { Saml::Assertion.parse(Saml::Util.sign_xml(Saml::Assertion.new)) }
+
+        context 'when assertions are signed' do
+          let(:message) { Saml::Response.new(assertions: [signed_assertion, signed_assertion]) }
+          it 'reject unsigned response including signed assertions' do
+            response = Saml::Response.parse(unsigned_response_xml)
+            expect do
+              Saml::Util.verify_xml(response, unsigned_response_xml)
+            end.to raise_error Saml::Errors::SignatureMissing
+          end
+        end
+
+        context 'when assertions are not signed' do
+          let(:message) { Saml::Response.new(assertions: [unsigned_assertion, unsigned_assertion]) }
+          it 'reject unsigned response including signed assertions' do
+            response = Saml::Response.parse(unsigned_response_xml)
+            expect do
+              Saml::Util.verify_xml(response, unsigned_response_xml)
+            end.to raise_error Saml::Errors::SignatureInvalid
+          end
+        end
       end
     end
 
