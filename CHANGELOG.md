@@ -1,3 +1,7 @@
+### 3.12.0
+* Raise Saml::Errors::SignatureMissing when Response element is not signed, thanks again @nov
+* Fixed issue with ActiveSupport > 7.0.0, thanks @nhosoya for the fix
+
 ### 3.9.3
 * Add error handling in HTTPRedirect.receive_message, thanks @soartec-lab
 * Add support for SHA512 signatures, thanks @chaimsolomon
