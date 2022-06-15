@@ -139,13 +139,17 @@ Add `app/views/saml/request_authentication.html.erb` for the POST binding:
 <html>
 <body>
 <form method="post" action="<%= @saml_attributes[:location] %>" id="SAMLRequestForm">
-  <input type="hidden" name="SAMLRequest" value="<%= @saml_attributes[:variables]['SAMLRequest'] %>"/><input id="SAMLSubmitButton" type="submit" value="Submit"/>
+  <%= @saml_attributes[:variables].each do |key, value| %>
+    <input type="hidden" name="<%= key %>" value="<%= value %>"/>
+  <%= end %>
+  <input id="SAMLSubmitButton" type="submit" value="Submit"/>
 </form>
-<script>document.getElementById('SAMLSubmitButton').style.visibility = "hidden";
-document.getElementById('SAMLRequestForm').submit();</script>
+<script>
+  document.getElementById('SAMLSubmitButton').style.visibility = "hidden";
+  document.getElementById('SAMLRequestForm').submit();
+</script>
 </body>
 </html>
-
 ```
 
 Don't forget to define the routes in `config/routes.rb`:
