@@ -1,4 +1,5 @@
 require 'active_support/all'
+require 'active_support/xml_mini'
 require 'active_model'
 require 'saml/base'
 require 'saml/xml_helpers'
@@ -8,8 +9,8 @@ require 'saml/notification'
 require 'saml/attribute_fetcher'
 require 'xmlenc'
 require 'xmldsig'
-require "net/https"
-require "uri"
+require 'net/https'
+require 'uri'
 
 module Saml
   MD_NAMESPACE       = 'urn:oasis:names:tc:SAML:2.0:metadata'
