@@ -88,7 +88,14 @@ module Saml
     end
 
     def verify(signature_algorithm, signature, data, key_name = nil)
-      valid = certificate(key_name).public_key.verify(digest_method(signature_algorithm).new, signature, data) rescue nil
+      certificates = if key_name.blank? && iterate_certificates_until_verified?
+        find_key_descriptors_by_use('signing').collect(&:certificate)
+      else
+        Array(certificate(key_name))
+      end
+      valid = certificates.any? do |cert|
+        cert.public_key.verify(digest_method(signature_algorithm).new, signature, data) rescue false
+      end
 
       # Clear OpenSSL error queue if verification fails - https://bugs.ruby-lang.org/issues/7215
       OpenSSL.errors if !valid
@@ -98,6 +105,10 @@ module Saml
 
     def authn_requests_signed?
       sp_descriptor(false).try(:authn_requests_signed)
+    end
+
+    def iterate_certificates_until_verified?
+      false
     end
 
     private

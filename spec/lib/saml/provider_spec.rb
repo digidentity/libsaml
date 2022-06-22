@@ -58,6 +58,25 @@ describe Saml::Provider do
       expect(service_provider_with_signing_key.verify('sha1', 'some-invalid-sigature', 'some-document')).to eq(false)
       expect(OpenSSL.errors).to be_empty
     end
+
+    context 'with iterate_certificates_until_verified mode' do
+      let(:another_signing_key) do
+        OpenSSL::PKey::RSA.new(File.read("spec/fixtures/signing_key.pem"))
+      end
+      let(:valid_signature) do
+        another_signing_key.sign('sha256', signature_base_string)
+      end
+      let(:signature_base_string) do
+        'sing me!'
+      end
+      before do
+        allow(service_provider_with_signing_key).to receive(:iterate_certificates_until_verified?).and_return(true)
+      end
+
+      it do
+        expect(service_provider_with_signing_key.verify('sha256', valid_signature, signature_base_string)).to eq(true)
+      end
+    end
   end
 
   describe "#assertion_consumer_service_url" do
