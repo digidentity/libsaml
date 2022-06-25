@@ -1,3 +1,6 @@
+### 3.13.0
+* Allow iterating of multiple certificates on signature verification, thanks @nov and @nhosoya
+
 ### 3.12.0
 * Raise Saml::Errors::SignatureMissing when Response element is not signed, thanks again @nov
 * Fixed issue with ActiveSupport > 7.0.0, thanks @nhosoya for the fix
