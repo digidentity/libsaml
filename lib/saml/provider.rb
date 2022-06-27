@@ -50,6 +50,10 @@ module Saml
       descriptor(type).find_key_descriptors_by_use(use)
     end
 
+    def find_key_descriptors_by_use_or_without(use, type = :descriptor)
+      descriptor(type).find_key_descriptors_by_use_or_without(use)
+    end
+
     def signing_key
       @signing_key || encryption_key
     end
@@ -89,7 +93,7 @@ module Saml
 
     def verify(signature_algorithm, signature, data, key_name = nil)
       certificates = if key_name.blank? && iterate_certificates_until_verified?
-        find_key_descriptors_by_use('signing').collect(&:certificate)
+        find_key_descriptors_by_use_or_without('signing').collect(&:certificate)
       else
         Array(certificate(key_name))
       end
