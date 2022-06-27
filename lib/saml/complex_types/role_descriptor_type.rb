@@ -42,11 +42,11 @@ module Saml
         key_descriptors.select { |key| key.use == use }
       end
 
-      private
-
       def find_key_descriptors_by_use_or_without(use)
         key_descriptors.select { |key| key.use == use || key.use.blank? }
       end
+
+      private
 
       def key_name_or_use_specified?
         key_descriptors.any? { |key| key.use.present? || key.key_info.key_name.present? }
