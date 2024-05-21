@@ -9,7 +9,7 @@ gemspec
 gem 'jquery-rails', '>= 3.0.0'
 
 group :test, :development do
-  gem 'rspec-rails', '~> 3.1'
+  gem 'rspec-rails', '~> 6.1'
   gem 'simplecov'
   gem 'factory_bot_rails'
   gem 'rspec-collection_matchers', '~> 1.0'
