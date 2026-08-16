@@ -82,14 +82,17 @@ describe Saml::ComplexTypes::RequestAbstractType do
               wsa_address:    'address'
           }
       )
-      xml = Hash.from_xml(soap)
-      expect(xml["Envelope"]["Header"]).to eq(
-                                           "MessageID" => "id",
-                                           "To"        => "to",
-                                           "Action"    => "some_action",
-                                           "ReplyTo"   => { "Address" => "address" },
-                                           'xmlns:wsa' => 'http://schemas.xmlsoap.org/ws/2004/08/addressing'
-                                       )
+      namespaces = {
+          'soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
+          'wsa'     => 'http://schemas.xmlsoap.org/ws/2004/08/addressing'
+      }
+      header = Nokogiri::XML::Document.parse(soap).at_xpath('//soapenv:Header', namespaces)
+
+      expect(header.namespaces['xmlns:wsa']).to eq('http://schemas.xmlsoap.org/ws/2004/08/addressing')
+      expect(header.at_xpath('wsa:MessageID', namespaces).text).to eq('id')
+      expect(header.at_xpath('wsa:To', namespaces).text).to eq('to')
+      expect(header.at_xpath('wsa:Action', namespaces).text).to eq('some_action')
+      expect(header.at_xpath('wsa:ReplyTo/wsa:Address', namespaces).text).to eq('address')
     end
   end
 
