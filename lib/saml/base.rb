@@ -42,10 +42,6 @@ module Saml
 
     module XmlMapperClassMethods
       def parse(xml, options = {})
-        if xml.is_a?(String)
-          ActiveSupport::XmlMini_REXML.parse(xml)
-        end
-
         object = super
         if object.is_a?(Array)
           object.map { |x| x.from_xml = true }
@@ -53,7 +49,7 @@ module Saml
           object.from_xml = true
         end
         object
-      rescue Nokogiri::XML::SyntaxError, REXML::ParseException => e
+      rescue Nokogiri::XML::SyntaxError => e
         raise Saml::Errors::UnparseableMessage.new(e.message)
       rescue TypeError => e
         raise Saml::Errors::UnparseableMessage.new(e.message)

@@ -36,8 +36,8 @@ describe BaseDummy do
 <samlp:AuthnRequest xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" IssueInstant="2013-08-25T14:31:07Z" AssertionConsumerServiceURL="test:&lol4;"></samlp:AuthnRequest>
       XML
 
-      it 'raises an Saml::Errors::HackAttack for entity expansion has grown too large' do
-        expect { BaseDummy.parse(xml) }.to raise_error RuntimeError, 'entity expansion has grown too large'
+      it 'raises a Saml::Errors::UnparseableMessage instead of expanding the entities' do
+        expect { BaseDummy.parse(xml) }.to raise_error(Saml::Errors::UnparseableMessage)
       end
     end
 
@@ -58,7 +58,7 @@ describe BaseDummy do
     end
 
     it 'raises an error when a method does not exist' do
-      expect(ActiveSupport::XmlMini_REXML).to receive(:parse).and_raise(NoMethodError)
+      expect(Nokogiri).to receive(:XML).and_raise(NoMethodError)
       expect {
         BaseDummy.parse('unknown')
       }.to raise_error(Saml::Errors::UnparseableMessage)
