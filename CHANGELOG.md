@@ -1,3 +1,10 @@
+### 3.14.0
+* Drop the `rexml` runtime dependency and remove the redundant REXML pre-parse in `Saml::Base.parse`, thanks @baala3
+* Raise the `nokogiri` floor to >= 1.11.4
+
+### 3.13.1
+* Support iterating certificates that have no `use` attribute, thanks @nov
+
 ### 3.13.0
 * Allow iterating of multiple certificates on signature verification, thanks @nov and @nhosoya
 

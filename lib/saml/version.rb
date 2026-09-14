@@ -1,3 +1,3 @@
 module Saml
-  VERSION = '3.13.2'.freeze
+  VERSION = '3.14.0'.freeze
 end
